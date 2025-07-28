@@ -20,6 +20,7 @@ export class IncrementCounter extends SingletonAction<CounterSettings> {
 	 * and action information where applicable. In this example, our action will display a counter that increments by one each press. We track the current count on the action's persisted
 	 * settings using `setSettings` and `getSettings`.
 	 */
+
 	override async onKeyDown(ev: KeyDownEvent<CounterSettings>): Promise<void> {
 		// Update the count from the settings.
 		const { settings } = ev.payload;

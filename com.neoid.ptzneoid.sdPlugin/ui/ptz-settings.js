@@ -1,23 +1,31 @@
 
+const { streamDeckClient } = SDPIComponents;
 
-document.addEventListener("DOMContentLoaded", () => {
-  const speedInput = document.getElementById("speed");
-  const tiltInput = document.getElementById("tilt");
+// Quando o painel carregar
+streamDeckClient.on('connected', (jsn) => {
+  console.log("Conectado!", jsn);
 
-  // Recebe as settings e atualiza os inputs
-  $PI.onDidReceiveSettings(({ settings }) => {
-    if (settings.speed) speedInput.value = settings.speed;
-    if (settings.tilt) tiltInput.value = settings.tilt;
-  });
-
-  function updateSettings() {
-    const newSettings = {
-      speed: parseInt(speedInput.value, 10),
-      tilt: parseInt(tiltInput.value, 10)
-    };
-    $PI.setSettings(newSettings);
-  }
-
-  speedInput.addEventListener("input", updateSettings);
-  tiltInput.addEventListener("input", updateSettings);
+  // Se quiser carregar configs salvas:
+  const settings = jsn.actionInfo.payload.settings;
+  document.getElementById("speed").value = settings.speed || 1;
+  document.getElementById("tilt").value = settings.tilt || 0;
 });
+
+// Exemplo: salvando configurações
+function saveSettings() {
+  const speed = document.getElementById("speed").value;
+  const tilt = document.getElementById("tilt").value;
+
+  streamDeckClient.setSettings({
+    speed,
+    tilt,
+  });
+}
+
+// Exemplo: ouvindo mudanças nos inputs
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("speed").addEventListener("input", saveSettings);
+  document.getElementById("tilt").addEventListener("input", saveSettings);
+});
+
+

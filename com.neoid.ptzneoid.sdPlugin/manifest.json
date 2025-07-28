@@ -4,31 +4,7 @@
 	"Author": "neoid",
 	"Actions": [
     {
-      "UUID": "ptz.up",
-      "Name": "Move Up",
-      "Tooltip": "Tilt Up",
-      "Icon": "imgs/actions/tiltUp",
-      "States": [{ "Image": "imgs/actions/tiltUp" }],
-      "PropertyInspectorPath": "ui/ptz-settings.html"
-    },
-    {
-      "UUID": "ptz.down",
-      "Name": "Move Down",
-      "Tooltip": "Tilt Down",
-      "Icon": "imgs/actions/tiltDown",
-      "States": [{ "Image": "imgs/actions/tiltDown" }],
-      "PropertyInspectorPath": "ui/ptz-settings.html"
-    },
-    {
-      "UUID": "ptz.left",
-      "Name": "Move Left",
-      "Tooltip": "Pan Left",
-      "Icon": "imgs/actions/panLeft",
-      "States": [{ "Image": "imgs/actions/panLeft" }],
-      "PropertyInspectorPath": "ui/ptz-settings.html"
-    },
-    {
-      "UUID": "ptz.right",
+      "UUID": "ptz.control",
       "Name": "Move Right",
       "Tooltip": "Pan Right",
       "Icon": "imgs/actions/panRight",
