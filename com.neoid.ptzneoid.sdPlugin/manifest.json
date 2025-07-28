@@ -1,0 +1,63 @@
+{
+	"Name": "ptzNeoID",
+	"Version": "0.1.0.0",
+	"Author": "neoid",
+	"Actions": [
+    {
+      "UUID": "ptz.up",
+      "Name": "Move Up",
+      "Tooltip": "Tilt Up",
+      "Icon": "imgs/actions/tiltUp",
+      "States": [{ "Image": "imgs/actions/tiltUp" }],
+      "PropertyInspectorPath": "ui/ptz-settings.html"
+    },
+    {
+      "UUID": "ptz.down",
+      "Name": "Move Down",
+      "Tooltip": "Tilt Down",
+      "Icon": "imgs/actions/tiltDown",
+      "States": [{ "Image": "imgs/actions/tiltDown" }],
+      "PropertyInspectorPath": "ui/ptz-settings.html"
+    },
+    {
+      "UUID": "ptz.left",
+      "Name": "Move Left",
+      "Tooltip": "Pan Left",
+      "Icon": "imgs/actions/panLeft",
+      "States": [{ "Image": "imgs/actions/panLeft" }],
+      "PropertyInspectorPath": "ui/ptz-settings.html"
+    },
+    {
+      "UUID": "ptz.right",
+      "Name": "Move Right",
+      "Tooltip": "Pan Right",
+      "Icon": "imgs/actions/panRight",
+      "States": [{ "Image": "imgs/actions/panRight" }],
+      "PropertyInspectorPath": "ui/ptz-settings.html"
+    }
+  ],
+	"Category": "ptzNeoID",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "plugin ptzNeoID",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.5"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.neoid.ptzneoid"
+}

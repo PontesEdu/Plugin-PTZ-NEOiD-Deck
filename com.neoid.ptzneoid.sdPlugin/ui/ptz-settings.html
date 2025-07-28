@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PTZ Settings</title>
+  <style>
+    body { 
+      background:#121212;
+      color:#fff;
+      font-family:Arial; padding:15px; }
+    label { 
+      display:block; 
+      margin-top:10px; 
+    }
+    input { 
+      width:100%; 
+      padding:8px; 
+      background:#1f1f1f; 
+      color:#fff; 
+      border:none; 
+    }
+  </style>
+</head>
+
+<body>
+
+  <h3>Configurações PTZ</h3>
+
+  <label>Speed:
+    <input type="number" id="speed" min="1" max="15" value="5">
+  </label>
+  
+  <label>Tilt:
+    <input type="number" id="tilt" min="1" max="15" value="5">
+  </label>
+
+  <script src="ptz-settings.js"></script>
+</body>
+</html>
