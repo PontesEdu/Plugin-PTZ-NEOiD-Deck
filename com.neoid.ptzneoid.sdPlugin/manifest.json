@@ -5,15 +5,23 @@
 	"Actions": [
     {
       "UUID": "ptz.control",
-      "Name": "Move Right",
-      "Tooltip": "Pan Right",
-      "Icon": "imgs/actions/panRight",
-      "States": [{ "Image": "imgs/actions/panRight" }],
+      "Name": "Camera controls",
+      "Tooltip": "Controls the functions",
+      "Icon": "imgs/actions/up",
+      "States": [{ "Image": "imgs/actions/up" }],
       "PropertyInspectorPath": "ui/ptz-settings.html"
+    },
+    {
+      "UUID": "ptz.zoom",
+      "Name": "Camera Zoom",
+      "Tooltip": "Controls the functions Zoom",
+      "Icon": "imgs/actions/zoom",
+      "States": [{ "Image": "imgs/actions/zoom" }],
+      "PropertyInspectorPath": "ui/ptz-zoom.html"
     }
   ],
-	"Category": "ptzNeoID",
-	"CategoryIcon": "imgs/plugin/category-icon",
+	"Category": "Ptz NeoID",
+	"CategoryIcon": "imgs/plugin/logo-neoid",
 	"CodePath": "bin/plugin.js",
 	"Description": "plugin ptzNeoID",
 	"Icon": "imgs/plugin/marketplace",

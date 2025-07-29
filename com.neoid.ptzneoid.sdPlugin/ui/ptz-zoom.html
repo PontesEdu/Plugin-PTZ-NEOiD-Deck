@@ -12,25 +12,16 @@
 
 </head>
 <body>
-  <h3>Configurações PTZ</h3>
+  <h3>Configurações PTZ - ZOOM</h3>
 
-  <sdpi-item label="Tilt">
-    <sdpi-range setting="tilt" min="1" max="24" step="1" default="5"></sdpi-range>
-  </sdpi-item>
   <sdpi-item label="Speed">
-    <sdpi-range setting="speed" min="1" max="24" step="1" default="5"></sdpi-range>
+    <sdpi-range setting="speed" min="1" max="20" step="1" default="5"></sdpi-range>
   </sdpi-item>
   <sdpi-item label="Direction">
     <sdpi-select setting="direction" default="none" placeholder="Selecione a direção">
       <option value="none" disabled selected hidden>Selecione...</option>
-      <option value="up">Up</option>
-      <option value="down">Down</option>
-      <option value="left">Left</option>
-      <option value="leftup">Left Up</option>
-      <option value="leftdown">Left down</option>
-      <option value="right">Right</option>
-      <option value="rightup">Right Up</option>
-      <option value="rightdown">Right Down</option>
+      <option value="zoomin">zoomin</option>
+      <option value="zoomout">zoomout</option>
     </sdpi-select>
   </sdpi-item> 
 
@@ -46,7 +37,6 @@
     // Quando o usuário interagir com os componentes, sdpi-components atualiza automaticamente
     // Você pode usar também um botão ou evento manual se quiser.
 
-    // Opcional: observar mudanças e imprimir no console
     streamDeckClient.getSettings().then(settings => {
       console.log('Configurações iniciais:', settings);
     });
