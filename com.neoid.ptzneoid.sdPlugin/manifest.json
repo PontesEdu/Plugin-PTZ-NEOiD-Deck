@@ -18,6 +18,14 @@
       "Icon": "imgs/actions/zoom",
       "States": [{ "Image": "imgs/actions/zoom" }],
       "PropertyInspectorPath": "ui/ptz-zoom.html"
+    },
+    {
+      "UUID": "ptz.focus",
+      "Name": "Camera Focus",
+      "Tooltip": "Controls the functions Focus",
+      "Icon": "imgs/actions/focus-logo",
+      "States": [{ "Image": "imgs/actions/focus-logo" }],
+      "PropertyInspectorPath": "ui/ptz-focus.html"
     }
   ],
 	"Category": "Ptz NeoID",
