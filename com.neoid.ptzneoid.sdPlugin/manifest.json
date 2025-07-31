@@ -4,12 +4,20 @@
 	"Author": "neoid",
 	"Actions": [
     {
+      "UUID": "ptz.register",
+      "Name": "Register PTZ Cameras",
+      "Tooltip": "Cadastro de câmeras PTZ",
+      "Icon": "imgs/actions/register",
+      "States": [{ "Image": "imgs/actions/register" }],
+      "PropertyInspectorPath": "ui/ptz-register.html"
+    },
+    {
       "UUID": "ptz.control",
       "Name": "Camera controls",
       "Tooltip": "Controls the functions",
       "Icon": "imgs/actions/up",
       "States": [{ "Image": "imgs/actions/up" }],
-      "PropertyInspectorPath": "ui/ptz-settings.html"
+      "PropertyInspectorPath": "ui/ptz-controls.html"
     },
     {
       "UUID": "ptz.zoom",
@@ -26,9 +34,17 @@
       "Icon": "imgs/actions/focus-logo",
       "States": [{ "Image": "imgs/actions/focus-logo" }],
       "PropertyInspectorPath": "ui/ptz-focus.html"
+    },
+    {
+      "UUID": "ptz.tracking",
+      "Name": "Camera Tracking",
+      "Tooltip": "Controls the functions Focus",
+      "Icon": "imgs/actions/up",
+      "States": [{ "Image": "imgs/actions/up" }],
+      "PropertyInspectorPath": "ui/ptz-tracking.html"
     }
   ],
-	"Category": "Ptz NeoID",
+	"Category": "PTZ NeoID",
 	"CategoryIcon": "imgs/plugin/logo-neoid",
 	"CodePath": "bin/plugin.js",
 	"Description": "plugin ptzNeoID",

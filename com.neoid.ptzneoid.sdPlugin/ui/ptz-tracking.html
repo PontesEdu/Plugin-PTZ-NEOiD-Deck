@@ -12,6 +12,7 @@
 
 </head>
 <body>
+
   <sdpi-item label="Selecionar Câmera" >
     <sdpi-select setting="selectedCamera" id="option">
       <!-- conteudo -->
@@ -19,20 +20,16 @@
     </sdpi-select>
   </sdpi-item>
 
-  <h3>Configurações PTZ - ZOOM</h3>
+  <h3>Configurações PTZ - TRACKING</h3>
 
-  <sdpi-item label="Speed">
-    <sdpi-range setting="speed" min="1" max="7" step="1" default="5"></sdpi-range>
-  </sdpi-item>
   <sdpi-item label="Direction">
-    <sdpi-select setting="direction" default="none" placeholder="Selecione a direção">
-      <option value="none" disabled selected hidden>Selecione...</option>
-      <option value="zoomin">Zoom In</option>
-      <option value="zoomout">Zoom Out</option>
-    </sdpi-select>
-  </sdpi-item> 
+    <sdpi-radio setting="mode" columns="1" default="none">
+      <option value="on">Ligado</option>
+      <option value="off">Desligado</option>
+    </sdpi-radio>
+  </sdpi-item>
+
 
   <script src="./ptz-settings.js"></script>
-   
 </body>
 </html>

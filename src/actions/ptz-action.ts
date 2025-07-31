@@ -1,14 +1,22 @@
-import { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import { getCameraApiBase } from "../utils/ptz-api-base";
 
 export type PtzSettings = {
   speed?: number;
   tilt?: number;
-  direction: "up" | "down" | "left" | "right";
+  direction: string;
+  selectedCamera: "cam1" | "cam2" | "cam3" | "cam4" | "cam5" | "cam6";
 };
 
-const apiBase = "http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd";
+// `http://${cameraIp}/ptz?move=${settings.direction}&speed=${settings.speed}&tilt=${settings.tilt}`
 
-async function move(settings: PtzSettings) {
+
+async function move(settings: PtzSettings, globals: any) {
+  
+  const cam = settings.selectedCamera
+  const apiBase = getCameraApiBase(cam, globals)
+  // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd`
+
   const speed = settings.speed ?? 5;
   const tilt = settings.tilt ?? 5;
   const direction = settings.direction ?? '';
@@ -17,7 +25,12 @@ async function move(settings: PtzSettings) {
   await fetch(url);
 }
 
-async function stop() {
+
+async function stop(settings: PtzSettings, globals: any) {
+
+  const cam = settings.selectedCamera
+  const apiBase = getCameraApiBase(cam, globals)
+
   const url = `${apiBase}&ptzstop&0&0`;
   console.log(`Stop: ${url}`);
   await fetch(url);
@@ -28,11 +41,15 @@ async function stop() {
 export class PTZControl extends SingletonAction<PtzSettings> {
 
   override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
-    await move(ev.payload.settings);
+    const globals = await streamDeck.settings.getGlobalSettings();
+    await move(ev.payload.settings, globals);
   }
 
-  override async onKeyUp(): Promise<void> {
-    await stop();
+  override async onKeyUp(ev: KeyUpEvent<PtzSettings>): Promise<void> {
+    //configuraçoes globais que estao vindo de outro
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    await stop(ev.payload.settings, globals);
   }
 }
 

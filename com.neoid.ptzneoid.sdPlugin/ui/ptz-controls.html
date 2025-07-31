@@ -12,7 +12,16 @@
 
 </head>
 <body>
-  <h3>Configurações PTZ</h3>
+
+  <sdpi-item label="Selecionar Câmera" >
+    <sdpi-select setting="selectedCamera" id="option">
+      <!-- conteudo -->
+      <!-- <option value="cam1">Câmera 1</option> -->
+    </sdpi-select>
+  </sdpi-item>
+
+  <h3>Configurações PTZ - CONTROLS</h3>
+
 
   <sdpi-item label="Tilt">
     <sdpi-range setting="tilt" min="1" max="24" step="1" default="5"></sdpi-range>
@@ -34,24 +43,6 @@
     </sdpi-select>
   </sdpi-item> 
 
-  <!-- <script src="ptz-settings.js"></script> -->
-   <script>
-    const { streamDeckClient } = SDPIComponents;
-
-    streamDeckClient.on('connected', (jsn) => {
-      console.log('Property Inspector conectado', jsn);
-      // settings ja são carregadas nos componentes automaticamente
-    });
-
-    // Quando o usuário interagir com os componentes, sdpi-components atualiza automaticamente
-    // Você pode usar também um botão ou evento manual se quiser.
-
-    // Opcional: observar mudanças e imprimir no console
-    streamDeckClient.getSettings().then(settings => {
-      console.log('Configurações iniciais:', settings);
-    });
-    //ou podemos fazer:
-    // streamDeckClient.setSettings({ tilt: 45, speed: 7, direction: 'right' });
-  </script>
+   <script src="./ptz-settings.js"></script>
 </body>
 </html>
