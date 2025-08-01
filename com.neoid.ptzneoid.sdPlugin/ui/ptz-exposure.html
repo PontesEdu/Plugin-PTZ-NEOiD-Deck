@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+
+  <sdpi-item label="Selecionar Câmera" >
+    <sdpi-select setting="selectedCamera" id="option">
+      <!-- conteudo -->
+      <!-- <option value="cam1">Câmera 1</option> -->
+    </sdpi-select>
+  </sdpi-item>
+
+  <h3>Configurações PTZ - CONTROLS</h3>
+
+
+  <sdpi-item id="mundo">
+
+  </sdpi-item>
+  
+  
+  <sdpi-item label="aemode">
+    <sdpi-select id="MeuAemode" setting="aemode" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <option value="3">Manual</option>
+      <option value="0">automático</option>
+      <option value="11">AAE</option>
+    </sdpi-select>
+  </sdpi-item> 
+
+  <!-- Settings de cada nome -->
+  <sdpi-item label="Ganho">
+    <sdpi-range setting="gain" min="1" max="7" step="1" default="2"></sdpi-range>
+  </sdpi-item>
+
+
+  <sdpi-item label="Iris">
+    <sdpi-select setting="iris" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <option value="0">Close</option>
+      <option value="1">F11.0</option>
+      <option value="3">F8.0</option>
+      <option value="10">F2.4</option>
+      <option value="11">F2.0</option>
+      <option value="12">F1.8</option>
+    </sdpi-select>
+  </sdpi-item> 
+
+<!-- 
+  <div id="container">
+  </div> -->
+
+  <script src="./ptz-settings.js"></script>
+  <script src="./ptz-exposure.js"></script>
+</body>
+</html>

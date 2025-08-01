@@ -42,6 +42,14 @@
       "Icon": "imgs/actions/up",
       "States": [{ "Image": "imgs/actions/up" }],
       "PropertyInspectorPath": "ui/ptz-tracking.html"
+    },
+    {
+      "UUID": "ptz.exposure",
+      "Name": "Camera Exposure",
+      "Tooltip": "Controls the functions Exposure",
+      "Icon": "imgs/actions/up",
+      "States": [{ "Image": "imgs/actions/up" }],
+      "PropertyInspectorPath": "ui/ptz-exposure.html"
     }
   ],
 	"Category": "PTZ NeoID",

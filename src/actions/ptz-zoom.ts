@@ -1,5 +1,5 @@
 import streamDeck, { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
-import { getCameraApiBase } from "../utils/ptz-api-base";
+import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzZoom = {
   speed?: number;
@@ -11,7 +11,7 @@ export type PtzZoom = {
 async function move(settings: PtzZoom, globals: any) {
 
   const cam = settings.selectedCamera
-  const apiBase = getCameraApiBase(cam, globals)
+  const apiBase = apiBaseCMD(cam, globals)
 
   const speed = settings.speed ?? 5;
   const direction = settings.direction ?? '';
@@ -23,7 +23,7 @@ async function move(settings: PtzZoom, globals: any) {
 async function stop(settings: PtzZoom, globals: any) {
 
   const cam = settings.selectedCamera
-  const apiBase = getCameraApiBase(cam, globals)
+  const apiBase = apiBaseCMD(cam, globals)
 
   const url = `${apiBase}&zoomstop&0`;
   console.log(`Stop: ${url}`);
