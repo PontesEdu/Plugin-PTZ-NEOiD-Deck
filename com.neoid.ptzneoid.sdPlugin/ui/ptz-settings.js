@@ -10,7 +10,6 @@ const CamerasOpitions = `
 `
 
 
-
 document.querySelector('#option').innerHTML = CamerasOpitions;
 
 streamDeckClient.on('connected', (jsn) => {

@@ -1,7 +1,6 @@
 
 
-export function apiBasePtzPostImageValue(cam: any, globals: any) {
-  const cameraIP = globals[`${cam}_ip`]; 
+export function apiBasePtzPostImageValue(cameraIP: any) {
 
   const apiBase = `http://${cameraIP}/cgi-bin/ptzctrl.cgi?post_image_value`;
 

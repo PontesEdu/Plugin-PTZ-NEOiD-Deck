@@ -1,21 +1,19 @@
-import streamDeck, { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzSettings = {
   speed?: number;
   tilt?: number;
   direction: string;
-  selectedCamera: "cam1" | "cam2" | "cam3" | "cam4" | "cam5" | "cam6";
+  cameraIP: any;
 };
 
-// `http://${cameraIp}/ptz?move=${settings.direction}&speed=${settings.speed}&tilt=${settings.tilt}`
 
-
-async function move(settings: PtzSettings, globals: any) {
-  
-  const cam = settings.selectedCamera
-  const apiBase = apiBaseCMD(cam, globals)
+//MOVE
+async function move(settings: PtzSettings, cameraIP: any) {
   // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd`
+
+  const apiBase = apiBaseCMD(cameraIP)
 
   const speed = settings.speed ?? 5;
   const tilt = settings.tilt ?? 5;
@@ -25,11 +23,10 @@ async function move(settings: PtzSettings, globals: any) {
   await fetch(url);
 }
 
+//STOP
+async function stop(cameraIP: any) {
 
-async function stop(settings: PtzSettings, globals: any) {
-
-  const cam = settings.selectedCamera
-  const apiBase = apiBaseCMD(cam, globals)
+  const apiBase = apiBaseCMD(cameraIP)
 
   const url = `${apiBase}&ptzstop&0&0`;
   console.log(`Stop: ${url}`);
@@ -41,15 +38,40 @@ async function stop(settings: PtzSettings, globals: any) {
 export class PTZControl extends SingletonAction<PtzSettings> {
 
   override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
+
+    const settings = ev.payload.settings
+    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
+
     const globals = await streamDeck.settings.getGlobalSettings();
-    await move(ev.payload.settings, globals);
+    const cameraIP = globals.cameraIP
+
+    if(cameraIP){
+      ev.action.setTitle('')
+      await move(settings, cameraIP);
+    } else{
+      ev.action.setTitle(`Sem Camera`)
+    }
+  }
+
+  
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzSettings>){
+    const settings = ev.payload.settings
+    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
+
+    await streamDeck.settings.getGlobalSettings();
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzSettings>): Promise<void> {
     //configuraçoes globais que estao vindo de outro
     const globals = await streamDeck.settings.getGlobalSettings();
 
-    await stop(ev.payload.settings, globals);
+    const cameraIP = globals.cameraIP
+    if(cameraIP){
+      await stop(cameraIP);
+    } else{
+      ev.action.setTitle(`Sem Camera`)
+    }
   }
 }
 

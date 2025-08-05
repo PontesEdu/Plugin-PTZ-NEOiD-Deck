@@ -7,16 +7,16 @@
       "UUID": "ptz.register",
       "Name": "Register PTZ Cameras",
       "Tooltip": "Cadastro de câmeras PTZ",
-      "Icon": "imgs/actions/register",
-      "States": [{ "Image": "imgs/actions/register" }],
+      "Icon": "imgs/actions/cameraSelect",
+      "States": [{ "Image": "imgs/actions/cameraSelect" }],
       "PropertyInspectorPath": "ui/ptz-register.html"
     },
     {
       "UUID": "ptz.control",
       "Name": "Camera controls",
       "Tooltip": "Controls the functions",
-      "Icon": "imgs/actions/up",
-      "States": [{ "Image": "imgs/actions/up" }],
+      "Icon": "imgs/actions/controls/controls",
+      "States": [{ "Image": "imgs/actions/controls/controls" }],
       "PropertyInspectorPath": "ui/ptz-controls.html"
     },
     {
@@ -31,16 +31,16 @@
       "UUID": "ptz.focus",
       "Name": "Camera Focus",
       "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/focus-logo",
-      "States": [{ "Image": "imgs/actions/focus-logo" }],
+      "Icon": "imgs/actions/focus/focus",
+      "States": [{ "Image": "imgs/actions/focus" }],
       "PropertyInspectorPath": "ui/ptz-focus.html"
     },
     {
       "UUID": "ptz.tracking",
       "Name": "Camera Tracking",
       "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/up",
-      "States": [{ "Image": "imgs/actions/up" }],
+      "Icon": "imgs/actions/tracking",
+      "States": [{ "Image": "imgs/actions/tracking" }],
       "PropertyInspectorPath": "ui/ptz-tracking.html"
     },
     {

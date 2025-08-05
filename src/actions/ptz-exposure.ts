@@ -1,8 +1,7 @@
-import streamDeck, { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
 import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
 export type PtzExposureProps = {
-  selectedCamera: "cam1" | "cam2" | "cam3" | "cam4" | "cam5" | "cam6";
   gain?: number;
   iris?: string;
   aemode: "3" | "0" | "11";
@@ -15,10 +14,9 @@ export type PtzExposureProps = {
 
 //ganho: /cgi-bin/ptzctrl.cgi?post_image_value&gain&[range]
 
-async function move(settings: PtzExposureProps, globals: any) {
-  
-  const cam = settings.selectedCamera
-  const apiBase = apiBasePtzPostImageValue(cam, globals)
+async function move(settings: PtzExposureProps, cameraIP: any) {
+
+  const apiBase = apiBasePtzPostImageValue(cameraIP)
   // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?post_image_value`
 
   const gain = settings.gain;
@@ -42,8 +40,15 @@ async function move(settings: PtzExposureProps, globals: any) {
 export class PtzExposure extends SingletonAction<PtzExposureProps> {
 
   override async onKeyDown(ev: KeyDownEvent<PtzExposureProps>): Promise<void> {
+    const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
-    await move(ev.payload.settings, globals);
+    const cameraIP = globals.cameraIP
+    await move(settings, cameraIP);
   }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzExposureProps>){
+    await streamDeck.settings.getGlobalSettings();
+  }
+  
 }
 

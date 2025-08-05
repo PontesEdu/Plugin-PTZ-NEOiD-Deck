@@ -1,17 +1,16 @@
-import streamDeck, { action, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzFocus = {
   speed?: number;
   direction: "focusout" | "focusin" | "auto";
   mode: "mfocus" | "afocus";
-  selectedCamera: "cam1" | "cam2" | "cam3" | "cam4" | "cam5" | "cam6";
+  cameraIP: any;
 };
 
-async function move(settings: PtzFocus, globals: any) {
+async function move(settings: PtzFocus, cameraIP: any) {
 
-  const cam = settings.selectedCamera
-  const apiBase = apiBaseCMD(cam, globals)
+  const apiBase = apiBaseCMD(cameraIP)
 
   const speed = settings.speed ?? 5;
   const direction = settings.direction ?? '';
@@ -23,10 +22,9 @@ async function move(settings: PtzFocus, globals: any) {
   await fetch(url);
 }
 
-async function stop(settings: PtzFocus, globals: any) {
+async function stop(cameraIP: any) {
 
-  const cam = settings.selectedCamera
-  const apiBase = apiBaseCMD(cam, globals)
+  const apiBase = apiBaseCMD(cameraIP)
 
   const url = `${apiBase}&focusstop&0`;
   console.log(`Stop: ${url}`);
@@ -38,13 +36,47 @@ async function stop(settings: PtzFocus, globals: any) {
 export class PTZFocus extends SingletonAction<PtzFocus> {
 
   override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {
+    const settings = ev.payload.settings
+
+    if(settings.direction) {
+      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setImage(`imgs/actions/focus/${settings.direction}.png`)
+    }
+
+    if(settings.mode === "afocus"){
+      ev.action.setTitle(`Auto`)
+      ev.action.setImage(`imgs/actions/focus/auto.png`)
+    }
+
     const globals = await streamDeck.settings.getGlobalSettings();
-    await move(ev.payload.settings, globals);
+    const cameraIP = globals.cameraIP
+    if(cameraIP){
+      await move(settings, cameraIP);
+    } else{
+      ev.action.setTitle(`Sem Camera`)
+    }
+  }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzFocus>){
+    const settings = ev.payload.settings
+
+    if(settings.direction) {
+      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setImage(`imgs/actions/focus/${settings.direction}.png`)
+    }
+
+    if(settings.mode === "afocus"){
+      ev.action.setTitle(`Auto`)
+      ev.action.setImage(`imgs/actions/focus/auto.png`)
+    }
+
+    await streamDeck.settings.getGlobalSettings();
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzFocus>): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
-    await stop(ev.payload.settings, globals);
+    const cameraIP = globals.cameraIP
+    await stop(cameraIP);
   }
 }
 
