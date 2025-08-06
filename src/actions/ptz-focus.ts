@@ -8,11 +8,11 @@ export type PtzFocus = {
   cameraIP: any;
 };
 
-async function move(settings: PtzFocus, cameraIP: any) {
+async function move(settings: PtzFocus, globals: any) {
 
-  const apiBase = apiBaseCMD(cameraIP)
+  const apiBase = apiBaseCMD(globals.cameraIP)
 
-  const speed = settings.speed ?? 5;
+  const speed = globals.focusSpeed;
   const direction = settings.direction ?? '';
   const mode = settings.mode ?? 'afocus';
   const urlMode = `${apiBase}&${mode}`; // manual ou automatico
@@ -51,7 +51,7 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
     if(cameraIP){
-      await move(settings, cameraIP);
+      await move(settings, globals);
     } else{
       ev.action.setTitle(`Sem Camera`)
     }

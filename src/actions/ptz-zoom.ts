@@ -7,12 +7,10 @@ export type PtzZoom = {
   cameraIP: any;
 };
 
+async function move(settings: PtzZoom, globals: any) {
+  const apiBase = apiBaseCMD(globals.cameraIP)
 
-async function move(settings: PtzZoom, cameraIP: any) {
-
-  const apiBase = apiBaseCMD(cameraIP)
-
-  const speed = settings.speed ?? 5;
+  const speed = globals.zoomSpeed;
   const direction = settings.direction ?? '';
   const url = `${apiBase}&${direction}&${speed}`;
   console.log(`Move: ${url}`);
@@ -54,7 +52,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
     if(cameraIP){
-      await move(settings, cameraIP);
+      await move(settings, globals);
     } else{
       ev.action.setTitle(`Sem Camera`)
     }

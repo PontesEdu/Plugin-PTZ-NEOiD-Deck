@@ -20,6 +20,14 @@
       "PropertyInspectorPath": "ui/ptz-controls.html"
     },
     {
+      "UUID": "ptz.speed",
+      "Name": "Speed",
+      "Tooltip": "Controls the functions Speed",
+      "Icon": "imgs/actions/speed", 
+      "States": [{ "Image": "imgs/actions/speed" }],
+      "PropertyInspectorPath": "ui/pan-speed.html"
+    },
+    {
       "UUID": "ptz.zoom",
       "Name": "Camera Zoom",
       "Tooltip": "Controls the functions Zoom",
@@ -31,7 +39,7 @@
       "UUID": "ptz.focus",
       "Name": "Camera Focus",
       "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/focus/focus",
+      "Icon": "imgs/actions/focus",
       "States": [{ "Image": "imgs/actions/focus" }],
       "PropertyInspectorPath": "ui/ptz-focus.html"
     },

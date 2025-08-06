@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+  <h3>Configurações PTZ - PAN SPEED</h3>
+  <p>Generic speed for all PAN, ZOOM, FOCUS functions</p>
+
+  <sdpi-item label="speed">
+    <sdpi-select setting="speed" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <option value="pan">pan-speed</option>
+      <option value="zoom">zoom-speed</option>
+      <option value="focus">focus-speed</option>
+    </sdpi-select>
+  </sdpi-item> 
+
+   <script src="./ptz-settings.js"></script>
+</body>
+</html>

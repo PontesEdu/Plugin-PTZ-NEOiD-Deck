@@ -10,15 +10,14 @@ export type PtzSettings = {
 
 
 //MOVE
-async function move(settings: PtzSettings, cameraIP: any) {
+async function move(settings: PtzSettings, globals: any) {
   // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd`
 
-  const apiBase = apiBaseCMD(cameraIP)
+  const apiBase = apiBaseCMD(globals.cameraIP)
 
-  const speed = settings.speed ?? 5;
-  const tilt = settings.tilt ?? 5;
+  const speed = globals.panSpeed ;
   const direction = settings.direction ?? '';
-  const url = `${apiBase}&${direction}&${speed}&${tilt}`;
+  const url = `${apiBase}&${direction}&${speed}&${speed}`;
   console.log(`Move: ${url}`);
   await fetch(url);
 }
@@ -47,7 +46,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
 
     if(cameraIP){
       ev.action.setTitle('')
-      await move(settings, cameraIP);
+      await move(settings, globals);
     } else{
       ev.action.setTitle(`Sem Camera`)
     }

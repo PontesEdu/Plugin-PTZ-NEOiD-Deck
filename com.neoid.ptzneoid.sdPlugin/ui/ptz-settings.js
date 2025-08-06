@@ -9,7 +9,6 @@ const CamerasOpitions = `
   <option value="cam6">Câmera 6</option>
 `
 
-
 document.querySelector('#option').innerHTML = CamerasOpitions;
 
 streamDeckClient.on('connected', (jsn) => {

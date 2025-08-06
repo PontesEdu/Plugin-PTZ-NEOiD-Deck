@@ -20,10 +20,10 @@ export class PTZRegister extends SingletonAction<any> {
     const checkCamera = await checkCameraConnection(cameraIP)
 
     if(!checkCamera) {
-      ev.action.setTitle('Not Connect')
+      await ev.action.setTitle('Not Connect')
     }
 
-    streamDeck.settings.setGlobalSettings(settings);
+    await streamDeck.settings.setGlobalSettings(settings);
   }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
@@ -32,7 +32,7 @@ export class PTZRegister extends SingletonAction<any> {
     if(!checkCamera) {
       ev.action.setTitle('Not Connect')
     }
-    streamDeck.settings.setGlobalSettings(settings);
+    await streamDeck.settings.setGlobalSettings(settings);
   }
 
 }
