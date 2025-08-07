@@ -58,6 +58,14 @@
       "Icon": "imgs/actions/up",
       "States": [{ "Image": "imgs/actions/up" }],
       "PropertyInspectorPath": "ui/ptz-exposure.html"
+    },
+    {
+      "UUID": "ptz.record",
+      "Name": "Camera Record",
+      "Tooltip": "Controls the functions Record",
+      "Icon": "imgs/actions/record/rec",
+      "States": [{ "Image": "imgs/actions/record/rec" }],
+      "PropertyInspectorPath": "ui/ptz-record.html"
     }
   ],
 	"Category": "PTZ NeoID",
