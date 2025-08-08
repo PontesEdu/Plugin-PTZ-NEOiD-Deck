@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+  <h3>Configurações PTZ - Preset</h3>
+  <p>Para Salvar tem que Ativar a ação SET</p>
+
+  <sdpi-item label="numberPreset">
+    <sdpi-select setting="numberPreset" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </sdpi-select>
+  </sdpi-item> 
+
+  <script src="./ptz-settings.js"></script>
+</body>
+</html>

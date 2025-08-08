@@ -56,7 +56,7 @@ export class PTZSpeed extends SingletonAction{
     const calculado = Math.round((levelAtual / 10) * maxValue);
 
     // Atualiza o título do botão
-    await ev.action.setTitle(`${tipo}: ${levelAtual}`);
+    await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${levelAtual}`);
 
     // Atualiza os globals com a nova velocidade e level
     await streamDeck.settings.setGlobalSettings({
@@ -66,11 +66,11 @@ export class PTZSpeed extends SingletonAction{
     });
   }
 
-  private calcularSpeed(level: number, max: number): number {
-    const percentual = level * 10;
-    const valor = Math.round((percentual / 100) * max);
-    return Math.max(1, valor); // evita zero
-  }
+  // private calcularSpeed(level: number, max: number): number {
+  //   const percentual = level * 10;
+  //   const valor = Math.round((percentual / 100) * max);
+  //   return Math.max(1, valor); // evita zero
+  // }
 }
 
   

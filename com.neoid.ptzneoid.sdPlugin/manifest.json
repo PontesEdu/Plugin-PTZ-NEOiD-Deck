@@ -66,6 +66,22 @@
       "Icon": "imgs/actions/record/rec",
       "States": [{ "Image": "imgs/actions/record/rec" }],
       "PropertyInspectorPath": "ui/ptz-record.html"
+    },
+    {
+      "UUID": "ptz.set",
+      "Name": "Camera SET",
+      "Tooltip": "Controls the functions SET (salvar)",
+      "Icon": "imgs/actions/set/save",
+      "States": [{ "Image": "imgs/actions/set/save" }],
+      "PropertyInspectorPath": "ui/set-action.html"
+    },
+    {
+      "UUID": "ptz.preset",
+      "Name": "Camera Preset",
+      "Tooltip": "Controls the functions SET (salvar)",
+      "Icon": "imgs/actions/preset/preset",
+      "States": [{ "Image": "imgs/actions/preset/preset" }],
+      "PropertyInspectorPath": "ui/preset.html"
     }
   ],
 	"Category": "PTZ NeoID",

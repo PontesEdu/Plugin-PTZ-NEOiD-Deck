@@ -8,6 +8,8 @@ import { PTZRegister } from "./actions/ptz-register";
 import { PtzExposure } from "./actions/ptz-exposure";
 import { PTZSpeed } from "./actions/pan-speed";
 import { PTZRecord } from "./actions/ptz-record";
+import { PTZPreset } from "./actions/preset";
+import { PTZSet } from "./actions/set-action";
 
 // We can enable "trace" logging so that all messages between the Stream Deck, and the plugin are recorded. When storing sensitive information
 streamDeck.logger.setLevel(LogLevel.TRACE);
@@ -21,6 +23,8 @@ streamDeck.actions.registerAction(new PTZRegister());
 streamDeck.actions.registerAction(new PtzExposure());
 streamDeck.actions.registerAction(new PTZSpeed());
 streamDeck.actions.registerAction(new PTZRecord());
+streamDeck.actions.registerAction(new PTZPreset());
+streamDeck.actions.registerAction(new PTZSet());
 
 streamDeck.connect();
 
