@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzZoom = {
@@ -26,19 +26,45 @@ async function stop(cameraIP: any) {
   await fetch(url);
 }
 
+
+
+
 // Ações
 @action({ UUID: "ptz.zoom" })
 export class PTZZoom extends SingletonAction<PtzZoom> {
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzZoom>) {
+  override async onWillAppear(ev: WillAppearEvent<PtzZoom>) {
     const settings = ev.payload.settings
+
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
 
     if(settings.direction) {
       ev.action.setTitle(`${settings.direction}`)
       ev.action.setImage(`imgs/actions/search/${settings.direction}.png`)
     }
+  }
 
-    await streamDeck.settings.getGlobalSettings();
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzZoom>) {
+    const settings = ev.payload.settings
+
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    if(settings.direction) {
+      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setImage(`imgs/actions/search/${settings.direction}.png`)
+    }
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzZoom>): Promise<void> {

@@ -1,6 +1,5 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { imageSnapShot } from "../utils/snapshot";
-// import { toBool } from "./set-action";
 
 type PtzPresetProps = {
   numberPreset: number | "undefined";
@@ -10,6 +9,7 @@ type PtzPresetProps = {
 @action({ UUID: "ptz.preset" })
 export class PTZPreset extends SingletonAction<PtzPresetProps> {
   private isPreset = false;
+  private image: any;
 
   override async onWillAppear(ev: WillAppearEvent<PtzPresetProps>) {
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -17,6 +17,8 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
 
     // Converte para booleano corretamente
     this.isPreset = globals.isPreset === true || globals.isPreset === "true";
+
+    await this.image ? await ev.action.setImage(this.image) : ''
 
     await ev.action.setTitle(this.isPreset ? "novo Preset" : settings.numberPreset === undefined ? 'Selecione' : `chamar ${settings.numberPreset}` );
   }
@@ -32,7 +34,7 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
       return;
     } 
 
-    // if(settings.numberPreset === undefined) return;
+    if(settings.numberPreset === undefined) return;
 
     await ev.action.setTitle(this.isPreset ? "novo Preset" : settings.numberPreset === undefined ? 'Selecione' : `chamar ${settings.numberPreset}` );
 
@@ -47,13 +49,12 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
       await streamDeck.settings.setGlobalSettings({
         ...globals,
         isSet: false,
-        
       });
 
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      const image = await imageSnapShot(cameraIP)
-      await ev.action.setImage(image);
+      this.image = await imageSnapShot(cameraIP)
+      await ev.action.setImage(this.image);
       
     } else {
 

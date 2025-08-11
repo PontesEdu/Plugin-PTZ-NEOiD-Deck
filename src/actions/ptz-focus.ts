@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzFocus = {
@@ -35,8 +35,16 @@ async function stop(cameraIP: any) {
 @action({ UUID: "ptz.focus" })
 export class PTZFocus extends SingletonAction<PtzFocus> {
 
-  override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {
+  override async onWillAppear(ev: WillAppearEvent<PtzFocus>) {
     const settings = ev.payload.settings
+
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+    
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return
+    }
 
     if(settings.direction) {
       ev.action.setTitle(`${settings.direction}`)
@@ -46,14 +54,6 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     if(settings.mode === "afocus"){
       ev.action.setTitle(`Auto`)
       ev.action.setImage(`imgs/actions/focus/auto.png`)
-    }
-
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP
-    if(cameraIP){
-      await move(settings, globals);
-    } else{
-      ev.action.setTitle(`Sem Camera`)
     }
   }
 
@@ -71,6 +71,20 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     }
 
     await streamDeck.settings.getGlobalSettings();
+  }
+
+  override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {
+    const settings = ev.payload.settings
+
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    await move(settings, globals);
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzFocus>): Promise<void> {

@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzSettings = {
@@ -11,7 +11,6 @@ export type PtzSettings = {
 
 //MOVE
 async function move(settings: PtzSettings, globals: any) {
-  // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?ptzcmd`
 
   const apiBase = apiBaseCMD(globals.cameraIP)
 
@@ -36,29 +35,53 @@ async function stop(cameraIP: any) {
 @action({ UUID: "ptz.control" })
 export class PTZControl extends SingletonAction<PtzSettings> {
 
-  override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
 
+  override async onWillAppear(ev: WillAppearEvent<PtzSettings>) {
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const settings = ev.payload.settings;
+    
+    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
+
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+    ev.action.setTitle('')
+  }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzSettings>){
     const settings = ev.payload.settings
     ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
 
-    if(cameraIP){
-      ev.action.setTitle('')
-      await move(settings, globals);
-    } else{
+    if(!cameraIP){
       ev.action.setTitle(`Sem Camera`)
+      return;
     }
+
+    ev.action.setTitle('')
+
+    await streamDeck.settings.getGlobalSettings();
   }
 
-  
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzSettings>){
+  override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
     const settings = ev.payload.settings
     ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
-    await streamDeck.settings.getGlobalSettings();
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`Sem Camera`)
+      return;
+    }
+
+    await move(settings, globals);
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzSettings>): Promise<void> {

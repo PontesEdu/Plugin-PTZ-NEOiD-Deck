@@ -28,9 +28,45 @@ export class PTZSpeed extends SingletonAction{
     focus: 1,
   };
 
+  override async onWillAppear(ev: WillAppearEvent<PTZSpeedProps>) {
+    const settings = ev.payload.settings;
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const tipo = settings.speed as "pan" | "zoom" | "focus";
+
+    if (!["pan", "zoom", "focus"].includes(tipo)) {
+      await ev.action.setTitle("Selecione um tipo");
+      return;
+    }
+
+    await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${globals[`${tipo}Level`] ?? ' 1 ' }`);
+  }
+  
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PTZSpeedProps>){
+    const settings = ev.payload.settings;
+
+    const tipo = settings.speed as "pan" | "zoom" | "focus";
+
+    if (!["pan", "zoom", "focus"].includes(tipo)) {
+      await ev.action.setTitle("Selecione um tipo");
+      return;
+    }
+
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    // Atualiza o título do botão
+    await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${globals[`${tipo}Level`] ?? ' 1 ' }`);
+  }
+
+
+
+
+      //KEYDOWN
   override async onKeyDown(ev: KeyDownEvent<PTZSpeedProps>): Promise<void> {
     
     const settings = ev.payload.settings;
+
     const tipo = settings.speed as "pan" | "zoom" | "focus";
 
     if (!["pan", "zoom", "focus"].includes(tipo)) {
@@ -65,12 +101,6 @@ export class PTZSpeed extends SingletonAction{
       [`${tipo}Level`]: levelAtual,
     });
   }
-
-  // private calcularSpeed(level: number, max: number): number {
-  //   const percentual = level * 10;
-  //   const valor = Math.round((percentual / 100) * max);
-  //   return Math.max(1, valor); // evita zero
-  // }
 }
 
   

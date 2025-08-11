@@ -17,7 +17,7 @@ export class PTZRecord extends SingletonAction<PtzRecordProps> {
     // Converte para booleano corretamente
     this.isRecord = globals.isRecord === true || globals.isRecord === "true";
 
-    await ev.action.setTitle(this.isRecord ? "Record ON" : "Record OFF");
+    await ev.action.setTitle(this.isRecord ? "rec: ON" : "rec: OFF");
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzRecordProps>): Promise<void> {

@@ -16,14 +16,22 @@
   <p>Para Salvar tem que Ativar a ação SET</p>
 
   <sdpi-item label="numberPreset">
-    <sdpi-select setting="numberPreset" default="none" placeholder="Selecione a direção">
+    <sdpi-select setting="numberPreset" id="select-presets" default="none" placeholder="Selecione a direção">
       <option value="none" disabled selected hidden>Selecione...</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
+      
     </sdpi-select>
   </sdpi-item> 
 
   <script src="./ptz-settings.js"></script>
+  <script>
+    const select = document.getElementById("select-presets");
+
+    for (let i = 1; i <= 32; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = i;
+      select.appendChild(option);
+    }
+  </script>
 </body>
 </html>

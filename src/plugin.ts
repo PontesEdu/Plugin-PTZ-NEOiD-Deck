@@ -1,6 +1,6 @@
 import streamDeck, { LogLevel } from "@elgato/streamdeck";
 
-import { PTZControl } from "./actions/ptz-action";
+import { PTZControl } from "./actions/ptz-controls";
 import { PTZZoom } from "./actions/ptz-zoom";
 import { PTZFocus } from "./actions/ptz-focus";
 import { PTZTracking } from "./actions/ptz-tracking";

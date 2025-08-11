@@ -17,7 +17,6 @@ export type PtzExposureProps = {
 async function move(settings: PtzExposureProps, cameraIP: any) {
 
   const apiBase = apiBasePtzPostImageValue(cameraIP)
-  // const apiBase = `http://192.168.100.88/cgi-bin/ptzctrl.cgi?post_image_value`
 
   const gain = settings.gain;
   const iris = settings.iris;
