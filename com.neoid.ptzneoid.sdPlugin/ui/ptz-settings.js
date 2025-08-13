@@ -1,15 +1,5 @@
 const { streamDeckClient } = SDPIComponents;
 
-const CamerasOpitions = `
-  <option value="cam1">Câmera 1</option>
-  <option value="cam2">Câmera 2</option>
-  <option value="cam3">Câmera 3</option>
-  <option value="cam4">Câmera 4</option>
-  <option value="cam5">Câmera 5</option>
-  <option value="cam6">Câmera 6</option>
-`
-
-document.querySelector('#option').innerHTML = CamerasOpitions;
 
 streamDeckClient.on('connected', (jsn) => {
   console.log('Property Inspector conectado', jsn);
@@ -25,3 +15,21 @@ streamDeckClient.getSettings().then(settings => {
 });
 //ou podemos fazer:
 // streamDeckClient.setSettings({ tilt: 45, speed: 7, direction: 'right' });
+
+
+streamDeckClient.on('sendToPropertyInspector', (event) => {
+  const { command, key, image } = event.payload;
+
+  if (command === "savePresetImage") {
+    localStorage.setItem(key, image); // Salva no localStorage
+  }
+
+  if (command === "getPresetImage") {
+    const img = localStorage.getItem(key) || null;
+    streamDeckClient.sendToPlugin({
+      command: "presetImage",
+      key,
+      image: img
+    });
+  }
+});

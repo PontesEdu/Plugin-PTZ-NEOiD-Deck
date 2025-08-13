@@ -32,7 +32,7 @@ async function stop(cameraIP: any) {
 }
 
 // Ações
-@action({ UUID: "ptz.control" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-controls" })
 export class PTZControl extends SingletonAction<PtzSettings> {
 
 

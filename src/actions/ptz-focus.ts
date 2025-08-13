@@ -32,7 +32,7 @@ async function stop(cameraIP: any) {
 }
 
 // Ações
-@action({ UUID: "ptz.focus" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-focus" })
 export class PTZFocus extends SingletonAction<PtzFocus> {
 
   override async onWillAppear(ev: WillAppearEvent<PtzFocus>) {

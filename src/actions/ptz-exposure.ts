@@ -35,7 +35,7 @@ async function move(settings: PtzExposureProps, cameraIP: any) {
 
 
 // Ações
-@action({ UUID: "ptz.exposure" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-exposure" })
 export class PtzExposure extends SingletonAction<PtzExposureProps> {
 
   override async onKeyDown(ev: KeyDownEvent<PtzExposureProps>): Promise<void> {

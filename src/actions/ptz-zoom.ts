@@ -30,7 +30,7 @@ async function stop(cameraIP: any) {
 
 
 // Ações
-@action({ UUID: "ptz.zoom" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-zoom" })
 export class PTZZoom extends SingletonAction<PtzZoom> {
 
   override async onWillAppear(ev: WillAppearEvent<PtzZoom>) {

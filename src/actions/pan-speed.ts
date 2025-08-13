@@ -12,7 +12,7 @@ type PTZConfig = {
 };
 
 
-@action({ UUID: "ptz.speed" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-speed" })
 export class PTZSpeed extends SingletonAction{
   static speedLevel = 1;
   static readonly maxLevel = 10;
@@ -27,6 +27,7 @@ export class PTZSpeed extends SingletonAction{
     zoom: 1,
     focus: 1,
   };
+  
 
   override async onWillAppear(ev: WillAppearEvent<PTZSpeedProps>) {
     const settings = ev.payload.settings;
@@ -56,11 +57,8 @@ export class PTZSpeed extends SingletonAction{
     const globals = await streamDeck.settings.getGlobalSettings();
 
     // Atualiza o título do botão
-    await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${globals[`${tipo}Level`] ?? ' 1 ' }`);
+    await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${globals[`${tipo}Level`] ?? '1' }`);
   }
-
-
-
 
       //KEYDOWN
   override async onKeyDown(ev: KeyDownEvent<PTZSpeedProps>): Promise<void> {

@@ -1,73 +1,105 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { imageSnapShot } from "../utils/snapshot";
 
 type PtzPresetProps = {
   numberPreset: number | "undefined";
 };
 
-// Ações
-@action({ UUID: "ptz.preset" })
+interface PresetImage {
+  numberPreset: number;
+  image: string;
+}
+
+@action({ UUID: "com.neoid.ptzneoid.ptz-preset" })
 export class PTZPreset extends SingletonAction<PtzPresetProps> {
-  private isPreset = false;
-  private image: any;
+  private presetImages: PresetImage[] = [];
+  private pressTimer?: NodeJS.Timeout;
+  private longPress = false;
 
   override async onWillAppear(ev: WillAppearEvent<PtzPresetProps>) {
-    const globals = await streamDeck.settings.getGlobalSettings();
     const settings = ev.payload.settings;
+    const presetNumber = Number(settings.numberPreset);
 
-    // Converte para booleano corretamente
-    this.isPreset = globals.isPreset === true || globals.isPreset === "true";
-
-    await this.image ? await ev.action.setImage(this.image) : ''
-
-    await ev.action.setTitle(this.isPreset ? "novo Preset" : settings.numberPreset === undefined ? 'Selecione' : `chamar ${settings.numberPreset}` );
-  }
-
-  override async onKeyDown(ev: KeyDownEvent<PtzPresetProps>): Promise<void> {
-    const settings = ev.payload.settings;
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP;
-    const isSetActive = globals.isSet;
-
-    if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
-      return;
-    } 
-
-    if(settings.numberPreset === undefined) return;
-
-    await ev.action.setTitle(this.isPreset ? "novo Preset" : settings.numberPreset === undefined ? 'Selecione' : `chamar ${settings.numberPreset}` );
-
-    if (isSetActive) {
-      
-      // salva preset
-      await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&posset&${settings.numberPreset}`);
-      await ev.action.setTitle(`Salvo`);
-      await ev.action.setImage(`imgs/actions/set/saved.png`);
-
-      // desativa o modo set
-      await streamDeck.settings.setGlobalSettings({
-        ...globals,
-        isSet: false,
-      });
-
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      this.image = await imageSnapShot(cameraIP)
-      await ev.action.setImage(this.image);
-      
+    if (!isNaN(presetNumber)) {
+      const found = this.presetImages.find(p => p.numberPreset === presetNumber);
+      await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
+      await ev.action.setTitle(`chamar ${presetNumber}`);
     } else {
-
-      // chama preset
-      await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&poscall&${settings.numberPreset}`);
-      await ev.action.setTitle(`Chamar ${settings.numberPreset}`);
+      await ev.action.setImage("imgs/actions/preset/preset.png");
+      await ev.action.setTitle("Selecione");
     }
   }
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
-    const settings = ev.payload.settings
+  override async onKeyDown(ev: KeyDownEvent<PtzPresetProps>) {
+    const settings = ev.payload.settings;
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP;
+    const presetNumber = Number(settings.numberPreset);
 
-    await ev.action.setTitle(this.isPreset ? "novo Preset" : settings.numberPreset === undefined ? 'Selecione' : `chamar ${settings.numberPreset}` );
+    if (!cameraIP || isNaN(presetNumber)) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
+    // Começa a contar o tempo do pressionamento
+    this.longPress = false;
+    this.pressTimer = setTimeout(() => {
+      this.longPress = true;
+      this.savePreset(ev, String(cameraIP), presetNumber); // salva após 1s
+    }, 1100);
   }
 
+  override async onKeyUp(ev: KeyUpEvent<PtzPresetProps>) {
+    clearTimeout(this.pressTimer);
+
+    const settings = ev.payload.settings;
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP;
+    const presetNumber = Number(settings.numberPreset);
+
+    if (!cameraIP || isNaN(presetNumber)) return;
+
+    // Se não foi um clique longo, chama o preset
+    if (!this.longPress) {
+      await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&poscall&${presetNumber}`);
+      await ev.action.setTitle(`Chamar ${presetNumber}`);
+    }
+  }
+
+  private async savePreset(ev: KeyDownEvent<PtzPresetProps>, cameraIP: string, presetNumber: number) {
+    // salva preset na câmera
+    await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&posset&${presetNumber}`);
+    await ev.action.setTitle(`Salvo`);
+    await ev.action.setImage(`imgs/actions/set/saved.png`);
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    const snapshot = await imageSnapShot(cameraIP);
+    await ev.action.setTitle(`chamar ${presetNumber}`);
+
+    // Remove qualquer imagem antiga desse preset e adiciona a nova
+    this.presetImages = this.presetImages.filter(p => p.numberPreset !== presetNumber);
+    this.presetImages.push({
+      numberPreset: presetNumber,
+      image: snapshot
+    });
+
+    await ev.action.setImage(snapshot);
+  }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
+    const settings = ev.payload.settings;
+    const presetNumber = Number(settings.numberPreset);
+
+    if (!isNaN(presetNumber)) {
+      const found = this.presetImages.find(p => p.numberPreset === presetNumber);
+      await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
+      await ev.action.setTitle(`chamar ${presetNumber}`);
+    } else {
+      await ev.action.setImage("imgs/actions/preset/preset.png");
+      await ev.action.setTitle("Selecione");
+    }
+  }
 }
+
+

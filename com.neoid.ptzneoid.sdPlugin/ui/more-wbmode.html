@@ -12,21 +12,17 @@
 
 </head>
 <body>
-  <h3>Configurações PTZ - ZOOM</h3>
+  <h3>Configurações PTZ - PAN SPEED</h3>
+  <p>Generic speed for all PAN, ZOOM, FOCUS functions</p>
 
-  <!-- <sdpi-item label="Speed">
-    <sdpi-range setting="speed" min="1" max="7" step="1" default="5"></sdpi-range>
-  </sdpi-item> -->
-  
-  <sdpi-item label="Direction">
-    <sdpi-select setting="direction" default="none" placeholder="Selecione a direção">
+  <sdpi-item label="morewbmode">
+    <sdpi-select setting="morewbmode" default="none" placeholder="Selecione a direção">
       <option value="none" disabled selected hidden>Selecione...</option>
-      <option value="zoomin">Zoom In</option>
-      <option value="zoomout">Zoom Out</option>
+      <option value="saturation">Saturation</option>
+      <option value="hue">Matriz</option>
     </sdpi-select>
   </sdpi-item> 
 
   <script src="./ptz-settings.js"></script>
-   
 </body>
 </html>

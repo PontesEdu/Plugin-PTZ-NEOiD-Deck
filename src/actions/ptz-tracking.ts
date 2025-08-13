@@ -6,7 +6,7 @@ type PtzTrackingProps = {
 };
 
 // Ações
-@action({ UUID: "ptz.tracking" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-tracking" })
 export class PTZTracking extends SingletonAction<PtzTrackingProps> {
   private isTracking = false;
 

@@ -11,7 +11,7 @@ async function checkCameraConnection(cameraIP: any) {
   }
 } 
 
-@action({ UUID: "ptz.register" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-register" })
 export class PTZRegister extends SingletonAction<any> {
 
   override async onWillAppear(ev: WillAppearEvent) {
@@ -21,6 +21,20 @@ export class PTZRegister extends SingletonAction<any> {
 
     if(!checkCamera) {
       await ev.action.setTitle('Not Connect') 
+    } else {
+      await ev.action.setTitle('') 
+    }
+  }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
+    const settings = ev.payload.settings;
+    const cameraIP = settings.cameraIP
+    const checkCamera = await checkCameraConnection(cameraIP)
+
+    if(!checkCamera) {
+      await ev.action.setTitle('Not Connect') 
+    } else {
+      await ev.action.setTitle('') 
     }
   }
 
@@ -31,6 +45,8 @@ export class PTZRegister extends SingletonAction<any> {
 
     if(!checkCamera) {
       ev.action.setTitle('Not Connect')
+    } else {
+      await ev.action.setTitle('') 
     }
     
     await streamDeck.settings.setGlobalSettings({

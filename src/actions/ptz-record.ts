@@ -7,7 +7,7 @@ type PtzRecordProps = {
 };
 
 // Ações
-@action({ UUID: "ptz.record" })
+@action({ UUID: "com.neoid.ptzneoid.ptz-record" })
 export class PTZRecord extends SingletonAction<PtzRecordProps> {
   private isRecord = false;
 
