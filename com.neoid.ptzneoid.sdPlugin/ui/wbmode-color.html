@@ -12,14 +12,15 @@
 
 </head>
 <body>
-  <h3>Configurações PTZ - PAN SPEED</h3>
-  <p>Generic speed for all PAN, ZOOM, FOCUS functions</p>
+  <h3>Configurações PTZ - WB MODE - COLOR</h3>
+  <p>Saturação, Matriz</p>
 
-  <sdpi-item label="morewbmode">
-    <sdpi-select setting="morewbmode" default="none" placeholder="Selecione a direção">
+  <sdpi-item label="cor">
+    <sdpi-select setting="wbmodecolor" default="none" placeholder="Selecione a direção">
       <option value="none" disabled selected hidden>Selecione...</option>
       <option value="saturation">Saturation</option>
       <option value="hue">Matriz</option>
+      <option value="colorTemp">Temperatura de cor</option>
     </sdpi-select>
   </sdpi-item> 
 

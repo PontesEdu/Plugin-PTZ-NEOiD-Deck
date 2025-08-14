@@ -1,29 +1,30 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
-interface WbModeProps {
+interface AemodeProps {
   value: number;
   name: string;
 }
 
-const wbModes: WbModeProps[] = [
+const aemodes: AemodeProps[] = [
   { value: 0, name: "Auto" },
-  { value: 4, name: "Indoor" },
-  { value: 5, name: "Outdoor" },
+  { value: 3, name: "Bright" },
   { value: 1, name: "Manual" },
-  { value: 3, name: "VAR" },
-  { value: 2, name: "OnePush" },
+  { value: 4, name: "SAE" },
+  { value: 2, name: "AAE" },
 ];
 
 let currentWbIndex = 0; // valor temporário em runtime
 
-const getNextWbIndex = () => (currentWbIndex + 1) % wbModes.length;
+const getNextWbIndex = () => (currentWbIndex + 1) % aemodes.length;
 
-@action({ UUID: "com.neoid.ptzneoid.wbmode" })
-export class WbMode extends SingletonAction {
+@action({ UUID: "com.neoid.ptzneoid.aemode" })
+export class Aemode extends SingletonAction {
 
   // Carrega valor salvo ao aparecer na tela
   override async onWillAppear(ev: WillAppearEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
+
     const cameraIP = globals.cameraIP
     
     if(!cameraIP){
@@ -31,42 +32,45 @@ export class WbMode extends SingletonAction {
       return;
     }
 
-    const savedIndex = globals?.wbModeIndex;
+    const savedIndex = globals?.aemodeIndex;
 
-    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < wbModes.length) {
+    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < aemodes.length) {
       currentWbIndex = savedIndex;
     } else {
       currentWbIndex = 0; // fallback para "Auto"
     }
 
     // Atualiza o título no botão
-    ev.action.setTitle(wbModes[currentWbIndex].name);
+    ev.action.setTitle(aemodes[currentWbIndex].name);
   }
 
   // Quando usuário pressiona a tecla
   override async onKeyDown(ev: KeyDownEvent) {
     currentWbIndex = getNextWbIndex();
-    const mode = wbModes[currentWbIndex];
+    const mode = aemodes[currentWbIndex];
 
+    // Salva no Global Settings
     const globals = await streamDeck.settings.getGlobalSettings();
-    
+
     const cameraIP = globals.cameraIP
     
+
     if(!cameraIP){
       ev.action.setTitle(`Sem Camera`)
       return;
     }
 
+    // Atualiza título
+    ev.action.setTitle(mode.name);
+
     // Envia comando para a câmera
-    const url = `http://${cameraIP}/cgi-bin/ptzctrl.cgi?post_image_value&wbmode&${mode.value}`;
+    const url = `http://${cameraIP}/cgi-bin/ptzctrl.cgi?post_image_value&aemode&${mode.value}`;
     const res = await fetch(url);
 
-    // Atualiza título
     if(res.ok){
-      ev.action.setTitle(mode.name);
       await streamDeck.settings.setGlobalSettings({
         ...globals,
-        wbModeIndex: currentWbIndex,
+        aemodeIndex: currentWbIndex,
       });
     }
   }
@@ -74,6 +78,7 @@ export class WbMode extends SingletonAction {
   // Caso configuração global mude em outro lugar
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
+
     const cameraIP = globals.cameraIP
     
     if(!cameraIP){
@@ -81,11 +86,11 @@ export class WbMode extends SingletonAction {
       return;
     }
 
-    const savedIndex = globals.wbModeIndex;
+    const savedIndex = globals?.aemodeIndex;
 
-    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < wbModes.length) {
+    if (typeof savedIndex === "number" && savedIndex >= 0 && savedIndex < aemodes.length) {
       currentWbIndex = savedIndex;
-      ev.action.setTitle(wbModes[currentWbIndex].name);
+      ev.action.setTitle(aemodes[currentWbIndex].name);
     }
   }
 }

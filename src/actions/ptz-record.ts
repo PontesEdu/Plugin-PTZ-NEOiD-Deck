@@ -34,11 +34,11 @@ export class PTZRecord extends SingletonAction<PtzRecordProps> {
     if (this.isRecord) {
       sendViscaUDP(cameraIP, "81 0a 03 01 02 ff"); // LIGA
       await ev.action.setTitle("rec: ON");
-      ev.action.setImage(`imgs/actions/record/rec-on.png`)
+      ev.action.setImage(`imgs/actions/record/recording.png`)
     } else {
       sendViscaUDP(cameraIP, "81 0a 03 01 03 ff"); // DESLIGA (ajuste se for diferente)
       await ev.action.setTitle("rec OFF");
-      ev.action.setImage(`imgs/actions/record/rec.png`)
+      ev.action.setImage(`imgs/actions/record/record.png`)
     }
     
 

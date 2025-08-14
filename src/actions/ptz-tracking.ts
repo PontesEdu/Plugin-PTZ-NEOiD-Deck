@@ -23,7 +23,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     // Converte para booleano corretamente
     this.isTracking = globals.isTracking === true || globals.isTracking === "true";
 
-    await ev.action.setTitle(this.isTracking ? "Tracking ON" : "Tracking OFF");
+    await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzTrackingProps>){
@@ -39,7 +39,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     // Converte para booleano corretamente
     this.isTracking = globals.isTracking === true || globals.isTracking === "true";
 
-    await ev.action.setTitle(this.isTracking ? "Tracking ON" : "Tracking OFF");
+    await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzTrackingProps>): Promise<void> {
@@ -55,11 +55,11 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
 
     if (this.isTracking) {
       sendViscaUDP(cameraIP, "81 0a 11 54 02 ff"); // LIGA
-      await ev.action.setTitle("Tracking ON");
+      await ev.action.setTitle("Tracking\n ON");
       ev.action.setImage(`imgs/actions/tracking/tracking-on.png`)
     } else {
       sendViscaUDP(cameraIP, "81 0a 11 54 03 ff"); // DESLIGA (ajuste se for diferente)
-      await ev.action.setTitle("Tracking OFF");
+      await ev.action.setTitle("Tracking\n OFF");
       ev.action.setImage(`imgs/actions/tracking/tracking-off.png`)
     }
 

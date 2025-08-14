@@ -6,6 +6,7 @@ export type PtzSettings = {
   tilt?: number;
   direction: string;
   cameraIP: any;
+  camera: any;
 };
 
 
@@ -17,7 +18,6 @@ async function move(settings: PtzSettings, globals: any) {
   const speed = globals.panSpeed ;
   const direction = settings.direction ?? '';
   const url = `${apiBase}&${direction}&${speed}&${speed}`;
-  console.log(`Move: ${url}`);
   await fetch(url);
 }
 
@@ -48,7 +48,8 @@ export class PTZControl extends SingletonAction<PtzSettings> {
       ev.action.setTitle(`Sem Camera`)
       return;
     }
-    ev.action.setTitle('')
+    const camera = globals.camera
+    ev.action.setTitle(`${!camera && undefined ? "" : camera}`)
   }
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzSettings>){
@@ -57,15 +58,14 @@ export class PTZControl extends SingletonAction<PtzSettings> {
 
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
+    
 
     if(!cameraIP){
       ev.action.setTitle(`Sem Camera`)
       return;
     }
-
-    ev.action.setTitle('')
-
-    await streamDeck.settings.getGlobalSettings();
+    const camera = globals.camera
+    ev.action.setTitle(`${!camera && undefined ? "" : camera}`)
   }
 
 
@@ -80,6 +80,9 @@ export class PTZControl extends SingletonAction<PtzSettings> {
       ev.action.setTitle(`Sem Camera`)
       return;
     }
+
+    const camera = globals.camera
+    ev.action.setTitle(`${camera === undefined ? ' ' : camera}`)
 
     await move(settings, globals);
   }

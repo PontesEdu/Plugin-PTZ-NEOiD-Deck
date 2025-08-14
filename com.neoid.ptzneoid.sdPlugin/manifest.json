@@ -7,7 +7,7 @@
       "UUID": "com.neoid.ptzneoid.ptz-register",
       "Name": "Register PTZ Cameras",
       "Tooltip": "Cadastro de câmeras PTZ",
-      "Icon": "imgs/actions/cameraSelect",
+      "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/cameraSelect" }],
       "PropertyInspectorPath": "ui/ptz-register.html"
     },
@@ -15,15 +15,15 @@
       "UUID": "com.neoid.ptzneoid.ptz-controls",
       "Name": "Camera controls",
       "Tooltip": "Controls the functions",
-      "Icon": "imgs/actions/controls/controls",
-      "States": [{ "Image": "imgs/actions/controls/controls" }],
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/controls/up" }],
       "PropertyInspectorPath": "ui/ptz-controls.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-speed",
       "Name": "Speed",
       "Tooltip": "Controls the functions Speed",
-      "Icon": "imgs/actions/speed", 
+      "Icon": "imgs/actions/logo-neoid", 
       "States": [{ "Image": "imgs/actions/speed" }],
       "PropertyInspectorPath": "ui/pan-speed.html"
     },
@@ -31,47 +31,39 @@
       "UUID": "com.neoid.ptzneoid.ptz-zoom",
       "Name": "Camera Zoom",
       "Tooltip": "Controls the functions Zoom",
-      "Icon": "imgs/actions/zoom",
-      "States": [{ "Image": "imgs/actions/zoom" }],
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
       "PropertyInspectorPath": "ui/ptz-zoom.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-focus",
       "Name": "Camera Focus",
       "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/focus",
-      "States": [{ "Image": "imgs/actions/focus" }],
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/focus/focusin" }],
       "PropertyInspectorPath": "ui/ptz-focus.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-tracking",
       "Name": "Camera Tracking",
       "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/tracking",
+      "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/tracking" }],
       "PropertyInspectorPath": "ui/ptz-tracking.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-exposure",
-      "Name": "Camera Exposure",
-      "Tooltip": "Controls the functions Exposure",
-      "Icon": "imgs/actions/up",
-      "States": [{ "Image": "imgs/actions/up" }],
-      "PropertyInspectorPath": "ui/ptz-exposure.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-record",
       "Name": "Camera Record",
       "Tooltip": "Controls the functions Record",
-      "Icon": "imgs/actions/record/rec",
-      "States": [{ "Image": "imgs/actions/record/rec" }],
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/record/record" }],
       "PropertyInspectorPath": "ui/ptz-record.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-preset",
       "Name": "Preset",
       "Tooltip": "Controls the functions Preset (salvar)",
-      "Icon": "imgs/actions/preset/preset",
+      "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/preset/preset" }],
       "PropertyInspectorPath": "ui/preset.html"
     },
@@ -79,7 +71,7 @@
       "UUID": "com.neoid.ptzneoid.osd",
       "Name": "OSD MENU",
       "Tooltip": "Controls the functions OSD Menu",
-      "Icon": "imgs/actions/osd",
+      "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/osd" }],
       "PropertyInspectorPath": "ui/osd.html"
     },
@@ -87,17 +79,33 @@
       "UUID": "com.neoid.ptzneoid.wbmode",
       "Name": "WB Mode",
       "Tooltip": "Controls the functions wb mode",
-      "Icon": "imgs/actions/color",
-      "States": [{ "Image": "imgs/actions/color" }],
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/wbmode/wbmode" }],
       "PropertyInspectorPath": "ui/wbmode.html"
     },
     {
-      "UUID": "com.neoid.ptzneoid.morewbmode",
-      "Name": "MORE - WB Mode",
-      "Tooltip": "Controls the functions MORE - wb mode",
-      "Icon": "imgs/actions/color",
-      "States": [{ "Image": "imgs/actions/color" }],
-      "PropertyInspectorPath": "ui/more-wbmode.html"
+      "UUID": "com.neoid.ptzneoid.wbmodecolor",
+      "Name": "WB Mode - Color",
+      "Tooltip": "Controls the functions wb modo (Color)",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/wbmode/wbmode" }],
+      "PropertyInspectorPath": "ui/wbmode-color.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.pattern",
+      "Name": "Configuraçoes Padrão",
+      "Tooltip": "Controls the functions Pattern",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/pattern" }],
+      "PropertyInspectorPath": "ui/pattern.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.aemode",
+      "Name": "AE Mode - Exposure",
+      "Tooltip": "Controls the functions AE MODE (Exposure)",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/aemode" }],
+      "PropertyInspectorPath": "ui/aemode.html"
     }
   ],
 	"Category": "PTZ NeoID",

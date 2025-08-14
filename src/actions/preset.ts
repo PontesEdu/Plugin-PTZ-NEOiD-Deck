@@ -62,7 +62,7 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     // Se não foi um clique longo, chama o preset
     if (!this.longPress) {
       await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&poscall&${presetNumber}`);
-      await ev.action.setTitle(`Chamar ${presetNumber}`);
+      await ev.action.setTitle(`chamar ${presetNumber}`);
     }
   }
 

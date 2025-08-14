@@ -22,7 +22,7 @@ export class PTZRegister extends SingletonAction<any> {
     if(!checkCamera) {
       await ev.action.setTitle('Not Connect') 
     } else {
-      await ev.action.setTitle('') 
+      await ev.action.setTitle(`${settings.camera}`)  
     }
   }
 
@@ -34,7 +34,7 @@ export class PTZRegister extends SingletonAction<any> {
     if(!checkCamera) {
       await ev.action.setTitle('Not Connect') 
     } else {
-      await ev.action.setTitle('') 
+      await ev.action.setTitle(`${settings.camera}`) 
     }
   }
 
@@ -46,13 +46,15 @@ export class PTZRegister extends SingletonAction<any> {
     if(!checkCamera) {
       ev.action.setTitle('Not Connect')
     } else {
-      await ev.action.setTitle('') 
+      await ev.action.setTitle(`${settings.camera}`) 
     }
+
     
     await streamDeck.settings.setGlobalSettings({
       ...globals,
       cameraIP: settings.cameraIP,
-    });;
+      camera: settings.camera,
+    });
   }
 
 }
