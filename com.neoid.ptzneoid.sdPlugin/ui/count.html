@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+  <h3>Configurações PTZ (COUNT)</h3>
+  <p>Botões (+ & -)</p>
+
+  <sdpi-item label="Direction">
+    <sdpi-select setting="direction" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <option value="more">mais + </option>
+      <option value="less">menos - </option>
+    </sdpi-select>
+  </sdpi-item>
+
+  <script src="./ptz-settings.js"></script>
+</body>
+</html>

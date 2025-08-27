@@ -1,97 +1,80 @@
-import streamDeck, { action, DidReceiveGlobalSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
+// import streamDeck, { action, DidReceiveGlobalSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
 
 
-export type PTZWbmodeColorProps = {
-  wbmodecolor: "saturation" | "hue" | "colorTemp" |"none";
-};
+// const TYPE_LIST = ["hue", "saturation", "colorTemp", "rgaintuning", "bgaintuning"] as const;
+// type TypeColor = typeof TYPE_LIST[number];
 
-const saturationValues = [
-  60, 70, 80, 90, 100, 110, 120, 130,
-  140, 150, 160, 170, 180, 190, 200
-];
 
-@action({ UUID: "com.neoid.ptzneoid.wbmodecolor" })
-export class WbmodeColor extends SingletonAction {
-  static wbmodecolorLevel = 1;
 
-  override async onWillAppear(ev: WillAppearEvent<PTZWbmodeColorProps>) {
-    const settings = ev.payload.settings;
-    const globals = await streamDeck.settings.getGlobalSettings();
+// @action({ UUID: "com.neoid.ptzneoid.wbmodecolor" })
+// export class WbModeColor extends SingletonAction {
 
-    const selectedMode = settings.wbmodecolor;
+  
+//   override async onWillAppear(ev: WillAppearEvent) {
+//     const globals = await streamDeck.settings.getGlobalSettings();
 
-    if (!selectedMode || selectedMode === "none" || selectedMode == undefined) {
-      ev.action.setTitle("Select Mode");
-      return;
-    }
+//     let typeColor = globals.typeColor as TypeColor | undefined;
 
-    await ev.action.setTitle(`${selectedMode}: ${globals[`${selectedMode}Value`]}`);
-  }
+//     if (!typeColor || !TYPE_LIST.includes(typeColor as TypeColor)) {
+//       typeColor = TYPE_LIST[0]; // define o primeiro tipo como padrão
+//       await streamDeck.settings.setGlobalSettings({
+//         ...globals,
+//         typeColor,
+//       });
+//     }
 
-  override async onKeyDown(ev: KeyDownEvent<PTZWbmodeColorProps>): Promise<void> {
-    const settings = ev.payload.settings;
-    const globals = await streamDeck.settings.getGlobalSettings();
+//     const typeValue = globals[`${typeColor}Value`] as TypeColor | undefined;
+
+//     await ev.action.setTitle(`${typeColor}: ${typeValue}`);
+//   }
+
+  
+
+
+//   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
+
+//     const settings = ev.payload.settings
+//     const globals = await streamDeck.settings.getGlobalSettings();
+
+//     let typeColor = globals.typeColor as TypeColor | undefined ;
+//     if (!typeColor || !TYPE_LIST.includes(typeColor as TypeColor)) {
+//       typeColor = TYPE_LIST[0]; // define o primeiro tipo como padrão
+//       return;
+//     }
+
+//     const typeValue = globals[`${typeColor}Value`] as TypeColor | undefined;
+
+//     await ev.action.setTitle(`${typeColor}: ${typeValue}`);
+//   }
+
+  
+
+
+//   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
+//     const globals = await streamDeck.settings.getGlobalSettings();
+
+//     const current = globals.typeColor as TypeColor | undefined;
     
 
-    const selectedMode = settings.wbmodecolor;
+//     const currentIndex = current && TYPE_LIST.includes(current as TypeColor)
+//       ? TYPE_LIST.indexOf(current as TypeColor)
+//       : 0;
 
-    if (!selectedMode || selectedMode === "none" || selectedMode == undefined) {
-      ev.action.setTitle("Select Mode");
-      return;
-    }
+//     const nextIndex = (currentIndex + 1) % TYPE_LIST.length;
+//     const newType = TYPE_LIST[nextIndex];
 
-    if (selectedMode === "saturation") {
-      const currentValue = Number(globals.saturationValue ?? saturationValues[0]);
-      const currentIndex = saturationValues.indexOf(currentValue);
-      const nextIndex = (currentIndex + 1) % saturationValues.length;
-      const nextValue = saturationValues[nextIndex];
+//     const typeValue = globals[`${newType}Value`] as TypeColor | undefined;
 
-      // Chamada para API da câmera (ou sistema de controle)
-      await fetch(`http://192.168.100.88/cgi-bin/ptzctrl.cgi?post_image_value&saturation&${nextValue}`);
+//     await ev.action.setTitle(`${newType}: ${typeValue}`);
 
-      // Salvar no globalSettings
-      await streamDeck.settings.setGlobalSettings({
-        ...globals,
-        saturationValue: nextValue,
-      });
+//     await streamDeck.settings.setGlobalSettings({
+//       ...globals,
+//       typeColor: newType,
+//     });
+//   }
+// }
 
-      // Atualizar título do botão
-      ev.action.setTitle(`Saturation:\n${nextValue}%`);
-    }
 
-    if (selectedMode === "colorTemp") {
-      const currentValue = Number(globals.colorTempValue ?? 25);
-      const nextValue = currentValue >= 80 ? 25 : currentValue + 1;
 
-      // Chamada para API da câmera (ou sistema de controle)
-      await fetch(`http://192.168.100.88/cgi-bin/ptzctrl.cgi?post_image_value&colortemp&${nextValue}`);
 
-      // Salvar no globalSettings
-      await streamDeck.settings.setGlobalSettings({
-        ...globals,
-        colorTempValue: nextValue,
-      });
-
-      // Atualizar título do botão
-      ev.action.setTitle(`color Temp:\n${nextValue}`);
-    }
-
-    if (selectedMode === "hue") {
-      const currentValue = Number(globals.hueValue ?? 1);
-      const nextValue = currentValue >= 14 ? 1 : currentValue + 1;
-
-      // Chamada para API da câmera (ou sistema de controle)
-      await fetch(`http://192.168.100.88/cgi-bin/ptzctrl.cgi?post_image_value&hue&${nextValue}`);
-
-      // Salvar no globalSettings
-      await streamDeck.settings.setGlobalSettings({
-        ...globals,
-        hueValue: nextValue,
-      });
-
-      // Atualizar título do botão
-      ev.action.setTitle(`Hue: ${nextValue}`);
-    }
-  }
-}
 

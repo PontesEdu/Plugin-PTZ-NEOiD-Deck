@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+  <h3>Configurações PTZ - WB MODE</h3>
+  <p>auto, Manual, SAE, AAE, Bright</p>
+
+  <sdpi-item label="Cor">
+    <sdpi-select setting="imageSettings" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <optgroup label="Image Settings">
+        <option value="contrast">Contrast</option>
+        <option value="luminance">Luminance</option>
+        <option value="sharpness">Sharpness</option>
+      </optgroup>
+
+      
+      
+    </sdpi-select>
+  </sdpi-item>
+
+  <script src="./ptz-settings.js"></script>
+</body>
+</html>

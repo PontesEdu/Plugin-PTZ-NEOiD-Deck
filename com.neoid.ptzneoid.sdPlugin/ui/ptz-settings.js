@@ -11,7 +11,6 @@ streamDeckClient.on('connected', (jsn) => {
 
 // Opcional: observar mudanças e imprimir no console
 streamDeckClient.getSettings().then(settings => {
-  console.log('Configurações iniciais:', settings);
 });
 //ou podemos fazer:
 // streamDeckClient.setSettings({ tilt: 45, speed: 7, direction: 'right' });

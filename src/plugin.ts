@@ -10,9 +10,12 @@ import { PTZRecord } from "./actions/ptz-record";
 import { PTZPreset } from "./actions/preset";
 import { Osd } from "./actions/osd";
 import { WbMode } from "./actions/wbmode";
-import { WbmodeColor } from "./actions/wbmode-color";
 import { Pattern } from "./actions/pattern";
 import { Aemode } from "./actions/aemode";
+import { Count } from "./actions/count";
+import { WbModeColor } from "./actions/color-wbmode";
+import { AemodeExposure } from "./actions/exposure";
+import { ImageSettings } from "./actions/image-settings";
 
 // We can enable "trace" logging so that all messages between the Stream Deck, and the plugin are recorded. When storing sensitive information
 streamDeck.logger.setLevel(LogLevel.TRACE);
@@ -29,8 +32,11 @@ streamDeck.actions.registerAction(new PTZPreset());
 streamDeck.actions.registerAction(new Osd());
 streamDeck.actions.registerAction(new Pattern());
 streamDeck.actions.registerAction(new WbMode());
-streamDeck.actions.registerAction(new WbmodeColor());
+streamDeck.actions.registerAction(new WbModeColor());
+streamDeck.actions.registerAction(new Count());
 streamDeck.actions.registerAction(new Aemode());
+streamDeck.actions.registerAction(new AemodeExposure());
+streamDeck.actions.registerAction(new ImageSettings());
 
 streamDeck.connect();
 

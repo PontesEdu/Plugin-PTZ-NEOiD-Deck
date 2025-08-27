@@ -13,7 +13,6 @@ async function move(settings: PtzZoom, globals: any) {
   const speed = globals.zoomSpeed;
   const direction = settings.direction ?? '';
   const url = `${apiBase}&${direction}&${speed}`;
-  console.log(`Move: ${url}`);
   await fetch(url);
 }
 

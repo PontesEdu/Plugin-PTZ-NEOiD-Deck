@@ -48,7 +48,7 @@
       "Name": "Camera Tracking",
       "Tooltip": "Controls the functions Focus",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/tracking" }],
+      "States": [{ "Image": "imgs/actions/tracking/traking-off" }],
       "PropertyInspectorPath": "ui/ptz-tracking.html"
     },
     {
@@ -80,7 +80,7 @@
       "Name": "WB Mode",
       "Tooltip": "Controls the functions wb mode",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode/wbmode" }],
+      "States": [{ "Image": "imgs/actions/wbmode-color/wbmode" }],
       "PropertyInspectorPath": "ui/wbmode.html"
     },
     {
@@ -88,8 +88,8 @@
       "Name": "WB Mode - Color",
       "Tooltip": "Controls the functions wb modo (Color)",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode/wbmode" }],
-      "PropertyInspectorPath": "ui/wbmode-color.html"
+      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
+      "PropertyInspectorPath": "ui/color-wbmode.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.pattern",
@@ -101,18 +101,42 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.aemode",
-      "Name": "AE Mode - Exposure",
-      "Tooltip": "Controls the functions AE MODE (Exposure)",
+      "Name": "AE Mode",
+      "Tooltip": "Controls the functions AE MODE",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/aemode" }],
       "PropertyInspectorPath": "ui/aemode.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.aemode-exposure",
+      "Name": "AE Mode - Exposure",
+      "Tooltip": "Controls the functions AE MODE (Exposure)",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
+      "PropertyInspectorPath": "ui/aemode-exposure.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.image-settings",
+      "Name": "Image Settings",
+      "Tooltip": "Controls the functions Images Settings",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
+      "PropertyInspectorPath": "ui/image-settings.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.count",
+      "Name": "Camera Count",
+      "Tooltip": "Controls the functions Count",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
+      "PropertyInspectorPath": "ui/count.html"
     }
   ],
-	"Category": "PTZ NeoID",
+	"Category": "PTZ NEOiD",
 	"CategoryIcon": "imgs/plugin/logo-neoid",
 	"CodePath": "bin/plugin.js",
-	"Description": "plugin ptzNeoID",
-	"Icon": "imgs/plugin/marketplace",
+	"Description": "plugin ptzNEOiD",
+	"Icon": "imgs/plugin/logo-neoid",
 	"SDKVersion": 2,
 	"Software": {
 		"MinimumVersion": "6.5"

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="sdpi-components.js"></script>
+  <title>PTZ Settings</title>
+
+  <style>
+    body { font-family: sans-serif; padding: 10px; }
+    sdpi-item { margin-bottom: 8px; }
+  </style>
+
+</head>
+<body>
+  <h3>Configurações PTZ - WB MODE - COLOR</h3>
+  <p>Saturação, Matriz</p>
+
+  <sdpi-item label="Cor">
+    <sdpi-select setting="colorSettings" default="none" placeholder="Selecione a direção">
+      <option value="none" disabled selected hidden>Selecione...</option>
+      <optgroup label="WB MODE">
+        <option value="hue">Hue</option>
+        <option value="saturation">Saturation</option>
+        <option value="rgaintuning">RG Tuning</option>
+        <option value="bgaintuning">BG Tuning</option>
+      </optgroup>
+      <optgroup label="WB MODE - Var">
+        <option value="colortemp">Color Temp</option>    
+      </optgroup>
+      
+    </sdpi-select>
+  </sdpi-item> 
+
+  <script src="./ptz-settings.js"></script>
+</body>
+</html>

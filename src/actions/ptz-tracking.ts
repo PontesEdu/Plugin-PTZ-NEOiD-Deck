@@ -57,7 +57,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
       sendViscaUDP(cameraIP, "81 0a 11 54 02 ff"); // LIGA
       await ev.action.setTitle("Tracking\n ON");
       ev.action.setImage(`imgs/actions/tracking/tracking-on.png`)
-    } else {
+    } else { 
       sendViscaUDP(cameraIP, "81 0a 11 54 03 ff"); // DESLIGA (ajuste se for diferente)
       await ev.action.setTitle("Tracking\n OFF");
       ev.action.setImage(`imgs/actions/tracking/tracking-off.png`)
