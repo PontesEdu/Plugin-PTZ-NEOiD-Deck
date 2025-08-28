@@ -70,7 +70,6 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
 
-    await streamDeck.settings.getGlobalSettings();
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {

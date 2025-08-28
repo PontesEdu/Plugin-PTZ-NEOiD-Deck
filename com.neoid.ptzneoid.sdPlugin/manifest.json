@@ -92,12 +92,12 @@
       "PropertyInspectorPath": "ui/color-wbmode.html"
     },
     {
-      "UUID": "com.neoid.ptzneoid.pattern",
-      "Name": "Configuraçoes Padrão",
-      "Tooltip": "Controls the functions Pattern",
+      "UUID": "com.neoid.ptzneoid.default",
+      "Name": "Default Settings",
+      "Tooltip": "Controls the functions default",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/pattern" }],
-      "PropertyInspectorPath": "ui/pattern.html"
+      "States": [{ "Image": "imgs/actions/default" }],
+      "PropertyInspectorPath": "ui/default.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.aemode",
@@ -122,14 +122,6 @@
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
       "PropertyInspectorPath": "ui/image-settings.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.count",
-      "Name": "Camera Count",
-      "Tooltip": "Controls the functions Count",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
-      "PropertyInspectorPath": "ui/count.html"
     }
   ],
 	"Category": "PTZ NEOiD",

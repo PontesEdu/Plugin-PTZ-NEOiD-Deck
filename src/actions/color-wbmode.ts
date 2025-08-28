@@ -44,13 +44,20 @@ export class WbModeColor extends SingletonAction {
     const settings = ev.payload.settings;
     const tipo = settings.colorSettings;
 
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
     if (!["hue", "saturation", "rgaintuning", "bgaintuning", "colortemp"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
-
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
 
     // Converte o level atual para número (com fallback para 1)
     let levelAtual = Number(globals[`${tipo}Level`] ?? WbModeColor.levelBase[tipo]);
@@ -134,13 +141,19 @@ export class WbModeColor extends SingletonAction {
 
     const tipo = settings.colorSettings;
 
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
     if (!["hue", "saturation", "rgaintuning", "bgaintuning", "colortemp"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
-
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
 
     //verifica se é undefined
     let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
@@ -173,8 +186,15 @@ export class WbModeColor extends SingletonAction {
 
   override async onWillAppear(ev: WillAppearEvent<PTZColorProps>) {
     const settings = ev.payload.settings;
+
     // Pega os valores globais atuais
     const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
 
     const tipo = settings.colorSettings;
 

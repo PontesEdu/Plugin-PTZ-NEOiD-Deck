@@ -12,23 +12,3 @@ streamDeckClient.on('connected', (jsn) => {
 // Opcional: observar mudanças e imprimir no console
 streamDeckClient.getSettings().then(settings => {
 });
-//ou podemos fazer:
-// streamDeckClient.setSettings({ tilt: 45, speed: 7, direction: 'right' });
-
-
-streamDeckClient.on('sendToPropertyInspector', (event) => {
-  const { command, key, image } = event.payload;
-
-  if (command === "savePresetImage") {
-    localStorage.setItem(key, image); // Salva no localStorage
-  }
-
-  if (command === "getPresetImage") {
-    const img = localStorage.getItem(key) || null;
-    streamDeckClient.sendToPlugin({
-      command: "presetImage",
-      key,
-      image: img
-    });
-  }
-});

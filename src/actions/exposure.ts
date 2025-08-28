@@ -41,14 +41,24 @@ export class AemodeExposure extends SingletonAction {
   override async onKeyDown(ev: KeyDownEvent<PTZExposureProps>): Promise<void> {
     
     const tipo = ev.payload.settings.typeExposure;
+    
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
 
     if (!["iris", "shutter", "gain", "gainLimit", "meter"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
 
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
+   
 
 
     let levelAtual = Number(globals[`${tipo}Level`] ?? AemodeExposure.levelBase[tipo]);
@@ -118,8 +128,12 @@ export class AemodeExposure extends SingletonAction {
           await ev.action.setTitle(`AE Mode\nprecisa ser\n (AAE, Manual)`);
           await ev.action.setImage("");
           return;
+        }
+        if(levelAtual === 0){
+          await ev.action.setTitle(`Close`);
+        } else {
+          await ev.action.setTitle(`Iris: ${levelAtual}`);
         } 
-        await ev.action.setTitle(`Iris: ${levelAtual}`);
       }
 
       if (tipo === "shutter") {
@@ -178,13 +192,19 @@ export class AemodeExposure extends SingletonAction {
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PTZExposureProps>){
     const tipo = ev.payload.settings.typeExposure;
 
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
     if (!["iris", "shutter", "gain", "gainLimit", "meter"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
-
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
 
     let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
 
@@ -199,7 +219,11 @@ export class AemodeExposure extends SingletonAction {
         await ev.action.setImage("");
         return;
       } 
-      await ev.action.setTitle(`Iris: ${levelGlobals}`);
+      if(levelGlobals === 0){
+        await ev.action.setTitle(`Close`);
+      } else {
+        await ev.action.setTitle(`Iris: ${levelGlobals}`);
+      } 
     }
 
     if (tipo === "shutter") {
@@ -251,13 +275,20 @@ export class AemodeExposure extends SingletonAction {
   override async onWillAppear(ev: WillAppearEvent<PTZExposureProps>) {
     const tipo = ev.payload.settings.typeExposure;
 
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
+
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
     if (!["iris", "shutter", "gain", "gainLimit", "meter"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
 
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
 
     let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
 
@@ -272,7 +303,12 @@ export class AemodeExposure extends SingletonAction {
         await ev.action.setImage("");
         return;
       } 
-      await ev.action.setTitle(`Iris: ${levelGlobals}`);
+      
+      if(levelGlobals === 0){
+        await ev.action.setTitle(`Close`);
+      } else {
+        await ev.action.setTitle(`Iris: ${levelGlobals}`);
+      }
     }
 
     if (tipo === "shutter") {

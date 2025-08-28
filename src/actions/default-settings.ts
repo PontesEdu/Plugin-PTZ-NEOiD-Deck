@@ -1,8 +1,8 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, KeyDownEvent, SingletonAction} from "@elgato/streamdeck";
 
 // Ações
-@action({ UUID: "com.neoid.ptzneoid.pattern" })
-export class Pattern extends SingletonAction {
+@action({ UUID: "com.neoid.ptzneoid.default" })
+export class Default extends SingletonAction {
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -25,7 +25,15 @@ export class Pattern extends SingletonAction {
         [`saturationLevel`]: 60,
         [`rgaintuningLevel`]: 4,
         [`bgaintuningLevel`]: 4,
-        [`colortemp`]: 65,
+        [`colortempLevel`]: 65,
+        [`contrastLevel`]: 4,
+        [`luminanceLevel`]: 5,
+        [`sharpnessLevel`]: 0,
+        [`irisLevel`]: 3,
+        [`shutterLevel`]: 2,
+        [`gainLevel`]: 3,
+        [`gainLimitLevel`]: 6,
+        [`meterLevel`]: 0,
       });
     }
   }

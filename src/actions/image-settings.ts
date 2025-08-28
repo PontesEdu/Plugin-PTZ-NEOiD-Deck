@@ -3,13 +3,15 @@ import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
 
 export type PTZImageProps = {
-  imageSettings: "contrast" | "luminance" | "sharpness";
+  imageSettings: "contrast" | "luminance" | "sharpness" | "flipH" | "flipV";
 };
 
 type PTZConfig = {
   contrast: number;
   luminance: number;
   sharpness: number;
+  flipH: number;
+  flipV: number;
 };
 
 // Não esquece de pegar a settings do html e relacioar no Manifest
@@ -24,32 +26,69 @@ export class ImageSettings extends SingletonAction {
     contrast: 14,
     luminance: 14,
     sharpness: 14,
+    flipH: 1,
+    flipV: 1,
   };
   private static readonly levelBase = {
     contrast: 4,
-    luminance: 4,
+    luminance: 5,
     sharpness: 0,
+    flipH: 0,
+    flipV: 0,
   };
 
     //KEYDOWN
   override async onKeyDown(ev: KeyDownEvent<PTZImageProps>): Promise<void> {
     
     const tipo = ev.payload.settings.imageSettings;
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
 
-    if (!["contrast", "luminance", "sharpness"].includes(tipo)) {
+
+    const cameraIP = globals.cameraIP;
+
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
+
+
+    if (!["contrast", "luminance", "sharpness", "flipH", "flipV"].includes(tipo)) {
       await ev.action.setTitle("Selecione");
       return;
     }
 
-    // Pega os valores globais atuais
-    const globals = await streamDeck.settings.getGlobalSettings();
+    
 
 
     let levelAtual = Number(globals[`${tipo}Level`] ?? ImageSettings.levelBase[tipo]);
     let calculado;
 
-    if(tipo === "sharpness"){
+    const apiBase = apiBasePtzPostImageValue(globals.cameraIP)
+    let response;
 
+    if(tipo === "flipV") {
+      if (isNaN(levelAtual) || levelAtual < 0 || levelAtual > 1) {
+        levelAtual = 0; 
+      }
+
+      levelAtual++;
+      if (levelAtual > 1) levelAtual = 0;
+
+      calculado = levelAtual
+
+    } else if(tipo === "flipH") {
+
+      if (isNaN(levelAtual) || levelAtual < 0 || levelAtual > 1) {
+        levelAtual = 0; 
+      }
+
+      levelAtual++;
+      if (levelAtual > 1) levelAtual = 0;
+
+      calculado = levelAtual
+
+    } else if(tipo === "sharpness") {
       if (isNaN(levelAtual) || levelAtual < 0 || levelAtual > 14) {
         levelAtual = 0; 
       }
@@ -59,23 +98,6 @@ export class ImageSettings extends SingletonAction {
 
       calculado = levelAtual
 
-    } else {
-      if (isNaN(levelAtual) || levelAtual < 0 || levelAtual > 10) {
-      levelAtual = 0;
-      }
-
-      levelAtual++;
-      if (levelAtual > 10) levelAtual = 0;
-
-      const maxValue = ImageSettings.maxValues[tipo]; // 14, 200, 20
-      calculado = Math.round((levelAtual / 10) * maxValue);
-    
-    }
-    
-    const apiBase = apiBasePtzPostImageValue(globals.cameraIP)
-    let response;
-
-    if(tipo === "sharpness"){
       if(levelAtual === 0) {
         // Auto
         const urlMode = `${apiBase}&sharpness_mode&0`;
@@ -90,14 +112,28 @@ export class ImageSettings extends SingletonAction {
           ...globals,
           [`${tipo}Level`]: levelAtual,
         });
+
         return;
       } else {
         //Manual
         const urlMode = `${apiBase}&sharpness_mode&1`;
         await fetch(urlMode);
+        await ev.action.setTitle(`sharpness:\n${levelAtual}`);
       }
-    }
 
+    } else {
+      if (isNaN(levelAtual) || levelAtual < 0 || levelAtual > 10) {
+      levelAtual = 0;
+      }
+
+      levelAtual++;
+      if (levelAtual > 10) levelAtual = 0;
+
+      const maxValue = ImageSettings.maxValues[tipo]; // 14, 200, 20
+      calculado = Math.round((levelAtual / 10) * maxValue);
+    
+    }
+    
     
     const url = `${apiBase}&${tipo}&${calculado}`;
     response = await fetch(url);
@@ -105,15 +141,25 @@ export class ImageSettings extends SingletonAction {
 
     if(response.ok){
       await ev.action.setImage(`imgs/actions/image-settings/${tipo}`);
-      await ev.action.setTitle(`${tipo}: ${levelAtual}`);
+      await ev.action.setTitle(`${tipo}:\n${levelAtual}`);
 
-      if (tipo === "luminance") {
-        await ev.action.setTitle(`Luminance:\n${levelAtual}`);
-      }
+      if(tipo === "flipV") {
 
-      if(tipo === "sharpness"){
-        await ev.action.setTitle(`sharpness:\n${levelAtual}`);
-      }
+        if(levelAtual === 0) {
+          await ev.action.setTitle(`${tipo}: off`);
+        } else {
+          await ev.action.setTitle(`${tipo}: on`);
+        }
+        
+      } 
+
+      if(tipo === "flipH") {
+        if(levelAtual === 0) {
+          await ev.action.setTitle(`${tipo}: off`);
+        } else {
+          await ev.action.setTitle(`${tipo}: on`);
+        }
+      } 
 
       await streamDeck.settings.setGlobalSettings({
         ...globals,
@@ -123,85 +169,113 @@ export class ImageSettings extends SingletonAction {
   }
 
 
-  // override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PTZImageProps>){
-  //   const settings = ev.payload.settings;
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PTZImageProps>){
+    const settings = ev.payload.settings;
 
-  //   const tipo = settings.imageSettings;
+    const tipo = settings.imageSettings;
 
-  //   if (!["contrast", "luminance", "gain", "gainlimit", "meter"].includes(tipo)) {
-  //     await ev.action.setTitle("Selecione");
-  //     return;
-  //   }
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
 
-  //   // Pega os valores globais atuais
-  //   const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
 
-  //   //verifica se é undefined
-  //   let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
+    if (!["contrast", "luminance", "sharpness", "flipH", "flipV"].includes(tipo)) {
+      await ev.action.setTitle("Selecione");
+      return;
+    }
 
-  //   // Atualiza o título do botão
-  //   await ev.action.setImage(`imgs/actions/aemode-image/${tipo}`);
-  //   await ev.action.setTitle(`${tipo}: ${levelGlobals}`);
+    
 
-  //   if (tipo === 'luminance') {
-  //     await ev.action.setTitle(`${tipo}:\n${levelGlobals}%`);
-  //   }
+    //verifica se é undefined
+    let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
 
-  //   if (tipo === "gain") {
-  //     await ev.action.setTitle(`RG tuning:\n${levelGlobals}`);
-  //   }
+    // Atualiza o título do botão
+    await ev.action.setImage(`imgs/actions/image-settings/${tipo}`);
+    await ev.action.setTitle(`${tipo}:\n${levelGlobals}`);
 
-  //   if (tipo === "gainlimit") {
-  //     await ev.action.setTitle(`BG tuning:\n${levelGlobals}`);
-  //   }
+    if(tipo === "flipV") {
+      if(levelGlobals === 0) {
+        await ev.action.setTitle(`${tipo}: off`);
+      } else {
+        await ev.action.setTitle(`${tipo}: on`);
+      } 
+    } 
 
-  //   if (tipo === "meter") {
-  //     if(globals.aemodeIndex !== 4){
-  //       await ev.action.setTitle(`WB Mode\nprecisa ser\nVAR`);
-  //       await ev.action.setImage("");
-  //       return;
-  //     } 
-  //     await ev.action.setTitle(`Temp:\n ${levelGlobals}00K`);
-  //   }
-  // }
+    if(tipo === "flipH") {
+      if(levelGlobals === 0) {
+        await ev.action.setTitle(`${tipo}: off`);
+      } else {
+        await ev.action.setTitle(`${tipo}: on`);
+      }
+    } 
 
-  // override async onWillAppear(ev: WillAppearEvent<PTZImageProps>) {
-  //   const settings = ev.payload.settings;
-  //   // Pega os valores globais atuais
-  //   const globals = await streamDeck.settings.getGlobalSettings();
+    if(tipo === "sharpness") {
+      if(levelGlobals === 0) {
+        // Auto
+        await ev.action.setTitle(`sharpness:\nAUTO`);
+      } else {
+        //Manual
+        await ev.action.setTitle(`sharpness:\n${levelGlobals}`);
+      }
+    }
 
-  //   const tipo = settings.imageSettings;
+    
+  }
 
-  //   if (!["contrast", "luminance", "gain", "gainlimit", "meter"].includes(tipo)) {
-  //     await ev.action.setTitle("Selecione");
-  //     return;
-  //   }
+  override async onWillAppear(ev: WillAppearEvent<PTZImageProps>) {
+    const settings = ev.payload.settings;
+    
+    // Pega os valores globais atuais
+    const globals = await streamDeck.settings.getGlobalSettings();
 
-  //   let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
 
-  //   await ev.action.setImage(`imgs/actions/aemode-image/${tipo}`);
-  //   await ev.action.setTitle(`${tipo}: ${levelGlobals}`);
+    const cameraIP = globals.cameraIP;
+    if (!cameraIP) {
+      await ev.action.setTitle("Sem Câmera");
+      return;
+    }
 
-  //   if (tipo === 'luminance') {
-  //     await ev.action.setTitle(`${tipo}:\n${levelGlobals}%`);
-  //   }
+    const tipo = settings.imageSettings;
 
-  //   if (tipo === "gain") {
-  //     await ev.action.setTitle(`RG tuning:\n${levelGlobals}`);
-  //   }
+    if (!["contrast", "luminance", "sharpness", "flipH", "flipV"].includes(tipo)) {
+      await ev.action.setTitle("Selecione");
+      return;
+    }
 
-  //   if (tipo === "gainlimit") {
-  //     await ev.action.setTitle(`BG tuning:\n${levelGlobals}`);
-  //   }
+    let levelGlobals = globals[`${tipo}Level`] === undefined ? "" : globals[`${tipo}Level`]
 
-  //   if (tipo === "meter") {
-  //     if(globals.aemodeIndex !== 4){
-  //       await ev.action.setTitle(`WB Mode\nprecisa ser\nVAR`);
-  //       await ev.action.setImage("");
-  //       return;
-  //     } 
-  //     await ev.action.setTitle(`Temp:\n ${levelGlobals}00K`);
-  //   }
-  // }
+    await ev.action.setImage(`imgs/actions/image-settings/${tipo}`);
+    await ev.action.setTitle(`${tipo}:\n${levelGlobals}`);
+
+    if(tipo === "flipV") {
+      if(levelGlobals === 0) {
+        await ev.action.setTitle(`${tipo}: off`);
+      } else {
+        await ev.action.setTitle(`${tipo}: on`);
+      } 
+    } 
+
+    if(tipo === "flipH") {
+      if(levelGlobals === 0) {
+        await ev.action.setTitle(`${tipo}: off`);
+      } else {
+        await ev.action.setTitle(`${tipo}: on`);
+      }
+    } 
+
+    if(tipo === "sharpness") {
+      if(levelGlobals === 0) {
+        // Auto
+        await ev.action.setTitle(`sharpness:\nAUTO`);
+      } else {
+        //Manual
+        await ev.action.setTitle(`sharpness:\n${levelGlobals}`);
+      }
+    }
+  }
 }
 
