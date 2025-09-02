@@ -13,7 +13,7 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-controls",
-      "Name": "Camera controls",
+      "Name": "Controls PTZ",
       "Tooltip": "Controls the functions",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/controls/up" }],
@@ -29,7 +29,7 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-zoom",
-      "Name": "Camera Zoom",
+      "Name": "Zoom",
       "Tooltip": "Controls the functions Zoom",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
@@ -37,7 +37,7 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-focus",
-      "Name": "Camera Focus",
+      "Name": "Focus",
       "Tooltip": "Controls the functions Focus",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/focus/focusin" }],
@@ -45,7 +45,7 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-tracking",
-      "Name": "Camera Tracking",
+      "Name": "Tracking",
       "Tooltip": "Controls the functions Focus",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/tracking/traking-off" }],
@@ -53,11 +53,19 @@
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-record",
-      "Name": "Camera Record",
+      "Name": "Record",
       "Tooltip": "Controls the functions Record",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/record/record" }],
       "PropertyInspectorPath": "ui/ptz-record.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.backlight",
+      "Name": "Backlight",
+      "Tooltip": "Controls the functions Backlight",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/backlight" }],
+      "PropertyInspectorPath": "ui/backlight.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-preset",
@@ -74,6 +82,14 @@
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/osd" }],
       "PropertyInspectorPath": "ui/osd.html"
+    },
+    {
+      "UUID": "com.neoid.ptzneoid.back-osd-menu",
+      "Name": "Back OSD MENU",
+      "Tooltip": "Controls the functions (BACK) OSD Menu",
+      "Icon": "imgs/actions/logo-neoid",
+      "States": [{ "Image": "imgs/actions/back" }],
+      "PropertyInspectorPath": "ui/back-osd-menu.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.wbmode",

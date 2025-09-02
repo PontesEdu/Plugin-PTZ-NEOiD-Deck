@@ -5,22 +5,19 @@
   <script src="sdpi-components.js"></script>
   <title>PTZ Settings</title>
 
-  <style>
-    body { font-family: sans-serif; padding: 10px; }
-    sdpi-item { margin-bottom: 8px; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
-  <h3>Configurações PTZ - PAN SPEED</h3>
+  <h3>Settings PTZ - PAN SPEED</h3>
   <p>Generic speed for all PAN, ZOOM, FOCUS functions</p>
 
   <sdpi-item label="speed">
     <sdpi-select setting="speed" default="none" placeholder="Select">
       <option value="none" disabled selected hidden>Select...</option>
-      <option value="pan">pan-speed</option>
-      <option value="zoom">zoom-speed</option>
-      <option value="focus">focus-speed</option>
+      <option value="pan">P/T-Speed</option>
+      <option value="zoom">zoom-Speed</option>
+      <option value="focus">focus-Speed</option>
     </sdpi-select>
   </sdpi-item> 
 

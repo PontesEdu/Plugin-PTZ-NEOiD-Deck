@@ -3,8 +3,7 @@ import { apiBaseCMD } from "../utils/ptz-api-base";
 
 export type PtzFocus = {
   speed?: number;
-  direction: "focusout" | "focusin" | "auto";
-  mode: "mfocus" | "afocus";
+  mode: "focusout" | "focusin" | "afocus";
   cameraIP: any;
 };
 
@@ -13,12 +12,19 @@ async function move(settings: PtzFocus, globals: any) {
   const apiBase = apiBaseCMD(globals.cameraIP)
 
   const speed = globals.focusSpeed;
-  const direction = settings.direction ?? '';
-  const mode = settings.mode ?? 'afocus';
-  const urlMode = `${apiBase}&${mode}`; // manual ou automatico
-  const url = `${apiBase}&${direction}&${speed}`;
-  console.log(`Move: ${url}`);
-  await fetch(urlMode);
+  const mode = settings.mode;
+
+  let url;
+  let urlMode;
+  if(mode === 'afocus') {
+    url = `${apiBase}&${mode}`
+  } else {
+    urlMode = `${apiBase}&mfocus`;
+    await fetch(urlMode);
+    
+    url = `${apiBase}&${mode}&${speed}`;
+  }
+
   await fetch(url);
 }
 
@@ -42,17 +48,26 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const cameraIP = globals.cameraIP
     
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return
     }
 
-    if(settings.direction) {
-      ev.action.setTitle(`${settings.direction}`)
-      ev.action.setImage(`imgs/actions/focus/${settings.direction}.png`)
+    if(settings.mode) {
+      if(settings.mode === "focusin"){
+        ev.action.setTitle(`Focus-in`)
+      } else if(settings.mode === "focusout"){
+        ev.action.setTitle(`Focus-in`)
+      } else {
+        ev.action.setTitle(`auto`)
+      }
+
+      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
     }
 
+    
+
     if(settings.mode === "afocus"){
-      ev.action.setTitle(`Auto`)
+      ev.action.setTitle(`auto`)
       ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
   }
@@ -60,13 +75,20 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzFocus>){
     const settings = ev.payload.settings
 
-    if(settings.direction) {
-      ev.action.setTitle(`${settings.direction}`)
-      ev.action.setImage(`imgs/actions/focus/${settings.direction}.png`)
+    if(settings.mode) {
+      if(settings.mode === "focusin"){
+        ev.action.setTitle(`Focus-in`)
+      } else if(settings.mode === "focusout"){
+        ev.action.setTitle(`Focus-in`)
+      } else {
+        ev.action.setTitle(`auto`)
+      }
+      
+      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
     }
 
     if(settings.mode === "afocus"){
-      ev.action.setTitle(`Auto`)
+      ev.action.setTitle(`auto`)
       ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
 
@@ -79,7 +101,7 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 

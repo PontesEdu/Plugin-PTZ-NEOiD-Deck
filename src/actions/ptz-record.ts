@@ -2,30 +2,28 @@ import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, 
 
 import { sendViscaUDP } from "../utils/send-visca-udp";
 
-type PtzRecordProps = {
-  mode: "on" | "off";
-};
+
 
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-record" })
-export class PTZRecord extends SingletonAction<PtzRecordProps> {
+export class PTZRecord extends SingletonAction {
   private isRecord = false;
 
-  override async onWillAppear(ev: WillAppearEvent<PtzRecordProps>) {
+  override async onWillAppear(ev: WillAppearEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
 
     // Converte para booleano corretamente
     this.isRecord = globals.isRecord === true || globals.isRecord === "true";
 
-    await ev.action.setTitle(this.isRecord ? "rec: ON" : "rec: OFF");
+    await ev.action.setTitle(this.isRecord ? "recording" : "rec: OFF");
   }
 
-  override async onKeyDown(ev: KeyDownEvent<PtzRecordProps>): Promise<void> {
+  override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -33,7 +31,7 @@ export class PTZRecord extends SingletonAction<PtzRecordProps> {
 
     if (this.isRecord) {
       sendViscaUDP(cameraIP, "81 0a 03 01 02 ff"); // LIGA
-      await ev.action.setTitle("rec: ON");
+      await ev.action.setTitle("recording");
       ev.action.setImage(`imgs/actions/record/recording.png`)
     } else {
       sendViscaUDP(cameraIP, "81 0a 03 01 03 ff"); // DESLIGA (ajuste se for diferente)

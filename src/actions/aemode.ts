@@ -74,7 +74,7 @@ export class Aemode extends SingletonAction {
       });
     }
   }
-
+  
   // Caso configuração global mude em outro lugar
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();

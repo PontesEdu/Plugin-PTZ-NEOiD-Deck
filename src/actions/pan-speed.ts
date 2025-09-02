@@ -60,7 +60,7 @@ export class PTZSpeed extends SingletonAction{
     await ev.action.setTitle(`${tipo === 'pan' ? 'P/T' : tipo}: ${globals[`${tipo}Level`] ?? '1' }`);
   }
 
-      //KEYDOWN
+    //KEYDOWN
   override async onKeyDown(ev: KeyDownEvent<PTZSpeedProps>): Promise<void> {
     
     const settings = ev.payload.settings;

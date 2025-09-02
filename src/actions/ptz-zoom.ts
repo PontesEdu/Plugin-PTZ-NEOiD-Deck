@@ -12,7 +12,7 @@ async function move(settings: PtzZoom, globals: any) {
 
   const speed = globals.zoomSpeed;
   const direction = settings.direction ?? '';
-  const url = `${apiBase}&${direction}&${speed}`;
+  const url = `${apiBase}&${direction}&${speed}`; 
   await fetch(url);
 }
 
@@ -39,12 +39,12 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
@@ -56,12 +56,12 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
@@ -70,7 +70,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     const settings = ev.payload.settings
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
 
@@ -79,7 +79,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     if(cameraIP){
       await move(settings, globals);
     } else{
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
     }
   }
 

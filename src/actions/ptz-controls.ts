@@ -45,9 +45,10 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
+
     const camera = globals.camera
     ev.action.setTitle(`${!camera && undefined ? "" : camera}`)
   }
@@ -61,7 +62,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
     const camera = globals.camera
@@ -77,7 +78,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -95,7 +96,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     if(cameraIP){
       await stop(cameraIP);
     } else{
-      ev.action.setTitle(`Sem Camera`)
+      ev.action.setTitle(`${globals.camera}`)
     }
   }
 }

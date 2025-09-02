@@ -155,7 +155,7 @@ export class AemodeExposure extends SingletonAction {
       }
 
       if (tipo === "gainLimit") {
-        if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4) {
+        if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4 && globals.aemodeIndex !== 1) {
           await ev.action.setTitle(`AE Mode\nprecisa ser\n (Auto, SAE, AAE)`);
           await ev.action.setImage("");
           return;
@@ -245,7 +245,7 @@ export class AemodeExposure extends SingletonAction {
     }
 
     if (tipo === "gainLimit") {
-      if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4) {
+      if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4 && globals.aemodeIndex !== 1) {
         await ev.action.setTitle(`AE Mode\nprecisa ser\n (Auto, SAE, AAE)`);
         await ev.action.setImage("");
         return;
@@ -330,7 +330,7 @@ export class AemodeExposure extends SingletonAction {
     }
 
     if (tipo === "gainLimit") {
-      if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4) {
+      if(globals.aemodeIndex !== 0 && globals.aemodeIndex !== 3 && globals.aemodeIndex !== 4 && globals.aemodeIndex !== 1) {
         await ev.action.setTitle(`AE Mode\nprecisa ser\n (Auto, SAE, AAE)`);
         await ev.action.setImage("");
         return;

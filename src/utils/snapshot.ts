@@ -1,8 +1,8 @@
 
 
-
 export async function imageSnapShot (cameraIP: any) {
   const response = await fetch(`http://${cameraIP}/snapshot.jpg`);
+  
   if (!response.ok) throw new Error('Falha ao buscar a imagem');
 
   const arrayBuffer = await response.arrayBuffer();
@@ -11,4 +11,5 @@ export async function imageSnapShot (cameraIP: any) {
   const dataUrl = `data:image/jpeg;base64,${base64}`;
 
   return dataUrl
+
 }

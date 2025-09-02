@@ -1,0 +1,13 @@
+body { 
+  font-family: sans-serif;
+  padding: 10px;
+  color: rgba(225, 224, 232, 0.884);
+}
+sdpi-item { 
+  margin-bottom: 8px;
+}
+
+sdpi-select{
+  outline-color: none;
+  border: 0;
+}

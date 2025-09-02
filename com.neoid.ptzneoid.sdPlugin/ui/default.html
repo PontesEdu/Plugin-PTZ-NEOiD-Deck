@@ -5,14 +5,21 @@
   <script src="sdpi-components.js"></script>
   <title>PTZ Settings</title>
 
-  <style>
-    body { font-family: sans-serif; padding: 10px; }
-    sdpi-item { margin-bottom: 8px; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
-  <h3>Settings PTZ - Padrão</h3>
+  <h3>Settings PTZ - Pattern</h3>
+
+  <sdpi-item label="typeDefault">
+    <sdpi-select setting="typeDefault" default="none" placeholder="Select...">
+      <option value="none" disabled selected hidden>Select...</option>
+      <optgroup label="AE MODE - Auto, Manual">
+        <option value="speed">Speed</option>
+        <option value="image">image</option>
+      </optgroup>
+    </sdpi-select>
+  </sdpi-item>
 
   <script src="./ptz-settings.js"></script>
 </body>

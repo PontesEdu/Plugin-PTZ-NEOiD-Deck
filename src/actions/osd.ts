@@ -14,7 +14,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -29,7 +29,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -44,7 +44,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 

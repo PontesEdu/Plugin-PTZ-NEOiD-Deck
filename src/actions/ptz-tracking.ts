@@ -16,7 +16,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -32,7 +32,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
@@ -47,7 +47,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
