@@ -11,6 +11,17 @@
 <body>
   <h3>Settings PTZ - OSD MENU</h3>
 
+  <sdpi-item label="OSD">
+    <sdpi-select setting="mode" default="none" placeholder="Select...">
+      <option value="none" disabled selected hidden>Select...</option>
+      <optgroup label="Mode">
+        <option value="OSD">OSD and PTZ</option>
+        <option value="back">Back OSD</option>
+      </optgroup>
+      
+    </sdpi-select>
+  </sdpi-item>
+
   <script src="./ptz-settings.js"></script>
 </body>
 </html>

@@ -7,24 +7,6 @@ export type PtzZoom = {
   cameraIP: any;
 };
 
-async function move(settings: PtzZoom, globals: any) {
-  const apiBase = apiBaseCMD(globals.cameraIP)
-
-  const speed = globals.zoomSpeed;
-  const direction = settings.direction ?? '';
-  const url = `${apiBase}&${direction}&${speed}`; 
-  await fetch(url);
-}
-
-async function stop(cameraIP: any) {
-
-  const apiBase = apiBaseCMD(cameraIP)
-
-  const url = `${apiBase}&zoomstop&0`;
-  console.log(`Stop: ${url}`);
-  await fetch(url);
-}
-
 
 
 
@@ -44,7 +26,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     }
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom in" : "Zoom out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
@@ -61,7 +43,7 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     }
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom in" : "Zoom out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
   }
@@ -70,14 +52,14 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
     const settings = ev.payload.settings
 
     if(settings.direction) {
-      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom-in" : "Zoom-out"}`)
+      ev.action.setTitle(`${settings.direction === "zoomin" ? "Zoom in" : "Zoom out"}`)
       ev.action.setImage(`imgs/actions/zoom/${settings.direction}.png`)
     }
 
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
     if(cameraIP){
-      await move(settings, globals);
+      this.move(settings, globals);
     } else{
       ev.action.setTitle(`${globals.camera}`)
     }
@@ -86,7 +68,24 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
   override async onKeyUp(ev: KeyUpEvent<PtzZoom>): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
-    await stop(cameraIP);
+    await this.stop(cameraIP);
+  }
+
+  private async move(settings: PtzZoom, globals: any) {
+    const apiBase = apiBaseCMD(globals.cameraIP)
+
+    const speed = globals.zoomSpeed;
+    const direction = settings.direction ?? '';
+    const url = `${apiBase}&${direction}&${speed}`; 
+    await fetch(url);
+  }
+
+  private async stop(cameraIP: any) {
+
+    const apiBase = apiBaseCMD(cameraIP)
+
+    const url = `${apiBase}&zoomstop&0`;
+    await fetch(url);
   }
 
   

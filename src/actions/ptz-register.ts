@@ -39,7 +39,7 @@ export class PTZRegister extends SingletonAction<any> {
     const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
 
     if(!checkCamera) {
-      await ev.action.setTitle('Not Connect') 
+      await ev.action.setTitle('Not\nConnect') 
     } else {
       await ev.action.setTitle(`${settings.camera}`)  
     }
@@ -51,8 +51,9 @@ export class PTZRegister extends SingletonAction<any> {
     
     const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
 
+
     if(!checkCamera) {
-      await ev.action.setTitle('Not Connect') 
+      await ev.action.setTitle('Not\nConnect') 
     } else {
       await ev.action.setTitle(`${settings.camera}`) 
     }
@@ -65,7 +66,7 @@ export class PTZRegister extends SingletonAction<any> {
     const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
 
     if(!checkCamera) {
-      ev.action.setTitle('Not Connect')
+      ev.action.setTitle('Not\nConnect')
 
       await streamDeck.settings.setGlobalSettings({
         ...globals,
@@ -83,8 +84,6 @@ export class PTZRegister extends SingletonAction<any> {
       });
     }
 
-
-    
   }
 
 }

@@ -16,7 +16,6 @@ import { WbModeColor } from "./actions/color-wbmode";
 import { AemodeExposure } from "./actions/exposure";
 import { ImageSettings } from "./actions/image-settings";
 import { Backlight } from "./actions/backlight";
-import { BackOsdMenu } from "./actions/back-osd-menu";
 
 // We can enable "trace" logging so that all messages between the Stream Deck, and the plugin are recorded. When storing sensitive information
 streamDeck.logger.setLevel(LogLevel.TRACE);
@@ -38,7 +37,6 @@ streamDeck.actions.registerAction(new Aemode());
 streamDeck.actions.registerAction(new AemodeExposure());
 streamDeck.actions.registerAction(new ImageSettings());
 streamDeck.actions.registerAction(new Backlight());
-streamDeck.actions.registerAction(new BackOsdMenu());
 
 streamDeck.connect();
 

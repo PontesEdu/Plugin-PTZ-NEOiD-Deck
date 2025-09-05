@@ -1,11 +1,11 @@
 {
-	"Name": "ptzNeoID",
+	"Name": "ptzNEOiD",
 	"Version": "0.1.0.0",
-	"Author": "neoid",
+	"Author": "NEOiD",
 	"Actions": [
     {
       "UUID": "com.neoid.ptzneoid.ptz-register",
-      "Name": "Register PTZ Cameras",
+      "Name": "Select PTZ Cameras ",
       "Tooltip": "Cadastro de câmeras PTZ",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/cameraSelect" }],
@@ -25,7 +25,7 @@
       "Tooltip": "Controls the functions Speed",
       "Icon": "imgs/actions/logo-neoid", 
       "States": [{ "Image": "imgs/actions/speed" }],
-      "PropertyInspectorPath": "ui/pan-speed.html"
+      "PropertyInspectorPath": "ui/speed.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-zoom",
@@ -33,7 +33,7 @@
       "Tooltip": "Controls the functions Zoom",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
-      "PropertyInspectorPath": "ui/ptz-zoom.html"
+      "PropertyInspectorPath": "ui/zoom.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-focus",
@@ -41,15 +41,15 @@
       "Tooltip": "Controls the functions Focus",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/focus/focusin" }],
-      "PropertyInspectorPath": "ui/ptz-focus.html"
+      "PropertyInspectorPath": "ui/focus.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-tracking",
       "Name": "Tracking",
-      "Tooltip": "Controls the functions Focus",
+      "Tooltip": "Controls the functions Tracking",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/tracking/traking-off" }],
-      "PropertyInspectorPath": "ui/ptz-tracking.html"
+      "PropertyInspectorPath": "ui/tracking.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-record",
@@ -57,7 +57,7 @@
       "Tooltip": "Controls the functions Record",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/record/record" }],
-      "PropertyInspectorPath": "ui/ptz-record.html"
+      "PropertyInspectorPath": "ui/record.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.backlight",
@@ -82,14 +82,6 @@
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/osd" }],
       "PropertyInspectorPath": "ui/osd.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.back-osd-menu",
-      "Name": "Back OSD MENU",
-      "Tooltip": "Controls the functions (BACK) OSD Menu",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/back" }],
-      "PropertyInspectorPath": "ui/back-osd-menu.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.wbmode",

@@ -10,3 +10,4 @@ export function sendViscaUDP(cameraIP: any, viscaHex: string) {
     client.close();
   });
 }
+

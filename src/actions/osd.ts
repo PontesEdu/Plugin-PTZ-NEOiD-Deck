@@ -1,7 +1,7 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 
 type PtzOsdProps = {
-  mode: "on" | "off";
+  mode: "OSD" | "back";
 };
 
 // Ações
@@ -12,21 +12,28 @@ export class Osd extends SingletonAction<PtzOsdProps> {
   override async onWillAppear(ev: WillAppearEvent<PtzOsdProps>) {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
+    const mode = ev.payload.settings.mode;
 
     if (!cameraIP) {
       await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
-    // Converte para booleano corretamente
-    this.isOsd = globals.isOsd === true || globals.isOsd === "true";
+   if(mode === "back"){
+      await ev.action.setTitle("BACK OSB");
+      await ev.action.setImage(`imgs/actions/back`);
+    } else {
 
-    await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      this.isOsd = globals.isOsd === true || globals.isOsd === "true";
+
+      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+    }
   }
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzOsdProps>){
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
+    const mode = ev.payload.settings.mode;
 
     if (!cameraIP) {
       await ev.action.setTitle(`${globals.camera}`)
@@ -34,34 +41,52 @@ export class Osd extends SingletonAction<PtzOsdProps> {
     }
 
     // Converte para booleano corretamente
-    this.isOsd = globals.isOsd === true || globals.isOsd === "true";
-
-    await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+    if(mode === "back"){
+      await ev.action.setTitle("BACK OSB");
+      await ev.action.setImage(`imgs/actions/back`);
+    } else {
+      this.isOsd = globals.isOsd === true || globals.isOsd === "true";
+      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+    }
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzOsdProps>): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
 
+    const mode = ev.payload.settings.mode;
+
     if (!cameraIP) {
       await ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
-    this.isOsd = !this.isOsd;
+    if(mode === "back"){
 
-    if (this.isOsd) {
-      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD`)
-      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD_BACK`)
+      await ev.action.setTitle("BACK OSB");
+      await ev.action.setImage(`imgs/actions/back`);
+
     } else {
-      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&PTZ`)
-      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+
+      this.isOsd = !this.isOsd;
+
+      if (this.isOsd) {
+        await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD`)
+        await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      } else {
+        await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&PTZ`)
+        await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      }
+
+      await streamDeck.settings.setGlobalSettings({
+        ...globals,
+        isOsd: this.isOsd,
+      });
+
     }
 
-    await streamDeck.settings.setGlobalSettings({
-      ...globals,
-      isOsd: this.isOsd,
-    });
+    
   }
 }
 

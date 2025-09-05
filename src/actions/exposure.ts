@@ -58,8 +58,6 @@ export class AemodeExposure extends SingletonAction {
       return;
     }
 
-   
-
 
     let levelAtual = Number(globals[`${tipo}Level`] ?? AemodeExposure.levelBase[tipo]);
     let calculado;
@@ -283,6 +281,10 @@ export class AemodeExposure extends SingletonAction {
       await ev.action.setTitle("Sem Câmera");
       return;
     }
+
+    this.actions.forEach((action) => {
+			ev.action.setTitle("Hello world!");
+		});
 
     if (!["iris", "shutter", "gain", "gainLimit", "meter"].includes(tipo)) {
       await ev.action.setTitle("Selecione");

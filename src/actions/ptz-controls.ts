@@ -11,25 +11,10 @@ export type PtzSettings = {
 
 
 //MOVE
-async function move(settings: PtzSettings, globals: any) {
 
-  const apiBase = apiBaseCMD(globals.cameraIP)
-
-  const speed = globals.panSpeed ;
-  const direction = settings.direction ?? '';
-  const url = `${apiBase}&${direction}&${speed}&${speed}`;
-  await fetch(url);
-}
 
 //STOP
-async function stop(cameraIP: any) {
 
-  const apiBase = apiBaseCMD(cameraIP)
-
-  const url = `${apiBase}&ptzstop&0&0`;
-  console.log(`Stop: ${url}`);
-  await fetch(url);
-}
 
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-controls" })
@@ -85,7 +70,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     const camera = globals.camera
     ev.action.setTitle(`${camera === undefined ? ' ' : camera}`)
 
-    await move(settings, globals);
+    await this.move(settings, globals);
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzSettings>): Promise<void> {
@@ -94,10 +79,29 @@ export class PTZControl extends SingletonAction<PtzSettings> {
 
     const cameraIP = globals.cameraIP
     if(cameraIP){
-      await stop(cameraIP);
+      await this.stop(cameraIP);
     } else{
       ev.action.setTitle(`${globals.camera}`)
     }
+  }
+
+
+  private async move(settings: PtzSettings, globals: any) {
+
+    const apiBase = apiBaseCMD(globals.cameraIP)
+
+    const speed = globals.panSpeed ;
+    const direction = settings.direction ?? '';
+    const url = `${apiBase}&${direction}&${speed}&${speed}`;
+    await fetch(url);
+  }
+
+  private async stop(cameraIP: any) {
+
+    const apiBase = apiBaseCMD(cameraIP)
+
+    const url = `${apiBase}&ptzstop&0&0`;
+    await fetch(url);
   }
 }
 

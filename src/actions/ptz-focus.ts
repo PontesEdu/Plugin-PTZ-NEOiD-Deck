@@ -7,35 +7,7 @@ export type PtzFocus = {
   cameraIP: any;
 };
 
-async function move(settings: PtzFocus, globals: any) {
 
-  const apiBase = apiBaseCMD(globals.cameraIP)
-
-  const speed = globals.focusSpeed;
-  const mode = settings.mode;
-
-  let url;
-  let urlMode;
-  if(mode === 'afocus') {
-    url = `${apiBase}&${mode}`
-  } else {
-    urlMode = `${apiBase}&mfocus`;
-    await fetch(urlMode);
-    
-    url = `${apiBase}&${mode}&${speed}`;
-  }
-
-  await fetch(url);
-}
-
-async function stop(cameraIP: any) {
-
-  const apiBase = apiBaseCMD(cameraIP)
-
-  const url = `${apiBase}&focusstop&0`;
-  console.log(`Stop: ${url}`);
-  await fetch(url);
-}
 
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-focus" })
@@ -54,9 +26,9 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
 
     if(settings.mode) {
       if(settings.mode === "focusin"){
-        ev.action.setTitle(`Focus-in`)
+        ev.action.setTitle(`Focus in`)
       } else if(settings.mode === "focusout"){
-        ev.action.setTitle(`Focus-in`)
+        ev.action.setTitle(`Focus out`)
       } else {
         ev.action.setTitle(`auto`)
       }
@@ -77,9 +49,9 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
 
     if(settings.mode) {
       if(settings.mode === "focusin"){
-        ev.action.setTitle(`Focus-in`)
+        ev.action.setTitle(`Focus in`)
       } else if(settings.mode === "focusout"){
-        ev.action.setTitle(`Focus-in`)
+        ev.action.setTitle(`Focus out`)
       } else {
         ev.action.setTitle(`auto`)
       }
@@ -105,13 +77,44 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       return;
     }
 
-    await move(settings, globals);
+    await this.move(settings, globals);
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzFocus>): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
-    await stop(cameraIP);
+    await this.stop(cameraIP);
+  }
+
+
+  private async move(settings: PtzFocus, globals: any) {
+
+    const apiBase = apiBaseCMD(globals.cameraIP)
+
+    const speed = globals.focusSpeed;
+    const mode = settings.mode;
+
+    let url;
+    let urlMode;
+    if(mode === 'afocus') {
+      url = `${apiBase}&${mode}`
+    } else {
+      urlMode = `${apiBase}&mfocus`;
+      await fetch(urlMode);
+      
+      url = `${apiBase}&${mode}&${speed}`;
+    }
+
+    await fetch(url);
+  }
+
+  private async stop(cameraIP: any) {
+
+    const apiBase = apiBaseCMD(cameraIP)
+
+    const url = `${apiBase}&focusstop&0`;
+    
+    await fetch(url);
   }
 }
 

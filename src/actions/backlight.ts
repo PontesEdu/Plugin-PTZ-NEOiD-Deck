@@ -43,6 +43,7 @@ export class Backlight extends SingletonAction {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
 
+    ev.action.setTitle(`${globals.camera}`)
     if (!cameraIP) {
       ev.action.setTitle(`${globals.camera}`)
       return;

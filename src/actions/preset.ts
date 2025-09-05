@@ -3,6 +3,7 @@ import { imageSnapShot } from "../utils/snapshot";
 
 type PtzPresetProps = {
   numberPreset: number | "undefined";
+  image: boolean
 };
 
 // interface PresetImage {
@@ -31,12 +32,18 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     if (!isNaN(presetNumber)) {
       // const found = this.presetImages.find(p => p.numberPreset === presetNumber);
       // await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
-      const image = globals[`presetImage${presetNumber}${cameraIP}`]
-      await ev.action.setImage(`${image}`);
-      await ev.action.setTitle(`chamar ${presetNumber}`);
+      
+      if(settings.image){
+        const image = globals[`presetImage${presetNumber}${cameraIP}`]
+        await ev.action.setImage(`${image}`);
+      } else {
+        await ev.action.setImage("");
+      }
+      await ev.action.setTitle(`call: ${presetNumber}`);
+      
     } else {
       await ev.action.setImage("imgs/actions/preset/preset.png");
-      await ev.action.setTitle("Selecione");
+      await ev.action.setTitle("Select");
     }
   }
 
@@ -73,23 +80,28 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     if (!this.longPress) {
       await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&poscall&${presetNumber}`);
 
-      const image = globals[`presetImage${presetNumber}${cameraIP}`]
-      await ev.action.setImage(`${image}`);
+      if(settings.image){
+        const image = globals[`presetImage${presetNumber}${cameraIP}`]
+        await ev.action.setImage(`${image}`);
+      } else {
+        await ev.action.setImage("");
+      }
 
-      await ev.action.setTitle(`chamar ${presetNumber}`);
+      await ev.action.setTitle(`call: ${presetNumber}`);
     }
   }
 
   private async savePreset(ev: KeyDownEvent<PtzPresetProps>, cameraIP: string, presetNumber: number) {
     // salva preset na câmera
     await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&posset&${presetNumber}`);
-    await ev.action.setTitle(`Salvo`);
+    await ev.action.setTitle(`save`);
     await ev.action.setImage(`imgs/actions/set/saved.png`);
+    const settings = ev.payload.settings;
 
     await new Promise(resolve => setTimeout(resolve, 700));
     
     const snapshot = await imageSnapShot(cameraIP);
-    await ev.action.setTitle(`chamar ${presetNumber}`);
+    await ev.action.setTitle(`call: ${presetNumber}`);
     
     // Remove qualquer imagem antiga desse preset e adiciona a nova
     // this.presetImages = this.presetImages.filter(p => p.numberPreset !== presetNumber);
@@ -101,12 +113,18 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
 
     const globals = await streamDeck.settings.getGlobalSettings();
 
-    await streamDeck.settings.setGlobalSettings({
-      ...globals,
-      [`presetImage${presetNumber}${cameraIP}`]: snapshot
-    });
+    if(settings.image){
 
-    await ev.action.setImage(snapshot);
+      await streamDeck.settings.setGlobalSettings({
+        ...globals,
+        [`presetImage${presetNumber}${cameraIP}`]: snapshot
+      });
+
+      await ev.action.setImage(snapshot);
+    } else {
+      await ev.action.setImage("");
+    }
+    
   }
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
@@ -117,20 +135,24 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     const cameraIP = globals.cameraIP;
 
     if (!cameraIP) {
-      await ev.action.setTitle("Sem Câmera");
+      ev.action.setTitle(`${globals.camera}`)
       return;
     }
 
     if (!isNaN(presetNumber)) {
       // const found = this.presetImages.find(p => p.numberPreset === presetNumber);
       // await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
-      const image = globals[`presetImage${presetNumber}${cameraIP}`]
-      await ev.action.setImage(`${image}`);
+      if(settings.image){
+        const image = globals[`presetImage${presetNumber}${cameraIP}`]
+        await ev.action.setImage(`${image}`);
+      } else {
+        await ev.action.setImage("");
+      }
 
-      await ev.action.setTitle(`chamar ${presetNumber}`);
+      await ev.action.setTitle(`call: ${presetNumber}`);
     } else {
       await ev.action.setImage("imgs/actions/preset/preset.png");
-      await ev.action.setTitle("Selecione");
+      await ev.action.setTitle("Select");
     }
   }
 }

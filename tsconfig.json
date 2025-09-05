@@ -10,7 +10,7 @@
 	},
 	"include": [
 		"src/**/*.ts"
-	],
+, "src/utils/snapshot.ts"	],
 	"exclude": [
 		"node_modules"
 	]

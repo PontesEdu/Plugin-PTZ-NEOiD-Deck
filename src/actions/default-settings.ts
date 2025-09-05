@@ -22,17 +22,16 @@ export class Default extends SingletonAction {
       await ev.action.setTitle("Selecione");
       return;
     }
-    
+
 
     if(typeDefault === 'speed'){
-
       await streamDeck.settings.setGlobalSettings({
         ...globals,
-        [`panLevel`]: 5,
-        [`zoomLevel`]: 5,
-        [`focusLevel`]: 5,
+        [`panMode`]: "normal",
+        [`zoomMode`]: "normal",
+        [`focusMode`]: "normal",
       });
-
+      ev.action.showOk()
       await ev.action.setTitle(`${typeDefault}`);
 
     } else {

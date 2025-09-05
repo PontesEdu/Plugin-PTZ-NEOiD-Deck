@@ -1,16 +1,15 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
-import { sendViscaUDP } from "../utils/send-visca-udp";
+import { sendViscaTCP } from "../utils/send-visca-tcp";
+import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
-type PtzTrackingProps = {
-  mode: "on" | "off";
-};
+
 
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-tracking" })
-export class PTZTracking extends SingletonAction<PtzTrackingProps> {
+export class PTZTracking extends SingletonAction {
   private isTracking = false;
 
-  override async onWillAppear(ev: WillAppearEvent<PtzTrackingProps>) {
+  override async onWillAppear(ev: WillAppearEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
     
     const cameraIP = globals.cameraIP;
@@ -26,8 +25,9 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzTrackingProps>){
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
     const globals = await streamDeck.settings.getGlobalSettings();
+    const settings = ev.payload.settings
     
     const cameraIP = globals.cameraIP;
 
@@ -42,7 +42,7 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
     await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
 
-  override async onKeyDown(ev: KeyDownEvent<PtzTrackingProps>): Promise<void> {
+  override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
 
@@ -50,15 +50,15 @@ export class PTZTracking extends SingletonAction<PtzTrackingProps> {
       ev.action.setTitle(`${globals.camera}`)
       return;
     }
-
+    
     this.isTracking = !this.isTracking;
 
     if (this.isTracking) {
-      sendViscaUDP(cameraIP, "81 0a 11 54 02 ff"); // LIGA
+      sendViscaTCP(cameraIP, "81 0a 11 54 02 ff"); // LIGA
       await ev.action.setTitle("Tracking\n ON");
       ev.action.setImage(`imgs/actions/tracking/tracking-on.png`)
     } else { 
-      sendViscaUDP(cameraIP, "81 0a 11 54 03 ff"); // DESLIGA (ajuste se for diferente)
+      sendViscaTCP(cameraIP, "81 0a 11 54 03 ff"); // DESLIGA (ajuste se for diferente)
       await ev.action.setTitle("Tracking\n OFF");
       ev.action.setImage(`imgs/actions/tracking/tracking-off.png`)
     }
