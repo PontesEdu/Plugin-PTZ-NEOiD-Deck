@@ -200,7 +200,7 @@ export class PTZSpeed extends SingletonAction {
   private static readonly speedModes = ["slowest", "slow", "normal", "fast", "fastest"] as const;
   private static readonly modeValues: Record<typeof PTZSpeed.speedModes[number], number> = {
     slowest: 2,
-    slow: 4,
+    slow: 3,
     normal: 5,
     fast: 7,
     fastest: 9,

@@ -63,7 +63,13 @@ export class Osd extends SingletonAction<PtzOsdProps> {
 
     if(mode === "back"){
 
-      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD_BACK`)
+      const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD_BACK`)
+
+      if (!response.ok) {
+        await ev.action.setTitle("");
+        await ev.action.setImage(`imgs/actions/error.png`);
+        return
+      }
       await ev.action.setTitle("BACK OSB");
       await ev.action.setImage(`imgs/actions/back`);
 
@@ -72,18 +78,31 @@ export class Osd extends SingletonAction<PtzOsdProps> {
       this.isOsd = !this.isOsd;
 
       if (this.isOsd) {
-        await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD`)
+        const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD`)
+
+        if (!response.ok) {
+          await ev.action.setTitle("");
+          await ev.action.setImage(`imgs/actions/error.png`);
+          return
+        }
         await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+
       } else {
-        await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&PTZ`)
+        const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&PTZ`)
+
+        if (!response.ok) {
+          await ev.action.setTitle("");
+          await ev.action.setImage(`imgs/actions/error.png`);
+          return;
+        }
         await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
       }
+
 
       await streamDeck.settings.setGlobalSettings({
         ...globals,
         isOsd: this.isOsd,
       });
-
     }
 
     

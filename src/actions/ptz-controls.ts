@@ -1,5 +1,6 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
+import { checkCameraConnection } from "./ptz-register";
 
 export type PtzSettings = {
   speed?: number;
@@ -7,13 +8,9 @@ export type PtzSettings = {
   direction: string;
   cameraIP: any;
   camera: any;
+  cameraIPControls: string
 };
 
-
-//MOVE
-
-
-//STOP
 
 
 // Ações
@@ -22,86 +19,142 @@ export class PTZControl extends SingletonAction<PtzSettings> {
 
 
   override async onWillAppear(ev: WillAppearEvent<PtzSettings>) {
+    const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
-    const settings = ev.payload.settings;
-    
     ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
-    const cameraIP = globals.cameraIP
+    let cameraIP; // começa como true
 
-    if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+    if(!globals.cameraIP) {
+
+      const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
+
+      const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
+
+      if(checkCamera){
+        cameraIP = cameraIPControls
+
+        await streamDeck.settings.setGlobalSettings({
+          ...globals,
+          cameraIP: cameraIPControls,
+        });
+
+        // await ev.action.setSettings({...settings, cameraIPControls: cameraIPControls});
+      }
+
+    } else {
+      await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIP});
+      cameraIP = globals.cameraIP
     }
 
-    const camera = globals.camera
-    ev.action.setTitle(`${!camera && undefined ? "" : camera}`)
+
+    // verificando o Nome que vai aparecer
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    await ev.action.setTitle(`${titleName}`)
+    if (["no camera"].includes(titleName)) {
+      await ev.action.setTitle("");
+    }
+    
+    // Verificando a direção
+    const direction = settings.direction;
+    if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
+      await ev.action.setTitle("Selecione");
+      return;
+    }
   }
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzSettings>){
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
+    // SETTINGS
     const settings = ev.payload.settings
-    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
-
     const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP
-    
 
-    if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
+    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`) 
+
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    await ev.action.setTitle(`${titleName}`)
+    if (["no camera"].includes(titleName)) {
+      await ev.action.setTitle("");
+    }
+
+    const direction = settings.direction as string;
+    if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
+      await ev.action.setTitle("Selecione");
       return;
     }
-    const camera = globals.camera
-    ev.action.setTitle(`${!camera && undefined ? "" : camera}`)
+
+
   }
 
 
   override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
     const settings = ev.payload.settings
+    const globals = await streamDeck.settings.getGlobalSettings();
     ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP
+    let cameraIP; // começa como true
 
-    if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+    if(!globals.cameraIP) {
+
+      const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
+
+      const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
+
+      if(checkCamera){
+        cameraIP = cameraIPControls
+
+        await streamDeck.settings.setGlobalSettings({
+          ...globals,
+          cameraIP: cameraIPControls,
+        });
+      }
+
+      // await ev.action.setSettings({...settings, cameraIPControls: cameraIPControls});
+
+    } else {
+      await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIP});
+      cameraIP = globals.cameraIP
     }
 
-    const camera = globals.camera
-    ev.action.setTitle(`${camera === undefined ? ' ' : camera}`)
 
-    await this.move(settings, globals);
+    // verificando o Nome que vai aparecer
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    await ev.action.setTitle(`${titleName}`)
+    if (["no camera"].includes(titleName)) {
+      await ev.action.setTitle("");
+    }
+    
+    // Verificando a direção
+    const direction = settings.direction;
+    if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
+      await ev.action.setTitle("Selecione");
+      return;
+    }
+    
+    //API CGI
+    const apiBase = apiBaseCMD(cameraIP);
+
+    const speed = globals.panSpeed;
+    
+    const url = `${apiBase}&${direction}&${speed}&${speed}`;
+    const response = await fetch(url);  
+
+    if (!response.ok) {
+      await ev.action.setTitle("");
+      await ev.action.setImage(`imgs/actions/error.png`);
+    }
+    
   }
+  
 
   override async onKeyUp(ev: KeyUpEvent<PtzSettings>): Promise<void> {
     //configuraçoes globais que estao vindo de outro
     const globals = await streamDeck.settings.getGlobalSettings();
 
     const cameraIP = globals.cameraIP
-    if(cameraIP){
-      await this.stop(cameraIP);
-    } else{
-      ev.action.setTitle(`${globals.camera}`)
-    }
-  }
-
-
-  private async move(settings: PtzSettings, globals: any) {
-
-    const apiBase = apiBaseCMD(globals.cameraIP)
-
-    const speed = globals.panSpeed ;
-    const direction = settings.direction ?? '';
-    const url = `${apiBase}&${direction}&${speed}&${speed}`;
-    await fetch(url);
-  }
-
-  private async stop(cameraIP: any) {
 
     const apiBase = apiBaseCMD(cameraIP)
-
     const url = `${apiBase}&ptzstop&0&0`;
-    await fetch(url);
+    await fetch(url);  
   }
 }
 

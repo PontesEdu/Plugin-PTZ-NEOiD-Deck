@@ -1,18 +1,7 @@
-import streamDeck, { action, KeyDownEvent, SingletonAction, WillAppearEvent, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
+import streamDeck, { action, KeyDownEvent, PropertyInspectorDidAppearEvent, SingletonAction, TitleParametersDidChangeEvent, WillAppearEvent, type DidReceiveSettingsEvent } from "@elgato/streamdeck";
 
-// async function checkCameraConnection(cameraIP: any) {
-//     // try each route to see if camera is accessible. A good response from either is success
-//   try {
-//     const res = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?get_device_conf`, { mode: 'no-cors' });
-//     if (!res.ok) return false;
-//     return true;
-//   } catch (err) {
-//     return false;
-//   }
 
-// } 
-
-async function checkCameraConnection(cameraIP: string, timeout = 5000): Promise<boolean> {
+export async function checkCameraConnection(cameraIP: string, timeout = 5000): Promise<boolean> {
   const fetchPromise = (async () => {
     try {
       const res = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?get_device_conf`, { mode: 'no-cors' });
@@ -29,41 +18,62 @@ async function checkCameraConnection(cameraIP: string, timeout = 5000): Promise<
   return Promise.race([fetchPromise, timeoutPromise]);
 }
 
+
+
 @action({ UUID: "com.neoid.ptzneoid.ptz-register" })
 export class PTZRegister extends SingletonAction<any> {
   private timeCheck: number = 1000
 
   override async onWillAppear(ev: WillAppearEvent) {
-    const settings = ev.payload.settings;
-    const cameraIP = settings.cameraIP as string
-    const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
+    const settings = ev.payload.settings
+    const globals = await streamDeck.settings.getGlobalSettings();
 
-    if(!checkCamera) {
-      await ev.action.setTitle('Not\nConnect') 
-    } else {
-      await ev.action.setTitle(`${settings.camera}`)  
-    }
-  }
+    //verificação se e undefined
+    let cameraIP = settings.cameraIP === undefined ? false : settings.cameraIP
+  
+    if(!settings.camera){
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
-    const settings = ev.payload.settings;
-    const cameraIP = settings.cameraIP as string
+      await ev.action.setSettings({...settings, cameraIP: globals.cameraIP});
+      cameraIP = globals.cameraIP as string
+    } 
     
-    const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
-
-
+    const checkCamera = await checkCameraConnection(`${cameraIP}`, this.timeCheck)
+  
     if(!checkCamera) {
-      await ev.action.setTitle('Not\nConnect') 
+      ev.action.setTitle('Not\nConnect')
+      
     } else {
-      await ev.action.setTitle(`${settings.camera}`) 
+      const titleName = settings.camera === undefined ? "" : settings.camera
+      await ev.action.setTitle(`${titleName}`)
     }
   }
+
+  // override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
+  //   const settings = ev.payload.settings
+  //   const checkCamera = await checkCameraConnection(`${settings.cameraIP}`, this.timeCheck)
+    
+  //   if(!checkCamera) {
+  //     ev.action.setTitle('Not\nConnect')
+  //   } else {
+  //     const titleName = settings.camera === undefined ? "" : settings.camera
+  //     await ev.action.setTitle(`${titleName}`)
+  //   }
+  // }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = settings.cameraIP as string
-    const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
+
+    //verificação se e undefined
+    let cameraIP = settings.cameraIP === undefined ? false : settings.cameraIP
+  
+    if(!cameraIP){
+      await ev.action.setSettings({...settings, cameraIP: globals.cameraIP});
+      cameraIP = globals.cameraIP as string
+    } 
+    
+    const checkCamera = await checkCameraConnection(`${cameraIP}`, this.timeCheck)
+    const titleName = settings.camera === undefined ? "" : settings.camera
 
     if(!checkCamera) {
       ev.action.setTitle('Not\nConnect')
@@ -75,15 +85,28 @@ export class PTZRegister extends SingletonAction<any> {
       });
 
     } else {
-      await ev.action.setTitle(`${settings.camera}`)
+
+      await ev.action.setTitle(`${titleName}`)
       
       await streamDeck.settings.setGlobalSettings({
         ...globals,
-        cameraIP: settings.cameraIP,
-        camera: settings.camera,
+        cameraIP: cameraIP,
+        camera: titleName
       });
     }
-
   }
-
 }
+
+// OnDid
+ //   const settings = ev.payload.settings;
+  //   const cameraIP = settings.cameraIP as string
+  //   const titleName = settings.camera !== undefined ? settings.camera : ""
+
+    
+  //   const checkCamera = await checkCameraConnection(cameraIP, this.timeCheck)
+
+  //   if(!checkCamera) {
+  //     await ev.action.setTitle('Not\nConnect') 
+  //   } else {
+  //     await ev.action.setTitle(`${titleName}`)
+  //   }

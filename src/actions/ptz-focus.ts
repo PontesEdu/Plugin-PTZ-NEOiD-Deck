@@ -77,18 +77,6 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       return;
     }
 
-    await this.move(settings, globals);
-  }
-
-  override async onKeyUp(ev: KeyUpEvent<PtzFocus>): Promise<void> {
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP
-    await this.stop(cameraIP);
-  }
-
-
-  private async move(settings: PtzFocus, globals: any) {
-
     const apiBase = apiBaseCMD(globals.cameraIP)
 
     const speed = globals.focusSpeed;
@@ -105,11 +93,17 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       url = `${apiBase}&${mode}&${speed}`;
     }
 
-    await fetch(url);
+    const response = await fetch(url);  
+
+    if (!response.ok) {
+      await ev.action.setImage(`imgs/actions/error.png`);
+      await ev.action.setTitle("");
+    }
   }
 
-  private async stop(cameraIP: any) {
-
+  override async onKeyUp(ev: KeyUpEvent<PtzFocus>): Promise<void> {
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
     const apiBase = apiBaseCMD(cameraIP)
 
     const url = `${apiBase}&focusstop&0`;

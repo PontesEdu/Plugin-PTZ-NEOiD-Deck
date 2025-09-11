@@ -1,5 +1,4 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
-import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
 interface AemodeProps {
   value: number;

@@ -58,36 +58,33 @@ export class PTZZoom extends SingletonAction<PtzZoom> {
 
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
-    if(cameraIP){
-      this.move(settings, globals);
-    } else{
+    if(!cameraIP){
       ev.action.setTitle(`${globals.camera}`)
+      return;
+    }
+
+    const apiBase = apiBaseCMD(globals.cameraIP)
+
+    const speed = globals.zoomSpeed;
+    const direction = settings.direction ?? '';
+    const url = `${apiBase}&${direction}&${speed}`; 
+    const response = await fetch(url);  
+
+    if (!response.ok) {
+      await ev.action.setTitle("");
+      await ev.action.setImage(`imgs/actions/error.png`);
     }
   }
 
   override async onKeyUp(ev: KeyUpEvent<PtzZoom>): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP
-    await this.stop(cameraIP);
-  }
-
-  private async move(settings: PtzZoom, globals: any) {
-    const apiBase = apiBaseCMD(globals.cameraIP)
-
-    const speed = globals.zoomSpeed;
-    const direction = settings.direction ?? '';
-    const url = `${apiBase}&${direction}&${speed}`; 
-    await fetch(url);
-  }
-
-  private async stop(cameraIP: any) {
 
     const apiBase = apiBaseCMD(cameraIP)
 
     const url = `${apiBase}&zoomstop&0`;
-    await fetch(url);
-  }
 
-  
+    await fetch(url); 
+  }
 }
 

@@ -6,22 +6,35 @@
     {
       "UUID": "com.neoid.ptzneoid.ptz-register",
       "Name": "Select PTZ Cameras ",
+      "UserTitleEnabled": false,
       "Tooltip": "Cadastro de câmeras PTZ",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/cameraSelect" }],
+      "States": [
+        { 
+          "Image": "imgs/actions/cameraSelect", 
+          "FontSize": 10
+        }
+      ],
       "PropertyInspectorPath": "ui/ptz-register.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-controls",
       "Name": "Controls PTZ",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/controls/up" }],
+      "States": [
+        { 
+          "Image": "imgs/actions/controls/up", 
+          "FontSize": 10
+        }
+      ],
       "PropertyInspectorPath": "ui/ptz-controls.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-speed",
       "Name": "Speed",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Speed",
       "Icon": "imgs/actions/logo-neoid", 
       "States": [{ "Image": "imgs/actions/speed" }],
@@ -30,6 +43,7 @@
     {
       "UUID": "com.neoid.ptzneoid.ptz-zoom",
       "Name": "Zoom",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Zoom",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
@@ -38,6 +52,7 @@
     {
       "UUID": "com.neoid.ptzneoid.ptz-focus",
       "Name": "Focus",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Focus",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/focus/focusin" }],
@@ -46,6 +61,7 @@
     {
       "UUID": "com.neoid.ptzneoid.ptz-tracking",
       "Name": "Tracking",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Tracking",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/tracking/traking-off" }],
@@ -62,6 +78,7 @@
     {
       "UUID": "com.neoid.ptzneoid.backlight",
       "Name": "Backlight",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Backlight",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/backlight" }],
@@ -70,6 +87,7 @@
     {
       "UUID": "com.neoid.ptzneoid.ptz-preset",
       "Name": "Preset",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Preset (salvar)",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/preset/preset" }],
@@ -78,6 +96,7 @@
     {
       "UUID": "com.neoid.ptzneoid.osd",
       "Name": "OSD MENU",
+      "UserTitleEnabled": false,
       "Tooltip": "Controls the functions OSD Menu",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/osd" }],

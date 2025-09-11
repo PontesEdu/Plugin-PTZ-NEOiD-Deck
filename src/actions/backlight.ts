@@ -55,14 +55,26 @@ export class Backlight extends SingletonAction {
       const apiBase = apiBasePtzPostImageValue(cameraIP)
       const url = `${apiBase}&backlight&1`
       
-      await fetch(url)
+      const response = await fetch(url);  
+
+      if (!response.ok) {
+        await ev.action.setTitle("");
+        await ev.action.setImage(`imgs/actions/error.png`);
+        return;
+      }
 
       await ev.action.setTitle("Backlight\n ON");
     } else { 
       const apiBase = apiBasePtzPostImageValue(cameraIP)
       const url = `${apiBase}&backlight&0`
 
-      await fetch(url)
+      const response = await fetch(url);  
+
+      if (!response.ok) {
+        await ev.action.setTitle("");
+        await ev.action.setImage(`imgs/actions/error.png`);
+        return;
+      }
 
       await ev.action.setTitle("Backlight\n OFF");
     }
