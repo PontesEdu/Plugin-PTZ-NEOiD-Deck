@@ -3,7 +3,7 @@
 Este é um plugin para o **Elgato Stream Deck**, que permite criar atalhos e automações personalizadas através de botões físicos.  
 Plugins do Stream Deck adicionam novas funções aos botões, permitindo controlar softwares, dispositivos ou serviços externos.
 
-Este plugin foi desenvolvido para **controlar câmeras PTZ (Pan-Tilt-Zoom)**, que são câmeras profissionais capazes de se mover em diferentes direções, ajustar zoom e foco remotamente.  
+Este plugin foi desenvolvido para **controlar câmeras PTZ da NEOiD**, que são câmeras profissionais capazes de se mover em diferentes direções, ajustar zoom e foco remotamente.  
 Com ele, você pode registrar várias câmeras e controlá-las diretamente pelo Stream Deck de forma simples e rápida.
 
 ---
