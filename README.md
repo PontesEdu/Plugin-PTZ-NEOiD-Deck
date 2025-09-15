@@ -39,10 +39,11 @@ Com ele, você pode registrar várias câmeras e controlá-las diretamente pelo 
 ---
 
 ### Speed
-- Ajusta a velocidade de Pan/Tilt, Zoom e Focus.  
-- Valores vão de **1 a 10** e reiniciam em loop.  
-- Botão **Default Settings** retorna todos os valores para o padrão inicial.
+- ermite ajustar a velocidade de Pan/Tilt, Zoom e Focus.
+- Cada clique no botão alterna entre os níveis de velocidade: slow → slowest → normal → fast → fastest.
+- Ao atingir o último nível (fastest), o ciclo reinicia no slow (loop automático).
 
+Também existe a ação Default Settings, que retorna todos os valores para o padrão inicial com apenas um clique.
 ---
 
 ### Preset
