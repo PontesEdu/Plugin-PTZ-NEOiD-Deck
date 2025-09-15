@@ -1,6 +1,5 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { sendViscaTCP } from "../utils/send-visca-tcp";
-import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
 
 
@@ -19,21 +18,12 @@ export class PTZTracking extends SingletonAction {
       return;
     }
 
-    // Converte para booleano corretamente
-    this.isTracking = globals.isTracking === true || globals.isTracking === "true";
-
-    await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
-  }
-
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const settings = ev.payload.settings
-    
-    const cameraIP = globals.cameraIP;
-
-    if (!cameraIP) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+    if (this.isTracking) {
+      await ev.action.setTitle("Tracking\n ON");
+      ev.action.setImage(`imgs/actions/tracking/tracking-on.png`)
+    } else { 
+      await ev.action.setTitle("Tracking\n OFF");
+      ev.action.setImage(`imgs/actions/tracking/tracking-off.png`)
     }
 
     // Converte para booleano corretamente
@@ -41,6 +31,7 @@ export class PTZTracking extends SingletonAction {
 
     await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
+
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -67,6 +58,30 @@ export class PTZTracking extends SingletonAction {
       ...globals,
       isTracking: this.isTracking,
     });
+  }
+
+  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
+    const globals = await streamDeck.settings.getGlobalSettings();
+    
+    const cameraIP = globals.cameraIP;
+
+    if (!cameraIP) {
+      ev.action.setTitle(`${globals.camera}`)
+      return;
+    }
+
+    if (this.isTracking) {
+      await ev.action.setTitle("Tracking\n ON");
+      ev.action.setImage(`imgs/actions/tracking/tracking-on.png`)
+    } else { 
+      await ev.action.setTitle("Tracking\n OFF");
+      ev.action.setImage(`imgs/actions/tracking/tracking-off.png`)
+    }
+
+    // Converte para booleano corretamente
+    this.isTracking = globals.isTracking === true || globals.isTracking === "true";
+
+    await ev.action.setTitle(this.isTracking ? "Tracking\nON" : "Tracking\nOFF");
   }
 }
 

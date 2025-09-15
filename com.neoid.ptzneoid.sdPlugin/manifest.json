@@ -64,16 +64,8 @@
       "UserTitleEnabled": false,
       "Tooltip": "Controls the functions Tracking",
       "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/tracking/traking-off" }],
+      "States": [{ "Image": "imgs/actions/tracking/tracking-off" }],
       "PropertyInspectorPath": "ui/tracking.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-record",
-      "Name": "Record",
-      "Tooltip": "Controls the functions Record",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/record/record" }],
-      "PropertyInspectorPath": "ui/record.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.backlight",
@@ -103,44 +95,12 @@
       "PropertyInspectorPath": "ui/osd.html"
     },
     {
-      "UUID": "com.neoid.ptzneoid.wbmode",
-      "Name": "WB Mode",
-      "Tooltip": "Controls the functions wb mode",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode-color/wbmode" }],
-      "PropertyInspectorPath": "ui/wbmode.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.wbmodecolor",
-      "Name": "WB Mode - Color",
-      "Tooltip": "Controls the functions wb modo (Color)",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
-      "PropertyInspectorPath": "ui/color-wbmode.html"
-    },
-    {
       "UUID": "com.neoid.ptzneoid.default",
       "Name": "Default Settings",
       "Tooltip": "Controls the functions default",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/default" }],
       "PropertyInspectorPath": "ui/default.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.aemode",
-      "Name": "AE Mode",
-      "Tooltip": "Controls the functions AE MODE",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/aemode" }],
-      "PropertyInspectorPath": "ui/aemode.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.aemode-exposure",
-      "Name": "AE Mode - Exposure",
-      "Tooltip": "Controls the functions AE MODE (Exposure)",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
-      "PropertyInspectorPath": "ui/aemode-exposure.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.image-settings",

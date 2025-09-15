@@ -12,4 +12,4 @@ export async function imageSnapShot (cameraIP: any) {
 
   return dataUrl
 
-}
+} 

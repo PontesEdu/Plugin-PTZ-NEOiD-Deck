@@ -20,13 +20,13 @@ export class Osd extends SingletonAction<PtzOsdProps> {
     }
 
    if(mode === "back"){
-      await ev.action.setTitle("BACK OSB");
+      await ev.action.setTitle("Back OSB");
       await ev.action.setImage(`imgs/actions/back`);
     } else {
 
       this.isOsd = globals.isOsd === true || globals.isOsd === "true";
 
-      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      await ev.action.setTitle("OSD");
     }
   }
 
@@ -42,11 +42,11 @@ export class Osd extends SingletonAction<PtzOsdProps> {
 
     // Converte para booleano corretamente
     if(mode === "back"){
-      await ev.action.setTitle("BACK OSB");
+      await ev.action.setTitle("Back OSB");
       await ev.action.setImage(`imgs/actions/back`);
     } else {
       this.isOsd = globals.isOsd === true || globals.isOsd === "true";
-      await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
+      await ev.action.setTitle("OSD");
     }
   }
 
@@ -70,7 +70,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
         await ev.action.setImage(`imgs/actions/error.png`);
         return
       }
-      await ev.action.setTitle("BACK OSB");
+      await ev.action.setTitle("Back OSB");
       await ev.action.setImage(`imgs/actions/back`);
 
     } else {
@@ -85,8 +85,6 @@ export class Osd extends SingletonAction<PtzOsdProps> {
           await ev.action.setImage(`imgs/actions/error.png`);
           return
         }
-        await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
-
       } else {
         const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&PTZ`)
 
@@ -95,9 +93,9 @@ export class Osd extends SingletonAction<PtzOsdProps> {
           await ev.action.setImage(`imgs/actions/error.png`);
           return;
         }
-        await ev.action.setTitle(this.isOsd ? "OSD" : "PTZ");
       }
-
+      
+      await ev.action.setTitle("OSD");
 
       await streamDeck.settings.setGlobalSettings({
         ...globals,

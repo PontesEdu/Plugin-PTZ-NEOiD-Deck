@@ -1,4 +1,4 @@
-import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, PropertyInspectorDidAppearEvent, PropertyInspectorDidDisappearEvent, SingletonAction, TitleParametersDidChangeEvent, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
 import { checkCameraConnection } from "./ptz-register";
 
@@ -12,49 +12,35 @@ export type PtzSettings = {
 };
 
 
-
 // Ações
 @action({ UUID: "com.neoid.ptzneoid.ptz-controls" })
-export class PTZControl extends SingletonAction<PtzSettings> {
-
+export class PTZControls extends SingletonAction<PtzSettings> {
 
   override async onWillAppear(ev: WillAppearEvent<PtzSettings>) {
     const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
     ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
-
-    let cameraIP; // começa como true
+    
+    const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
 
     if(!globals.cameraIP) {
-
-      const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
-
       const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
 
       if(checkCamera){
-        cameraIP = cameraIPControls
-
+        // para quando adicionar um camera select novo ele ja mosntar com o cameraIP Default
         await streamDeck.settings.setGlobalSettings({
           ...globals,
-          cameraIP: cameraIPControls,
+          cameraIPControls: cameraIPControls,
         });
-
-        // await ev.action.setSettings({...settings, cameraIPControls: cameraIPControls});
       }
-
-    } else {
-      await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIP});
-      cameraIP = globals.cameraIP
-    }
-
-
-    // verificando o Nome que vai aparecer
-    const titleName = globals.camera === undefined ? "" : globals.camera as string
-    await ev.action.setTitle(`${titleName}`)
-    if (["no camera"].includes(titleName)) {
-      await ev.action.setTitle("");
+      
     }
     
+    await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
+    
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    await ev.action.setTitle(`${titleName.includes("no camera") ? "default" : titleName }`)
+
     // Verificando a direção
     const direction = settings.direction;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
@@ -68,13 +54,7 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
 
-    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`) 
-
-    const titleName = globals.camera === undefined ? "" : globals.camera as string
-    await ev.action.setTitle(`${titleName}`)
-    if (["no camera"].includes(titleName)) {
-      await ev.action.setTitle("");
-    }
+    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
     const direction = settings.direction as string;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
@@ -83,52 +63,77 @@ export class PTZControl extends SingletonAction<PtzSettings> {
     }
 
 
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    this.actions.forEach(action => {
+      action.setTitle(`${titleName.includes("no camera") ? "default" : titleName }`)
+    })
+  }
+
+  override async onPropertyInspectorDidDisappear(ev: PropertyInspectorDidDisappearEvent) {
+    // Esse método é chamado quando o user abre o inspector de propriedades/config
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const settings = await ev.action.getSettings();
+
+    const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
+
+    await streamDeck.settings.setGlobalSettings({
+      ...globals,
+      cameraIP: cameraIPControls,
+      cameraIPControls: cameraIPControls,
+    });
+  }
+
+  override async onPropertyInspectorDidAppear(ev: PropertyInspectorDidAppearEvent) {
+    // Esse método é chamado quando o user abre o inspector de propriedades/config
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const settings = await ev.action.getSettings();
+
+    await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
   }
 
 
   override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
     const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
-    ev.action.setImage(`imgs/actions/controls/${settings.direction}.png`)
 
-    let cameraIP; // começa como true
-
+    let cameraIP;
+    
+    const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
+    
     if(!globals.cameraIP) {
-
-      const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
-
+      // const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
       const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
 
       if(checkCamera){
         cameraIP = cameraIPControls
 
+        // para quando adicionar um camera select novo ele ja mosntar com o cameraIP Default
         await streamDeck.settings.setGlobalSettings({
           ...globals,
           cameraIP: cameraIPControls,
+          cameraIPControls: cameraIPControls,
         });
       }
-
-      // await ev.action.setSettings({...settings, cameraIPControls: cameraIPControls});
-
+      
     } else {
-      await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIP});
+      // na hora que voce adicionar o camera IP default ele não vai passar por la mais em todos os botoes
       cameraIP = globals.cameraIP
     }
-
-
-    // verificando o Nome que vai aparecer
-    const titleName = globals.camera === undefined ? "" : globals.camera as string
-    await ev.action.setTitle(`${titleName}`)
-    if (["no camera"].includes(titleName)) {
-      await ev.action.setTitle("");
-    }
     
+    await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
+    
+    const titleName = globals.camera === undefined ? "" : globals.camera as string
+    this.actions.forEach(action => {
+      action.setTitle(`${titleName.includes("no camera") ? "default" : titleName}`)
+    })
+
     // Verificando a direção
     const direction = settings.direction;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
       await ev.action.setTitle("Selecione");
       return;
     }
+
     
     //API CGI
     const apiBase = apiBaseCMD(cameraIP);
@@ -152,9 +157,9 @@ export class PTZControl extends SingletonAction<PtzSettings> {
 
     const cameraIP = globals.cameraIP
 
+    //API CGI
     const apiBase = apiBaseCMD(cameraIP)
     const url = `${apiBase}&ptzstop&0&0`;
     await fetch(url);  
   }
 }
-

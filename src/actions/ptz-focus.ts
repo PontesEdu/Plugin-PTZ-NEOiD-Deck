@@ -36,8 +36,6 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
     }
 
-    
-
     if(settings.mode === "afocus"){
       ev.action.setTitle(`auto`)
       ev.action.setImage(`imgs/actions/focus/auto.png`)
@@ -46,6 +44,14 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PtzFocus>){
     const settings = ev.payload.settings
+
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const cameraIP = globals.cameraIP
+
+    if(!cameraIP){
+      ev.action.setTitle(`${globals.camera}`)
+      return;
+    }
 
     if(settings.mode) {
       if(settings.mode === "focusin"){
@@ -75,6 +81,18 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     if(!cameraIP){
       ev.action.setTitle(`${globals.camera}`)
       return;
+    }
+    
+    if(settings.mode) {
+      if(settings.mode === "focusin"){
+        ev.action.setTitle(`Focus in`)
+      } else if(settings.mode === "focusout"){
+        ev.action.setTitle(`Focus out`)
+      } else {
+        ev.action.setTitle(`auto`)
+      }
+      
+      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
     }
 
     const apiBase = apiBaseCMD(globals.cameraIP)

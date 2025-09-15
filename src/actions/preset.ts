@@ -6,11 +6,6 @@ type PtzPresetProps = {
   image: boolean
 };
 
-// interface PresetImage {
-//   numberPreset: number;
-//   image: string;
-// }
-
 @action({ UUID: "com.neoid.ptzneoid.ptz-preset" })
 export class PTZPreset extends SingletonAction<PtzPresetProps> {
   // private presetImages: PresetImage[] = [];
@@ -30,8 +25,6 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     }
 
     if (!isNaN(presetNumber)) {
-      // const found = this.presetImages.find(p => p.numberPreset === presetNumber);
-      // await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
       
       if(settings.image){
         const image = globals[`presetImage${presetNumber}${cameraIP}`]
@@ -102,13 +95,7 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     
     const snapshot = await imageSnapShot(cameraIP);
     await ev.action.setTitle(`call: ${presetNumber}`);
-    
-    // Remove qualquer imagem antiga desse preset e adiciona a nova
-    // this.presetImages = this.presetImages.filter(p => p.numberPreset !== presetNumber);
-    // this.presetImages.push({
-    //   numberPreset: presetNumber,
-    //   image: snapshot
-    // });
+  
     
 
     const globals = await streamDeck.settings.getGlobalSettings();
