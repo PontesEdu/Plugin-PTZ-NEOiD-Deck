@@ -23,10 +23,9 @@ export class Osd extends SingletonAction<PtzOsdProps> {
       await ev.action.setTitle("Back OSB");
       await ev.action.setImage(`imgs/actions/back`);
     } else {
-
       this.isOsd = globals.isOsd === true || globals.isOsd === "true";
-
-      await ev.action.setTitle("OSD");
+      await ev.action.setTitle("");
+      await ev.action.setImage(`imgs/actions/osd`);
     }
   }
 
@@ -46,7 +45,8 @@ export class Osd extends SingletonAction<PtzOsdProps> {
       await ev.action.setImage(`imgs/actions/back`);
     } else {
       this.isOsd = globals.isOsd === true || globals.isOsd === "true";
-      await ev.action.setTitle("OSD");
+      await ev.action.setTitle("");
+      await ev.action.setImage(`imgs/actions/osd`);
     }
   }
 
@@ -75,6 +75,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
 
     } else {
 
+      await ev.action.setImage(`imgs/actions/osd`);
       this.isOsd = !this.isOsd;
 
       if (this.isOsd) {
@@ -94,8 +95,7 @@ export class Osd extends SingletonAction<PtzOsdProps> {
           return;
         }
       }
-      
-      await ev.action.setTitle("OSD");
+    
 
       await streamDeck.settings.setGlobalSettings({
         ...globals,

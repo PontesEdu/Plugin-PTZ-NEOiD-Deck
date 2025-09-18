@@ -8,8 +8,6 @@ import { PTZRegister } from "./actions/ptz-register";
 import { PTZSpeed } from "./actions/speed";
 import { PTZPreset } from "./actions/preset";
 import { Osd } from "./actions/osd";
-import { Default } from "./actions/default-settings";
-import { ImageSettings } from "./actions/image-settings";
 import { Backlight } from "./actions/backlight";
 
 // We can enable "trace" logging so that all messages between the Stream Deck, and the plugin are recorded. When storing sensitive information
@@ -23,8 +21,6 @@ streamDeck.actions.registerAction(new PTZTracking());
 streamDeck.actions.registerAction(new PTZSpeed());
 streamDeck.actions.registerAction(new PTZPreset());
 streamDeck.actions.registerAction(new Osd());
-streamDeck.actions.registerAction(new Default());
-streamDeck.actions.registerAction(new ImageSettings());
 streamDeck.actions.registerAction(new Backlight());
 streamDeck.actions.registerAction(new PTZRegister(new PTZControls, new PTZTracking, new PTZPreset, new PTZFocus, new PTZZoom, new Backlight, new Osd));
 streamDeck.connect();

@@ -69,7 +69,7 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
       ev.action.setTitle(`auto`)
       ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
-
+    
   }
 
   override async onKeyDown(ev: KeyDownEvent<PtzFocus>): Promise<void> {

@@ -33,7 +33,6 @@ export class PTZControls extends SingletonAction<PtzSettings> {
           cameraIPControls: cameraIPControls,
         });
       }
-      
     }
     
     await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
@@ -44,7 +43,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     // Verificando a direção
     const direction = settings.direction;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
-      await ev.action.setTitle("Selecione");
+      await ev.action.setTitle("Select");
       return;
     }
   }
@@ -58,7 +57,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
 
     const direction = settings.direction as string;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
-      await ev.action.setTitle("Selecione");
+      await ev.action.setTitle("Select");
       return;
     }
 
@@ -130,7 +129,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     // Verificando a direção
     const direction = settings.direction;
     if (!["up", "down", "left", "right", "leftup", "leftdown", "rightup", "home", "rightdown"].includes(direction)) {
-      await ev.action.setTitle("Selecione");
+      await ev.action.setTitle("Select");
       return;
     }
 

@@ -7,37 +7,37 @@ import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 export class Backlight extends SingletonAction {
   private isBacklight = false;
 
-  override async onWillAppear(ev: WillAppearEvent) {
-    const globals = await streamDeck.settings.getGlobalSettings();
+  // override async onWillAppear(ev: WillAppearEvent) {
+  //   const globals = await streamDeck.settings.getGlobalSettings();
     
-    const cameraIP = globals.cameraIP;
+  //   const cameraIP = globals.cameraIP;
 
-    if (!cameraIP) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
-    }
+  //   if (!cameraIP) {
+  //     ev.action.setTitle(`${globals.camera}`)
+  //     return;
+  //   }
 
-    // Converte para booleano corretamente
-    this.isBacklight = globals.isBacklight === true || globals.isBacklight === "true";
+  //   // Converte para booleano corretamente
+  //   this.isBacklight = globals.isBacklight === true || globals.isBacklight === "true";
 
-    await ev.action.setTitle(this.isBacklight ? "Backlight\nON" : "Backlight\nOFF");
-  }
+  //   await ev.action.setTitle(this.isBacklight ? "Backlight\nON" : "Backlight\nOFF");
+  // }
 
-  override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
-    const globals = await streamDeck.settings.getGlobalSettings();
+  // override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
+  //   const globals = await streamDeck.settings.getGlobalSettings();
     
-    const cameraIP = globals.cameraIP;
+  //   const cameraIP = globals.cameraIP;
 
-    if (!cameraIP) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
-    }
+  //   if (!cameraIP) {
+  //     ev.action.setTitle(`${globals.camera}`)
+  //     return;
+  //   }
 
-    // Converte para booleano corretamente
-    this.isBacklight = globals.isBacklight === true || globals.isBacklight === "true";
+  //   // Converte para booleano corretamente
+  //   this.isBacklight = globals.isBacklight === true || globals.isBacklight === "true";
 
-    await ev.action.setTitle(this.isBacklight ? "Backlight\nON" : "Backlight\nOFF");
-  }
+  //   await ev.action.setTitle(this.isBacklight ? "Backlight\nON" : "Backlight\nOFF");
+  // }
 
   override async onKeyDown(ev: KeyDownEvent): Promise<void> {
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -63,7 +63,7 @@ export class Backlight extends SingletonAction {
         return;
       }
 
-      await ev.action.setTitle("Backlight\n ON");
+      await ev.action.setTitle("Backlight\nON");
     } else { 
       const apiBase = apiBasePtzPostImageValue(cameraIP)
       const url = `${apiBase}&backlight&0`
@@ -76,7 +76,7 @@ export class Backlight extends SingletonAction {
         return;
       }
 
-      await ev.action.setTitle("Backlight\n OFF");
+      await ev.action.setTitle("Backlight\nOFF");
     }
 
     await streamDeck.settings.setGlobalSettings({

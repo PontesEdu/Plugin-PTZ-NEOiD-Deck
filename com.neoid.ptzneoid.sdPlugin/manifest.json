@@ -15,7 +15,7 @@
           "FontSize": 10
         }
       ],
-      "PropertyInspectorPath": "ui/ptz-register.html"
+      "PropertyInspectorPath": "ui/select-ptz.html"
     },
     {
       "UUID": "com.neoid.ptzneoid.ptz-controls",
@@ -80,7 +80,7 @@
       "UUID": "com.neoid.ptzneoid.ptz-preset",
       "Name": "Preset",
       "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Preset (salvar)",
+      "Tooltip": "Controls the functions Preset (save)",
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/preset/preset" }],
       "PropertyInspectorPath": "ui/preset.html"
@@ -93,28 +93,12 @@
       "Icon": "imgs/actions/logo-neoid",
       "States": [{ "Image": "imgs/actions/osd" }],
       "PropertyInspectorPath": "ui/osd.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.default",
-      "Name": "Default Settings",
-      "Tooltip": "Controls the functions default",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/default" }],
-      "PropertyInspectorPath": "ui/default.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.image-settings",
-      "Name": "Image Settings",
-      "Tooltip": "Controls the functions Images Settings",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/wbmode-color/color" }],
-      "PropertyInspectorPath": "ui/image-settings.html"
     }
   ],
 	"Category": "PTZ NEOiD",
 	"CategoryIcon": "imgs/plugin/logo-neoid",
 	"CodePath": "bin/plugin.js",
-	"Description": "plugin ptzNEOiD",
+	"Description": "plugin ptzNEOiD Controls camera PTZ",
 	"Icon": "imgs/plugin/logo-neoid",
 	"SDKVersion": 2,
 	"Software": {
