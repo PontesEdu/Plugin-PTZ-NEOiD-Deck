@@ -1,105 +1,133 @@
 {
-	"Name": "ptzNEOiD",
+	"Name": "PTZ NEOiD",
 	"Version": "0.1.0.0",
 	"Author": "NEOiD",
 	"Actions": [
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-register",
-      "Name": "Select PTZ Cameras ",
-      "UserTitleEnabled": false,
-      "Tooltip": "Cadastro de câmeras PTZ",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [
-        { 
-          "Image": "imgs/actions/cameraSelect", 
-          "FontSize": 10
-        }
-      ],
-      "PropertyInspectorPath": "ui/select-ptz.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-controls",
-      "Name": "Controls PTZ",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [
-        { 
-          "Image": "imgs/actions/controls/up", 
-          "FontSize": 10
-        }
-      ],
-      "PropertyInspectorPath": "ui/ptz-controls.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-speed",
-      "Name": "Speed",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Speed",
-      "Icon": "imgs/actions/logo-neoid", 
-      "States": [{ "Image": "imgs/actions/speed" }],
-      "PropertyInspectorPath": "ui/speed.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-zoom",
-      "Name": "Zoom",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Zoom",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/zoom/zoomin" }],
-      "PropertyInspectorPath": "ui/zoom.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-focus",
-      "Name": "Focus",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Focus",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/focus/focusin" }],
-      "PropertyInspectorPath": "ui/focus.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-tracking",
-      "Name": "Tracking",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Tracking",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/tracking/tracking-off" }],
-      "PropertyInspectorPath": "ui/tracking.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.backlight",
-      "Name": "Backlight",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Backlight",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/backlight" }],
-      "PropertyInspectorPath": "ui/backlight.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.ptz-preset",
-      "Name": "Preset",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions Preset (save)",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/preset/preset" }],
-      "PropertyInspectorPath": "ui/preset.html"
-    },
-    {
-      "UUID": "com.neoid.ptzneoid.osd",
-      "Name": "OSD MENU",
-      "UserTitleEnabled": false,
-      "Tooltip": "Controls the functions OSD Menu",
-      "Icon": "imgs/actions/logo-neoid",
-      "States": [{ "Image": "imgs/actions/osd" }],
-      "PropertyInspectorPath": "ui/osd.html"
-    }
-  ],
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-register",
+			"Name": "Select PTZ Cameras ",
+			"UserTitleEnabled": false,
+			"Tooltip": "Cadastro de câmeras PTZ",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/cameraSelect",
+					"FontSize": 10
+				}
+			],
+			"PropertyInspectorPath": "ui/select-ptz.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-controls",
+			"Name": "Controls PTZ",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/controls/up",
+					"FontSize": 10
+				}
+			],
+			"PropertyInspectorPath": "ui/ptz-controls.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-speed",
+			"Name": "Speed",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Speed",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/speed"
+				}
+			],
+			"PropertyInspectorPath": "ui/speed.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-zoom",
+			"Name": "Zoom",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Zoom",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/zoom/zoomin"
+				}
+			],
+			"PropertyInspectorPath": "ui/zoom.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-focus",
+			"Name": "Focus",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Focus",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/focus/focusin"
+				}
+			],
+			"PropertyInspectorPath": "ui/focus.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-tracking",
+			"Name": "Tracking",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Tracking",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/tracking/tracking-off"
+				}
+			],
+			"PropertyInspectorPath": "ui/tracking.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.backlight",
+			"Name": "Backlight",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Backlight",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/backlight"
+				}
+			],
+			"PropertyInspectorPath": "ui/backlight.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.ptz-preset",
+			"Name": "Preset",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions Preset (save)",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/preset/preset"
+				}
+			],
+			"PropertyInspectorPath": "ui/preset.html"
+		},
+		{
+			"UUID": "com.neoid.ptzneoid.osd",
+			"Name": "OSD MENU",
+			"UserTitleEnabled": false,
+			"Tooltip": "Controls the functions OSD Menu",
+			"Icon": "imgs/actions/logo-neoid@2x",
+			"States": [
+				{
+					"Image": "imgs/actions/osd"
+				}
+			],
+			"PropertyInspectorPath": "ui/osd.html"
+		}
+	],
 	"Category": "PTZ NEOiD",
-	"CategoryIcon": "imgs/plugin/logo-neoid",
+	"CategoryIcon": "imgs/plugin/logo-neoid@2x",
 	"CodePath": "bin/plugin.js",
 	"Description": "plugin ptzNEOiD Controls camera PTZ",
-	"Icon": "imgs/plugin/logo-neoid",
+	"Icon": "imgs/plugin/logo-neoid@2x",
 	"SDKVersion": 2,
 	"Software": {
 		"MinimumVersion": "6.5"
