@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <script src="sdpi-components.js"></script>
-  <title>PTZ Settings</title>
+  <title>Settings PTZ - ZOOM</title>
 
   <link rel="stylesheet" href="styles.css">
 
 </head>
 <body>
-  <h3>Settings PTZ - ZOOM</h3>
-
-  <!-- <sdpi-item label="Speed">
-    <sdpi-range setting="speed" min="1" max="7" step="1" default="5"></sdpi-range>
-  </sdpi-item> -->
+  <h3>PTZ NEOiD - ZOOM</h3>
   
-  <sdpi-item label="Direction">
+  <sdpi-item label="Zoom">
     <sdpi-select setting="direction" default="none" placeholder="Select direction">
       <option value="none" disabled selected hidden>Select...</option>
       <option value="zoomin">Zoom in</option>
       <option value="zoomout">Zoom out</option>
     </sdpi-select>
   </sdpi-item> 
+
+  <p>
+    The zoom button controls the camera lens, letting you zoom in to get closer to the subject or zoom out for a wider view.
+  </p>
 
   <script src="./ptz-settings.js"></script>
    

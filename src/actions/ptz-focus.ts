@@ -5,8 +5,8 @@ export type PtzFocus = {
   speed?: number;
   mode: "focusout" | "focusin" | "afocus";
   cameraIP: any;
+  camera: string;
 };
-
 
 
 // Ações
@@ -20,25 +20,30 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const cameraIP = globals.cameraIP
     
     if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
+      const titleName = globals.camera === undefined ? "No camera" : globals.camera
+      await ev.action.setTitle(`${titleName}`)
       return
     }
+
+    const direction = settings.mode as string;
+    if (!["focusout", "focusin", "afocus" ].includes(direction)) {
+      await ev.action.setTitle("Select");
+      return;
+    } 
 
     if(settings.mode) {
       if(settings.mode === "focusin"){
         ev.action.setTitle(`Focus in`)
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
+        
       } else if(settings.mode === "focusout"){
         ev.action.setTitle(`Focus out`)
-      } else {
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
+
+      } else if(settings.mode === "afocus") {
         ev.action.setTitle(`auto`)
+        ev.action.setImage(`imgs/actions/focus/auto.png`)
       }
-
-      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
-    }
-
-    if(settings.mode === "afocus"){
-      ev.action.setTitle(`auto`)
-      ev.action.setImage(`imgs/actions/focus/auto.png`)
     }
   }
 
@@ -49,25 +54,30 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const cameraIP = globals.cameraIP
 
     if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
+      const titleName = globals.camera === undefined ? "No camera" : globals.camera
+      await ev.action.setTitle(`${titleName}`)
+      return;
+    }
+
+    const direction = settings.mode as string;
+    if (!["focusout", "focusin", "afocus" ].includes(direction)) {
+      await ev.action.setTitle("Select");
       return;
     }
 
     if(settings.mode) {
       if(settings.mode === "focusin"){
         ev.action.setTitle(`Focus in`)
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
+        
       } else if(settings.mode === "focusout"){
         ev.action.setTitle(`Focus out`)
-      } else {
-        ev.action.setTitle(`auto`)
-      }
-      
-      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
-    }
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
 
-    if(settings.mode === "afocus"){
-      ev.action.setTitle(`auto`)
-      ev.action.setImage(`imgs/actions/focus/auto.png`)
+      } else if(settings.mode === "afocus") {
+        ev.action.setTitle(`auto`)
+        ev.action.setImage(`imgs/actions/focus/auto.png`)
+      }
     }
     
   }
@@ -76,23 +86,33 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     const settings = ev.payload.settings
 
     const globals = await streamDeck.settings.getGlobalSettings();
-    const cameraIP = globals.cameraIP
+    const cameraIP = globals.cameraIP 
 
     if(!cameraIP){
-      ev.action.setTitle(`${globals.camera}`)
+      const titleName = globals.camera === undefined ? "No camera" : globals.camera
+      await ev.action.setTitle(`${titleName}`)
+      return;
+    }
+
+    const direction = settings.mode as string;
+    if (!["focusout", "focusin", "afocus" ].includes(direction)) {
+      await ev.action.setTitle("Select");
       return;
     }
     
     if(settings.mode) {
       if(settings.mode === "focusin"){
         ev.action.setTitle(`Focus in`)
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
+        
       } else if(settings.mode === "focusout"){
         ev.action.setTitle(`Focus out`)
-      } else {
+        ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
+
+      } else if(settings.mode === "afocus") {
         ev.action.setTitle(`auto`)
+        ev.action.setImage(`imgs/actions/focus/auto.png`)
       }
-      
-      ev.action.setImage(`imgs/actions/focus/${settings.mode}.png`)
     }
 
     const apiBase = apiBaseCMD(globals.cameraIP)
@@ -129,4 +149,3 @@ export class PTZFocus extends SingletonAction<PtzFocus> {
     await fetch(url);
   }
 }
-

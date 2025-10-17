@@ -1,5 +1,4 @@
 
-
 export async function imageSnapShot (cameraIP: any) {
   const response = await fetch(`http://${cameraIP}/snapshot.jpg`);
   
@@ -12,4 +11,4 @@ export async function imageSnapShot (cameraIP: any) {
 
   return dataUrl
 
-} 
+}

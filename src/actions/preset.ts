@@ -14,14 +14,14 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
 
   override async onWillAppear(ev: WillAppearEvent<PtzPresetProps>) {
     const settings = ev.payload.settings;
-    const presetNumber = Number(settings.numberPreset);
+    const presetNumber = settings.numberPreset === undefined ? 0 : Number(settings.numberPreset);
     const globals = await streamDeck.settings.getGlobalSettings();
 
     const cameraIP = globals.cameraIP;
 
-    if (!cameraIP) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+    if(!cameraIP){
+      await ev.action.setTitle(`No camera`)
+      return
     }
 
     if (!isNaN(presetNumber)) {
@@ -44,11 +44,11 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     const settings = ev.payload.settings;
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
-    const presetNumber = Number(settings.numberPreset);
+    const presetNumber = settings.numberPreset === undefined ? 0 : Number(settings.numberPreset);
 
     if (!cameraIP || isNaN(presetNumber)) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+      await ev.action.setTitle(`No camera`)
+      return
     }
 
     // Começa a contar o tempo do pressionamento
@@ -65,10 +65,10 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
     const settings = ev.payload.settings;
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP;
-    const presetNumber = Number(settings.numberPreset);
+    const presetNumber = settings.numberPreset === undefined ? 0 : Number(settings.numberPreset);
 
     if (!cameraIP || isNaN(presetNumber)) return;
-
+    
     // Se não foi um clique longo, chama o preset
     if (!this.longPress) {
       await fetch(`http://${cameraIP}/cgi-bin/ptzctrl.cgi?ptzcmd&poscall&${presetNumber}`);
@@ -116,19 +116,17 @@ export class PTZPreset extends SingletonAction<PtzPresetProps> {
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent) {
     const settings = ev.payload.settings;
-    const presetNumber = Number(settings.numberPreset);
+    const presetNumber = settings.numberPreset === undefined ? 0 : Number(settings.numberPreset);
     const globals = await streamDeck.settings.getGlobalSettings();
 
     const cameraIP = globals.cameraIP;
 
-    if (!cameraIP) {
-      ev.action.setTitle(`${globals.camera}`)
-      return;
+    if(!cameraIP){
+      await ev.action.setTitle(`No camera`)
+      return
     }
 
     if (!isNaN(presetNumber)) {
-      // const found = this.presetImages.find(p => p.numberPreset === presetNumber);
-      // await ev.action.setImage(found ? found.image : "imgs/actions/preset/preset.png");
       if(settings.image){
         const image = globals[`presetImage${presetNumber}${cameraIP}`]
         await ev.action.setImage(`${image}`);

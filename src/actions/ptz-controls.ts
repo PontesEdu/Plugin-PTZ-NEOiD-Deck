@@ -1,6 +1,6 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, KeyUpEvent, PropertyInspectorDidAppearEvent, PropertyInspectorDidDisappearEvent, SingletonAction, TitleParametersDidChangeEvent, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBaseCMD } from "../utils/ptz-api-base";
-import { checkCameraConnection } from "./ptz-register";
+import { checkCameraConnection } from "../utils/checkCameraConnection";
 
 export type PtzSettings = {
   speed?: number;
@@ -38,7 +38,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
     
     const titleName = globals.camera === undefined ? "" : globals.camera as string
-    await ev.action.setTitle(`${titleName.includes("no camera") ? "default" : titleName }`)
+    await ev.action.setTitle(`${titleName.includes("No camera") ? "default" : titleName }`)
 
     // Verificando a direção
     const direction = settings.direction;
@@ -47,6 +47,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
       return;
     }
   }
+
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent){
     // SETTINGS
@@ -61,11 +62,24 @@ export class PTZControls extends SingletonAction<PtzSettings> {
       return;
     }
 
-
     const titleName = globals.camera === undefined ? "" : globals.camera as string
-    this.actions.forEach(action => {
-      action.setTitle(`${titleName.includes("no camera") ? "default" : titleName }`)
-    })
+
+    this.actions.forEach(async (action) => {
+      action.setTitle(`${titleName.includes("No camera") ? "default" : titleName }`)
+    });
+
+    this.actions.forEach(actionInstance => {
+      actionInstance.setTitle(`${titleName}`);
+    });
+  }
+
+
+  override async onPropertyInspectorDidAppear(ev: PropertyInspectorDidAppearEvent) {
+    // Esse método é chamado quando o user abre o inspector de propriedades/config
+    const globals = await streamDeck.settings.getGlobalSettings();
+    const settings = await ev.action.getSettings();
+
+    await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
   }
 
   override async onPropertyInspectorDidDisappear(ev: PropertyInspectorDidDisappearEvent) {
@@ -82,15 +96,6 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     });
   }
 
-  override async onPropertyInspectorDidAppear(ev: PropertyInspectorDidAppearEvent) {
-    // Esse método é chamado quando o user abre o inspector de propriedades/config
-    const globals = await streamDeck.settings.getGlobalSettings();
-    const settings = await ev.action.getSettings();
-
-    await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
-  }
-
-
   override async onKeyDown(ev: KeyDownEvent<PtzSettings>): Promise<void> {
     const settings = ev.payload.settings
     const globals = await streamDeck.settings.getGlobalSettings();
@@ -100,7 +105,6 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     const cameraIPControls = settings.cameraIPControls === undefined ? false : settings.cameraIPControls
     
     if(!globals.cameraIP) {
-      // const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
       const checkCamera = await checkCameraConnection(`${cameraIPControls}`, 1000)
 
       if(checkCamera){
@@ -115,7 +119,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
       }
       
     } else {
-      // na hora que voce adicionar o camera IP default ele não vai passar por la mais em todos os botoes
+      // na hora que voce adicionar o camera IP default ele não vai passar por la mais
       cameraIP = globals.cameraIP
     }
     
@@ -123,7 +127,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     
     const titleName = globals.camera === undefined ? "" : globals.camera as string
     this.actions.forEach(action => {
-      action.setTitle(`${titleName.includes("no camera") ? "default" : titleName}`)
+      action.setTitle(`${titleName.includes("No camera") ? "default" : titleName}`)
     })
 
     // Verificando a direção
@@ -133,7 +137,6 @@ export class PTZControls extends SingletonAction<PtzSettings> {
       return;
     }
 
-    
     //API CGI
     const apiBase = apiBaseCMD(cameraIP);
 

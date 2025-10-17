@@ -1,3 +1,8 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
 body { 
   font-family: sans-serif;
   color: rgba(225, 224, 232, 0.884);
@@ -6,4 +11,16 @@ body {
 sdpi-select{
   outline-color: none;
   border: 0;
+}
+
+h3{
+  font-size: 1.1rem;
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+p{
+  font-size: 0.8rem;
+  padding-bottom: 15px;
+  padding-top: 10px;  
 }

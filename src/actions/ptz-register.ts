@@ -6,24 +6,8 @@ import { PTZFocus } from "./ptz-focus";
 import { PTZZoom } from "./ptz-zoom";
 import { Backlight } from "./backlight";
 import { Osd } from "./osd";
+import { checkCameraConnection } from "../utils/checkCameraConnection";
 
-
-export async function checkCameraConnection(cameraIP: string, timeout = 5000): Promise<boolean> {
-  const fetchPromise = (async () => {
-    try {
-      const res = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?get_device_conf`, { mode: 'no-cors' });
-      return res.ok;
-    } catch {
-      return false;
-    }
-  })();
-
-  const timeoutPromise = new Promise<boolean>(resolve =>
-    setTimeout(() => resolve(false), timeout)
-  );
-
-  return Promise.race([fetchPromise, timeoutPromise]);
-}
 
 
 
@@ -49,7 +33,6 @@ export class PTZRegister extends SingletonAction<any> {
     this.ptzBacklight = backlight;
     this.ptzOSD = osd;
 	}
-
 
   override async onPropertyInspectorDidDisappear(ev: PropertyInspectorDidDisappearEvent) {
     const settings = await ev.action.getSettings();
@@ -84,7 +67,6 @@ export class PTZRegister extends SingletonAction<any> {
     let cameraIP = settings.cameraIP === undefined ? false : settings.cameraIP
   
     if(!settings.cameraIP){
-
       await ev.action.setSettings({...settings, cameraIP: globals.cameraIP});
       cameraIP = globals.cameraIP as string
     } 
@@ -125,12 +107,12 @@ export class PTZRegister extends SingletonAction<any> {
     if(!checkCamera) {
       ev.action.setTitle('Not\nConnect')
 
-      titleName = "no camera"
+      titleName = "No camera"
       
       await streamDeck.settings.setGlobalSettings({
         ...globals,
         cameraIP: false,
-        camera: "no camera",
+        camera: "No camera",
       });
 
 
@@ -150,9 +132,21 @@ export class PTZRegister extends SingletonAction<any> {
       actionInstance.setTitle(`${titleName}`);
     });
 
-    this.ptzTracking.actions.forEach(actionInstance => {
-      actionInstance.getSettings()
-    });
+
+    /** 
+    * Para atualizar comandos e o visual do botão de outras ações
+    *  
+    */
+    const tracking = await this.ptzTracking.fetchCameraTracking(`${cameraIP}`);
+    // atualiza o visual de todos os botões de tracking
+    if (tracking) {
+      this.ptzTracking.actions.forEach(async (ev) => {
+
+        const modeInfo = this.ptzTracking.trackingModes.find(m => m.value === tracking.trackMode)!;
+        ev.setTitle(modeInfo.name);
+        ev.setImage(tracking.trackActive ? "imgs/actions/tracking/tracking-on" : "imgs/actions/tracking/tracking-off");
+      });
+    }
 
     this.ptzPreset.actions.forEach(actionInstance => {
       actionInstance.getSettings()
@@ -170,9 +164,10 @@ export class PTZRegister extends SingletonAction<any> {
       actionInstance.getSettings()
     });
 
-    this.ptzOSD.actions.forEach(actionInstance => {
+    this.ptzOSD.actions.forEach(async (actionInstance) => {
       actionInstance.getSettings()
     });
+    
 
   }
 }

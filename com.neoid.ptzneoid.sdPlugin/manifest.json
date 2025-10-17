@@ -5,10 +5,10 @@
 	"Actions": [
 		{
 			"UUID": "com.neoid.ptzneoid.ptz-register",
-			"Name": "Select PTZ Cameras ",
+			"Name": "Select PTZ Cameras",
 			"UserTitleEnabled": false,
 			"Tooltip": "Cadastro de câmeras PTZ",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/cameraSelect",
@@ -22,7 +22,7 @@
 			"Name": "Controls PTZ",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/controls/up",
@@ -33,10 +33,10 @@
 		},
 		{
 			"UUID": "com.neoid.ptzneoid.ptz-speed",
-			"Name": "Speed",
+			"Name": "Speed - P/T | Focus | Zoom",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Speed",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/speed"
@@ -49,7 +49,7 @@
 			"Name": "Zoom",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Zoom",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/zoom/zoomin"
@@ -62,7 +62,7 @@
 			"Name": "Focus",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Focus",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/focus/focusin"
@@ -75,7 +75,7 @@
 			"Name": "Tracking",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Tracking",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/tracking/tracking-off"
@@ -88,7 +88,7 @@
 			"Name": "Backlight",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Backlight",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/backlight"
@@ -101,7 +101,7 @@
 			"Name": "Preset",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions Preset (save)",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/preset/preset"
@@ -111,10 +111,10 @@
 		},
 		{
 			"UUID": "com.neoid.ptzneoid.osd",
-			"Name": "OSD MENU",
+			"Name": "OSD Menu",
 			"UserTitleEnabled": false,
 			"Tooltip": "Controls the functions OSD Menu",
-			"Icon": "imgs/actions/logo-neoid@2x",
+			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/osd"
@@ -126,7 +126,7 @@
 	"Category": "PTZ NEOiD",
 	"CategoryIcon": "imgs/plugin/logo-neoid@2x",
 	"CodePath": "bin/plugin.js",
-	"Description": "plugin ptzNEOiD Controls camera PTZ",
+	"Description": "NEOiD plugin for PTZ camera controls",
 	"Icon": "imgs/plugin/logo-neoid@2x",
 	"SDKVersion": 2,
 	"Software": {

@@ -3,16 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <script src="sdpi-components.js"></script>
-  <title>PTZ Settings</title>
+  <title>PTZ Controls</title>
   
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h3>Settings PTZ - CONTROLS</h3>
-
-  <!-- <sdpi-item label="Speed">
-    <sdpi-range setting="speed" min="1" max="24" step="1" default="5"></sdpi-range>
-  </sdpi-item> -->
+  <h3>PTZ NEOiD - CONTROLS</h3>
   
   <sdpi-item label="Direction">
     <sdpi-select setting="direction" default="none" placeholder="Select direction">
@@ -31,10 +27,14 @@
 
   <div id="camera-form">
    
-    <sdpi-item label="Câmera IP (Default)">
+    <sdpi-item label="Camera IP (Default)">
       <sdpi-textfield setting="cameraIPControls" placeholder="IP: 192.168.100.88"></sdpi-textfield>
     </sdpi-item>
   </div>
+
+  <p>
+    To use controls, first select a camera. You can also set a default camera IP in the Camera IP field. If no camera is selected, the controls will operate the default camera.
+  </p>
 
    <script src="./ptz-settings.js"></script>
 </body>

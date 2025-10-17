@@ -42,6 +42,7 @@ export class PTZSpeed extends SingletonAction {
     const currentMode = globals[`${tipo}Mode`] ?? "normal";
     await ev.action.setTitle(`${tipo === "pan" ? "P/T" : tipo}:\n${currentMode}`);
   }
+  
 
   override async onDidReceiveSettings(ev: DidReceiveSettingsEvent<PTZSpeedProps>) {
     const settings = ev.payload.settings;
@@ -57,6 +58,7 @@ export class PTZSpeed extends SingletonAction {
 
     await ev.action.setTitle(`${tipo === "pan" ? "P/T" : tipo}:\n${currentMode}`);
   }
+
 
   // KEYDOWN
   override async onKeyDown(ev: KeyDownEvent<PTZSpeedProps>): Promise<void> {
