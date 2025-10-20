@@ -1,13 +1,9 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 import { apiBasePtzPostImageValue } from "../utils/ptz-api-post-image-value";
 
-
-
-
 @action({ UUID: "com.neoid.ptzneoid.backlight" })
 export class Backlight extends SingletonAction {
   private isBacklight = false;
-
 
   //FN -> config Settings Globals 
   private async getGlobals() {
@@ -34,13 +30,8 @@ export class Backlight extends SingletonAction {
   private async toggleBacklightAPI(cameraIP: string, enable: boolean) {
     const apiBase = apiBasePtzPostImageValue(cameraIP);
     
-    try {
-      const urlMain = `${apiBase}&backlight&${enable ? 1 : 0}`;
-      await fetch(urlMain);
-    } catch (error) {
-      const urlSecondary = `${apiBase}&backlight&${enable ? 2 : 3}`;
-      await fetch(urlSecondary);
-    }
+    const urlSecondary = `${apiBase}&backlight&${enable ? 2 : 3}`;
+    await fetch(urlSecondary);
   }
 
   private async refreshState(ev: { action: any }) {

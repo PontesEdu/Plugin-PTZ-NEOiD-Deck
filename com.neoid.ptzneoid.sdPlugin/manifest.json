@@ -1,5 +1,5 @@
 {
-	"Name": "PTZ NEOiD",
+	"Name": "NEOiD PTZ Deck",
 	"Version": "0.1.0.0",
 	"Author": "NEOiD",
 	"Actions": [
@@ -123,11 +123,11 @@
 			"PropertyInspectorPath": "ui/osd.html"
 		}
 	],
-	"Category": "PTZ NEOiD",
+	"Category": "NEOiD PTZ Deck",
 	"CategoryIcon": "imgs/plugin/logo-neoid@2x",
 	"CodePath": "bin/plugin.js",
-	"Description": "NEOiD plugin for PTZ camera controls",
-	"Icon": "imgs/plugin/logo-neoid@2x",
+	"Description": "Streamline Your Video Production with NEOiD’s StreamDeck Plugin\n\nTake full control of your NEOiD PTZ cameras directly from your Stream Deck with the NEOiD PTZ Deck. Designed for simplicity and efficiency, this integration allows you to control pan, tilt, and zoom movements effortlessly, along with many other commands, while presets can be recalled instantly with just one touch. Whether you’re live streaming, recording in a studio, or managing a multi-camera setup, the NEOiD PTZ Deck gives you the speed and precision you need to elevate your production.\n\nFor creators and professionals looking for even more flexibility, the plugin offers intuitive multi-camera support and reliable performance, making it a perfect fit for churches, schools, event production, and broadcast studios. With smoother workflows and faster adjustments, you can focus less on the technical side and more on delivering great content.",
+	"Icon": "imgs/plugin/logo-neoid",
 	"SDKVersion": 2,
 	"Software": {
 		"MinimumVersion": "6.5"
