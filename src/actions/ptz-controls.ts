@@ -63,19 +63,14 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     }
 
     const titleName = globals.camera === undefined ? "" : globals.camera as string
-
     this.actions.forEach(async (action) => {
       action.setTitle(`${titleName.includes("No camera") ? "default" : titleName }`)
-    });
-
-    this.actions.forEach(actionInstance => {
-      actionInstance.setTitle(`${titleName}`);
     });
   }
 
 
   override async onPropertyInspectorDidAppear(ev: PropertyInspectorDidAppearEvent) {
-    // Esse método é chamado quando o user abre o inspector de propriedades/config
+    // Esse método é chamado quando o user abre o inspector de propriedades/config (abre o botão)
     const globals = await streamDeck.settings.getGlobalSettings();
     const settings = await ev.action.getSettings();
 
@@ -83,7 +78,7 @@ export class PTZControls extends SingletonAction<PtzSettings> {
   }
 
   override async onPropertyInspectorDidDisappear(ev: PropertyInspectorDidDisappearEvent) {
-    // Esse método é chamado quando o user abre o inspector de propriedades/config
+    // Esse método é chamado quando o user abre o inspector de propriedades/config (abre o botão)
     const globals = await streamDeck.settings.getGlobalSettings();
     const settings = await ev.action.getSettings();
 
@@ -124,6 +119,8 @@ export class PTZControls extends SingletonAction<PtzSettings> {
     }
     
     await ev.action.setSettings({...settings, cameraIPControls: globals.cameraIPControls});
+
+    cameraIPControls
     
     const titleName = globals.camera === undefined ? "" : globals.camera as string
     this.actions.forEach(action => {

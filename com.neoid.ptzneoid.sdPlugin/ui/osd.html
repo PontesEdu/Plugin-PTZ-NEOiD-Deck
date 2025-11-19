@@ -9,22 +9,29 @@
 
 </head>
 <body>
-  <h3>PTZ NEOiD - OSD MENU</h3>
+  <h3>PTZ NEOiD - OSD Menu</h3>
   
 
-  <sdpi-item label="OSD">
-    <sdpi-select setting="mode" default="none" placeholder="Select...">
-      <option value="none" disabled selected hidden>Select...</option>
-      <optgroup label="Mode">
-        <option value="OSD">OSD</option>
-        <option value="back">Back OSD</option>
-      </optgroup>
-      
-    </sdpi-select>
-  </sdpi-item>
+  <div id="separate-field">
+    <sdpi-item label="OSD">
+      <sdpi-select setting="mode" default="none" placeholder="Select...">
+        <option value="none" disabled selected hidden>Select</option>
+        <optgroup label="Mode">
+          <option value="OSD">OSD</option>
+          <option value="back">OSD Back</option>
+          <option value="enter">OSD Enter</option>
+        </optgroup>
+        
+      </sdpi-select>
+    </sdpi-item>
+  </div>
 
   <p> 
-    The OSD menu button lets you open the camera’s on-screen display. You can set this button as a toggle to switch between OSD and PTZ, or configure it as a back OSD button to return within the menu.
+    O botão OSD oferece controle do menu na tela da câmera. Ele possui três modos: OSD para abrir o menu, OSD Enter para confirmar seleções e OSD Back para voltar para a tela anterior. Para navegar entre as opções e mover dentro do menu OSD, é necessário usar os controles direcionais da ação de direção PTZ, que permitem rolar, selecionar itens e ajustar valores dentro do menu exibido na tela.
+  </p>
+
+  <p> 
+    The OSD button gives you full control of the camera’s on-screen display. It supports three modes: OSD to open the menu, OSD Enter to confirm selections, and OSD Back to return to the previous screen. To navigate between menu items or move through different options inside the OSD, you must use the directional controls from the PTZ Direction action, which allow you to scroll, switch items, and adjust values within the on-screen menu.
   </p>
 
   <script src="./ptz-settings.js"></script>

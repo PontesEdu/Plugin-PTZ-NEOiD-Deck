@@ -13,14 +13,20 @@
     <sdpi-checkbox setting="image" ></sdpi-checkbox>
   </sdpi-item>
 
-  <sdpi-item label="number Preset">
-    <sdpi-select setting="numberPreset" id="select-presets" default="none" placeholder="Select direction">
-      <option value="none" disabled selected hidden>Select...</option>
-    </sdpi-select>
-  </sdpi-item> 
+  <div id="separate-field">
+    <sdpi-item label="number Preset">
+      <sdpi-select setting="numberPreset" id="select-presets" default="none" placeholder="Select direction">
+        <option value="none" disabled selected hidden>Select</option>
+      </sdpi-select>
+    </sdpi-item> 
+  </div>
 
   <p>
-    A preset is a saved camera scene that lets you quickly return to a specific position and settings. You can save up to 10 presets (0–10). To call a preset, simply press the button; to save one, hold the button for 1 second (long press). There’s also an image box option: if selected, the preset saves a snapshot and shows it on the button. Each image is linked to the camera’s IP, so different cameras can have their own preset previews.
+    O botão Preset permite salvar e chamar posições da câmera de maneira rápida. Para salvar um preset, mantenha o botão pressionado por um segundo até que a posição seja registrada. Para chamar um preset salvo, basta clicar uma vez e a câmera se moverá automaticamente para a posição gravada. Se desejar adicionar uma imagem que represente onde o preset foi salvo, selecione o campo Image e escolha a foto que deseja exibir.
+  </p>
+
+  <p>
+    The Preset button allows you to save and recall camera positions quickly. To save a preset, press and hold the button for one second until the position is stored. To recall a saved preset, simply press the button once and the camera will move to the saved location. If you want to attach an image that represents where the preset was saved, select the Image field and choose the picture you want to display.
   </p>
 
   <script src="./ptz-settings.js"></script>

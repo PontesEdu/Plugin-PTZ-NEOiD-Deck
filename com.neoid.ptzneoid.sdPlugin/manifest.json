@@ -1,18 +1,18 @@
 {
 	"Name": "NEOiD PTZ Deck",
-	"Version": "0.1.0.0",
+	"Version": "1.1.0.0",
 	"Author": "NEOiD",
 	"Actions": [
 		{
 			"UUID": "com.neoid.ptzneoid.ptz-register",
-			"Name": "Select PTZ Cameras",
+			"Name": "Select PTZ Camera",
 			"UserTitleEnabled": false,
 			"Tooltip": "Cadastro de câmeras PTZ",
 			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
 					"Image": "imgs/actions/cameraSelect",
-					"FontSize": 10
+					"FontSize": 9
 				}
 			],
 			"PropertyInspectorPath": "ui/select-ptz.html"
@@ -26,7 +26,7 @@
 			"States": [
 				{
 					"Image": "imgs/actions/controls/up",
-					"FontSize": 10
+					"FontSize": 9
 				}
 			],
 			"PropertyInspectorPath": "ui/ptz-controls.html"
@@ -78,7 +78,8 @@
 			"Icon": "imgs/plugin/logo-neoid@2x",
 			"States": [
 				{
-					"Image": "imgs/actions/tracking/tracking-off"
+					"Image": "imgs/actions/tracking/tracking-off",
+					"FontSize": 9
 				}
 			],
 			"PropertyInspectorPath": "ui/tracking.html"

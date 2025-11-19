@@ -85,7 +85,6 @@ export class PTZSpeed extends SingletonAction {
     // atualiza o título
     await ev.action.setTitle(`${tipo === "pan" ? "P/T" : tipo}:\n${nextMode}`);
 
-
     // salva no global
     await streamDeck.settings.setGlobalSettings({
       ...globals,

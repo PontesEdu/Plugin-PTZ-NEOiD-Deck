@@ -7,20 +7,26 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h3>PTZ NEOiD - Select PTZ cameras</h3>
+  <h3>PTZ NEOiD - Select PTZ camera</h3>
 
-  <sdpi-item label="name">
-    <sdpi-textfield setting="camera" placeholder="adicione um nome..."></sdpi-textfield>
-  </sdpi-item>
-
-  <div id="camera-form">
-    <sdpi-item label="Camera IP">
-      <sdpi-textfield setting="cameraIP" placeholder="IP: 192.168.100.88"></sdpi-textfield>
+  <div id="separate-field">
+    <sdpi-item label="name">
+      <sdpi-textfield setting="camera" placeholder="add a name"></sdpi-textfield>
     </sdpi-item>
+
+    <div id="camera-form">
+      <sdpi-item label="Camera IP">
+        <sdpi-textfield setting="cameraIP" placeholder="IP: 192.168.100.88"></sdpi-textfield>
+      </sdpi-item>
+    </div>
   </div>
 
   <p>
-    To control a camera, you first need to register it by adding its IP. The camera must be connected, otherwise it will show "Not connected." Each time you want to control a camera, make sure to select it here first.
+    Para controlar uma câmera PTZ, primeiro você precisa registrá-la inserindo o endereço IP no campo “Camera IP” e, se quiser, atribuindo um nome no campo “name”. Caso a câmera adicionada não esteja conectada, o sistema exibirá automaticamente “Not connected” no lugar do nome. Sempre que for controlar uma câmera, certifique-se de selecioná-la aqui antes.
+  </p>
+
+  <p>
+    To control a PTZ camera, you must first register it by entering its IP address in the “Camera IP” field and optionally giving it a name in the “name” field. If the added camera is not connected, the system will automatically display “Not connected” instead of the name. Whenever you want to control a camera, make sure to select it here first.
   </p>
 
   <script src="./ptz-settings.js"></script>

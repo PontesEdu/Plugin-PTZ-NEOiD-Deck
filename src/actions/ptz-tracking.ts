@@ -12,7 +12,6 @@ export class PTZTracking extends SingletonAction {
     { value: "autoframe", name: "Auto\nFrame" },
   ];
 
-
   override async onWillAppear(ev: WillAppearEvent) {
     const globals = await streamDeck.settings.getGlobalSettings();
     const cameraIP = globals.cameraIP as string;
@@ -72,7 +71,7 @@ export class PTZTracking extends SingletonAction {
       this.longPress = true;
       this.pressTimer = null;
       await this.toggleTracking(ev);
-    }, 700);
+    }, 900);
   }
 
   override async onKeyUp(ev: KeyUpEvent) {
@@ -161,51 +160,66 @@ export class PTZTracking extends SingletonAction {
   // ----------------------------
   // envia o comando para trocar o modo (postfulltrack -> fallback write_path)
   private async sendTrackingMode(cameraIP: string, mode: string) {
-    try {
-      const params = new URLSearchParams();
-      params.append("cururl", "http://");
-      params.append("path", "/data/track.conf");
-      params.append("common.track_mode", mode);
 
-      const res = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?postfulltrack`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString(),
-      });
+    const params = new URLSearchParams();
+    params.append("cururl", "http://");
+    params.append("path", "/data/track.conf");
+    params.append("common.track_mode", mode);
 
-      if (!res.ok) {
-        await fetch(`http://${cameraIP}/cgi-bin/param.cgi?write_path`, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: params.toString(),
-        });
-      }
-    } catch (e) {
-      // silencioso - não trava a UI
-    }
+    await fetch(`http://${cameraIP}/cgi-bin/param.cgi?postfulltrack`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+    });
+
+    await fetch(`http://${cameraIP}/cgi-bin/param.cgi?write_path`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: params.toString(),
+    });
   }
 
-  // envia o comando para ativar/desativar tracking (write_path -> fallback postfulltrack)
+
+
+  
+  // ----------------------------
+  // comandos TCP caso precise 
+    // if (active) {
+      //   sendViscaTCP(cameraIP, "81 0a 11 54 02 ff"); // LIGA
+      // } else { 
+      //   sendViscaTCP(cameraIP, "81 0a 11 54 03 ff"); // DESLIGA (ajuste se for diferente)
+      // }
+
+  // ----------------------------
+  // comandos cgi, obs: não funciona para cameras 20x, 30x G2 
+    // if (active) {
+    //   await fetch(`http://${cameraIP}/cgi-bin/param.cgi?set_overlay&autotracking&on`)
+    // } else { 
+    //   await fetch(`http://${cameraIP}/cgi-bin/param.cgi?set_overlay&autotracking&off`)
+    // }
+
+
+  // ----------------------------
+  //Fn de enviar o comando para ativar/desativar tracking (write_path | fallback postfulltrack)
   private async sendTrackingActive(cameraIP: string, active: boolean) {
     const viscaParams = new URLSearchParams();
     viscaParams.append("cururl", "http://");
     viscaParams.append("path", "/data/track.conf");
     viscaParams.append("common.track", active ? "1" : "0");
 
-    try {
-      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?write_path`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: viscaParams.toString(),
-      });
-    } catch {
-      await fetch(`http://${cameraIP}/cgi-bin/param.cgi?postfulltrack`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: viscaParams.toString(),
-      });
-    }
+    await fetch(`http://${cameraIP}/cgi-bin/param.cgi?write_path`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: viscaParams.toString(),
+    });
+
+    await fetch(`http://${cameraIP}/cgi-bin/param.cgi?postfulltrack`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: viscaParams.toString(),
+    });
   }
+  
 
   // para pegar info da camera
   async fetchCameraTracking(cameraIP: string) {
@@ -230,49 +244,41 @@ export class PTZTracking extends SingletonAction {
       return { trackMode: modeInfo.value, trackActive };
     };
 
-    try {
       
-      const resGet = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?getfulltrack`);
-      if (resGet.ok) {
-        const conf = await resGet.text();
-        const parsed = parseConfig(conf);
+    const resGet = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?getfulltrack`);
+    if (resGet.ok) {
+      const conf = await resGet.text();
+      const parsed = parseConfig(conf);
 
-        await streamDeck.settings.setGlobalSettings({
-          ...globals,
-          [`trackingMode_${cameraIP}`]: parsed.trackMode,
-          [`trackingActive_${cameraIP}`]: parsed.trackActive,
-        });
-
-        return parsed;
-      }
-    } catch (e) {
-      console.warn(`GET getfulltrack falhou para ${cameraIP}, tentando POST...`);
-    }
-
-    try {
-      
-      const resPost = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?get_path`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "path=/data/track.conf",
+      await streamDeck.settings.setGlobalSettings({
+        ...globals,
+        [`trackingMode_${cameraIP}`]: parsed.trackMode,
+        [`trackingActive_${cameraIP}`]: parsed.trackActive,
       });
 
-      if (resPost.ok) {
-        const conf = await resPost.text();
-        const parsed = parseConfig(conf);
+      return parsed;
+    }
 
-        await streamDeck.settings.setGlobalSettings({
-          ...globals,
-          [`trackingMode_${cameraIP}`]: parsed.trackMode,
-          [`trackingActive_${cameraIP}`]: parsed.trackActive,
-        });
+    const resPost = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?get_path`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "path=/data/track.conf",
+    });
 
-        return parsed;
-      }
-    } catch (e) {
-      // error
+    if (resPost.ok) {
+      const conf = await resPost.text();
+      const parsed = parseConfig(conf);
+
+      await streamDeck.settings.setGlobalSettings({
+        ...globals,
+        [`trackingMode_${cameraIP}`]: parsed.trackMode,
+        [`trackingActive_${cameraIP}`]: parsed.trackActive,
+      });
+
+      return parsed;
     }
 
     return null;
   }
 }
+

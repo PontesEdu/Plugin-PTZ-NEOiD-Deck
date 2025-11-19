@@ -1,7 +1,7 @@
 import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
 
   type PtzOsdProps = {
-    mode: "OSD" | "back";
+    mode: "OSD" | "back" | "enter";
   };
 
   // Ações
@@ -21,8 +21,14 @@ import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAct
       }
 
       if(mode === "back"){
+
         await ev.action.setTitle("Back OSB");
         await ev.action.setImage(`imgs/actions/back`);
+      }  else if(mode === "enter") {
+        
+        await ev.action.setImage(`imgs/actions/enter-osd.png`);
+        await ev.action.setTitle("");
+
       } else {
         this.isOsd = globals.isOsd === true || globals.isOsd === "true";
         await ev.action.setTitle("");
@@ -45,7 +51,12 @@ import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAct
       if(mode === "back"){
         await ev.action.setTitle("Back OSB");
         await ev.action.setImage(`imgs/actions/back`);
+      }  else if(mode === "enter") {
+
+        await ev.action.setImage(`imgs/actions/enter-osd.png`);
+        await ev.action.setTitle("");
       } else {
+
         this.isOsd = globals.isOsd === true || globals.isOsd === "true";
         await ev.action.setTitle("");
         await ev.action.setImage(`imgs/actions/osd`);
@@ -65,7 +76,6 @@ import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAct
       }
 
       if(mode === "back"){
-
         const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&OSD_BACK`)
 
         if (!response.ok) {
@@ -73,8 +83,22 @@ import streamDeck, { action, DidReceiveSettingsEvent, KeyDownEvent, SingletonAct
           await ev.action.setImage(`imgs/actions/error.png`);
           return
         }
+
         await ev.action.setTitle("Back OSB");
         await ev.action.setImage(`imgs/actions/back`);
+
+      } else if(mode === "enter") {
+
+        const response = await fetch(`http://${cameraIP}/cgi-bin/param.cgi?navigate_mode&CONFIRM`)
+
+        if (!response.ok) {
+          await ev.action.setTitle("");
+          await ev.action.setImage(`imgs/actions/error.png`);
+          return
+        }
+
+        await ev.action.setImage(`imgs/actions/enter-osd.png`);
+        await ev.action.setTitle("");
 
       } else {
 
