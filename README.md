@@ -1,6 +1,8 @@
 # Stream Deck PTZ Control Plugin
 
-https://marketplace.elgato.com/product/neoid-ptz-deck-d260b006-c00d-44ae-91ec-85c0367c37df
+![Imgem do plugin no marktplace](./com.neoid.ptzneoid.sdPlugin/imgs/plugin/neoid-marktplace.png)
+
+https://marketplace.elgato.com/product/neoid-ptz-deck-d260b006-c00d-44ae-91ec-85c0367c37df![Texto 
 
 Este é um plugin para o **Elgato Stream Deck**, que permite criar atalhos e automações personalizadas através de botões físicos.  
 Plugins do Stream Deck adicionam novas funções aos botões, permitindo controlar softwares, dispositivos ou serviços externos.
