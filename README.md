@@ -1,4 +1,4 @@
-# Plugin Stream Deck NEOID PTZ Deck
+# Plugin Stream Deck NEOiD PTZ Deck
 
 ![Imgem do plugin no marktplace](./com.neoid.ptzneoid.sdPlugin/imgs/plugin/neoid-marktplace.png)
 
